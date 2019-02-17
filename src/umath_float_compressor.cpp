@@ -4,6 +4,7 @@
 
 #include "mathutil/umath_float_compressor.h"
 
+// Source: Unknown
 FloatCompressor::FloatCompressor(float min, float epsilon, float max, int precision)
 {
 	// legal values

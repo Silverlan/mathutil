@@ -8,6 +8,7 @@
 #include "mathutildefinitions.h"
 #include <cinttypes>
 
+// Source: Unknown
 class DLLMUTIL FloatCompressor
 {
 	union Bits
