@@ -1,0 +1,150 @@
+#ifndef __UVEC_H__
+#define __UVEC_H__
+#include "mathutildefinitions.h"
+#include <string>
+
+#include "glmutil.h"
+#include <vector>
+#include <iostream>
+#include "umath.h"
+#include "eulerangles.h"
+#include "uquat.h"
+
+DLLMUTIL std::ostream& operator<<(std::ostream &os,const Vector4 &vec);
+DLLMUTIL bool operator==(const Vector4 &a,const Vector4 &b);
+DLLMUTIL std::ostream& operator<<(std::ostream &os,const Vector3 &vec);
+DLLMUTIL bool operator==(const Vector3 &a,const Vector3 &b);
+DLLMUTIL std::ostream& operator<<(std::ostream &os,const Vector2 &vec);
+DLLMUTIL bool operator==(const Vector2 &a,const Vector2 &b);
+DLLMUTIL std::ostream& operator<<(std::ostream &os,const Vector2i &vec);
+DLLMUTIL bool operator==(const Vector2i &a,const Vector2i &b);
+DLLMUTIL std::ostream& operator<<(std::ostream &os,const Vector3i &vec);
+DLLMUTIL bool operator==(const Vector3i &a,const Vector3i &b);
+DLLMUTIL std::ostream& operator<<(std::ostream &os,const Vector4i &vec);
+DLLMUTIL bool operator==(const Vector4i &a,const Vector4i &b);
+
+#undef max
+#undef min
+namespace uvec
+{
+	DLLMUTIL Vector3 create(const std::string &str);
+	DLLMUTIL void mul(Vector3 *vec,Float f);
+	DLLMUTIL void mul(Vector3 *vec,Int32 f);
+	DLLMUTIL void mul(Vector3 *vec,Double f);
+
+	DLLMUTIL void div(Vector3 *vec,Float f);
+	DLLMUTIL void div(Vector3 *vec,Int32 f);
+	DLLMUTIL void div(Vector3 *vec,Double f);
+
+	DLLMUTIL void add(Vector3 *vecA,const Vector3 &vecB);
+	DLLMUTIL void sub(Vector3 *vecA,const Vector3 &vecB);
+
+	DLLMUTIL void min(Vector3 *vecA,const Vector3 &vecB);
+	DLLMUTIL void max(Vector3 *vecA,const Vector3 &vecB);
+
+	DLLMUTIL Vector3 create(Float x,Float y,Float z);
+	DLLMUTIL Vector3 create(Vector3 &vec);
+	DLLMUTIL Vector3 create_random_unit_vector();
+	DLLMUTIL Vector2 create_random_unit_vector2();
+	DLLMUTIL Vector3 get_random_spread(const Vector3 &a,const Vector3 &b,Float am=1.f);
+
+	DLLMUTIL void zero(Vector3 *vec);
+	DLLMUTIL void match(Vector3 *vecA,const Vector3 &vecB);
+	DLLMUTIL void min(Vector3 *vec);
+	DLLMUTIL void max(Vector3 *vec);
+
+	DLLMUTIL std::string to_string(Vector3 *vec);
+
+	DLLMUTIL EulerAngles to_angle(const Vector3 &vec);
+	DLLMUTIL EulerAngles to_angle(const Vector3 &vec,const Vector3 &up);
+	DLLMUTIL Quat to_quaternion(const Vector3 &axis,Float angle);
+	DLLMUTIL Float get_yaw(const Vector3 &v);
+	DLLMUTIL Float get_pitch(const Vector3 &v);
+	DLLMUTIL Float dot(const Vector3 &a,const Vector3 &b);
+
+	DLLMUTIL void normalize(Vector3 *vec);
+	DLLMUTIL Vector3 get_normal(Vector3 vec);
+
+	DLLMUTIL void rotate(Vector3 *vec,const EulerAngles &ang);
+	DLLMUTIL void rotate(Vector3 *vec,const Quat &rot);
+	DLLMUTIL void rotate_around(Vector3 *vec,const EulerAngles &ang,const Vector3 &center);
+
+	DLLMUTIL Float length(const Vector3 &vec);
+	DLLMUTIL Float length_sqr(const Vector3 &vec);
+
+	DLLMUTIL Vector3 lerp(const Vector3 &vecA,const Vector3 &vecB,Float factor=0.5);
+	DLLMUTIL Vector3 cross(const Vector3 &vecA,const Vector3 &vecB);
+
+	// Requires two normalized vectors and returns the rotation between them. The result is NOT normalized.
+	DLLMUTIL Quat get_rotation(const Vector3 &v1,const Vector3 &v2);
+
+	DLLMUTIL Float distance(const Vector3 &a,const Vector3 &b);
+
+	DLLMUTIL void local_to_world(const Vector3 &localPos,const Quat &localRot,Vector3 &ioPos,Quat &ioRot);
+	DLLMUTIL void local_to_world(const Vector3 &localPos,const Quat &localRot,Vector3 &ioPos);
+	DLLMUTIL void local_to_world(const Quat &localRot,Quat &ioRot);
+
+	DLLMUTIL void world_to_local(const Vector3 &localPos,const Quat &localRot,Vector3 &ioPos,Quat &ioRot);
+	DLLMUTIL void world_to_local(const Vector3 &localPos,const Quat &localRot,Vector3 &ioPos);
+	DLLMUTIL void world_to_local(const Quat &localRot,Quat &ioRot);
+
+	DLLMUTIL void snap_to_grid(Vector3 &v,UInt32 gridSize=1);
+
+	DLLMUTIL Vector3 calc_world_direction_from_2d_coordinates(Float fovRad,Float width,Float height,const Vector3 &forward,const Vector3 &right,const Vector3 &up,const Vector2 &uv);
+
+	static const auto FORWARD = Vector3(1,0,0);
+	static const auto UP = Vector3(0,1,0);
+	static const auto RIGHT = Vector3(0,0,1);
+	static const auto ORIGIN = Vector3(0.f,0.f,0.f);
+	static const auto MIN = Vector3(std::numeric_limits<decltype(Vector3::x)>::lowest(),std::numeric_limits<decltype(Vector3::x)>::lowest(),std::numeric_limits<decltype(Vector3::x)>::lowest());
+	static const auto MAX = Vector3(std::numeric_limits<decltype(Vector3::x)>::max(),std::numeric_limits<decltype(Vector3::x)>::max(),std::numeric_limits<decltype(Vector3::x)>::max());
+
+	DLLMUTIL Vector3 get_perpendicular(const Vector3 &v);
+
+	template<class T>
+		bool cmp(const T &a,const T &b,const T &epsilon=T{0.0001});
+
+	DLLMUTIL Vector3 project(const Vector3 &p,const Vector3 &n);
+	DLLMUTIL Vector3 project_to_plane(const Vector3 &p,const Vector3 &n,float d);
+	DLLMUTIL Mat3 calc_outer_product(const Vector3 &v0,const Vector3 &v1);
+	DLLMUTIL Vector3 calc_average(const std::vector<Vector3> &points);
+	template<class TVec>
+		void to_min_max(TVec &min,TVec &max);
+	template<class TVec>
+		void to_min_max(TVec &min,TVec &max,const TVec &minOther,const TVec &maxOther);
+	DLLMUTIL Float distance_sqr(const Vector3 &p0,const Vector3 &p1);
+	DLLMUTIL Float planar_distance_sqr(const Vector3 &p0,const Vector3 &p1,const Vector3 &n);
+	DLLMUTIL Float planar_distance(const Vector3 &p0,const Vector3 &p1,const Vector3 &n);
+};
+
+template<class T>
+	bool uvec::cmp(const T &a,const T &b,const T &epsilon)
+{
+	return glm::all(glm::lessThan(glm::abs(a -b),epsilon));
+}
+
+template<class TVec>
+	void uvec::to_min_max(TVec &min,TVec &max)
+{
+	for(auto i=decltype(min.length()){0};i<min.length();++i)
+	{
+		if(max[i] < min[i])
+		{
+			auto tmp = min[i];
+			min[i] = max[i];
+			max[i] = tmp;
+		}
+	}
+}
+
+template<class TVec>
+	void uvec::to_min_max(TVec &min,TVec &max,const TVec &minOther,const TVec &maxOther)
+{
+	uvec::min(&min,minOther);
+	uvec::min(&min,maxOther);
+
+	uvec::max(&max,minOther);
+	uvec::max(&max,maxOther);
+}
+
+#endif // __VECTOR3_H__
