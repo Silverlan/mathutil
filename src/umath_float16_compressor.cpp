@@ -4,6 +4,7 @@
 
 #include "mathutil/umath_float16_compressor.h"
 
+// Source: Unknown
 uint16_t Float16Compressor::compress(float value)
 {
 	Bits v, s;
