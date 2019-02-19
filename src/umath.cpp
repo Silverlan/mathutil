@@ -9,8 +9,6 @@
 #include <glm/glm.hpp>
 #include <glm/detail/type_half.hpp>
 
-#pragma comment(lib,"util.lib")
-
 #define SMODF(a,n) fmod((fmod(a,n) +n),n)
 
 static std::random_device random_device;

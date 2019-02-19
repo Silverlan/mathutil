@@ -410,17 +410,17 @@ std::ostream& operator<<(std::ostream &os,const Vector2i &vec)
 	os<<vec.x<<" "<<vec.y;
 	return os;
 }
-bool operator==(const Vector2i &a,const Vector2i &b) {return a.x == b.x & a.y == b.y;}
+bool operator==(const Vector2i &a,const Vector2i &b) {return a.x == b.x && a.y == b.y;}
 
 std::ostream& operator<<(std::ostream &os,const Vector3i &vec)
 {
 	os<<vec.x<<" "<<vec.y<<" "<<vec.z;
 	return os;
 }
-bool operator==(const Vector3i &a,const Vector3i &b) {return a.x == b.x & a.y == b.y && a.z == b.z;}
+bool operator==(const Vector3i &a,const Vector3i &b) {return a.x == b.x && a.y == b.y && a.z == b.z;}
 std::ostream& operator<<(std::ostream &os,const Vector4i &vec)
 {
 	os<<vec.x<<" "<<vec.y<<" "<<vec.z<<" "<<vec.w;
 	return os;
 }
-bool operator==(const Vector4i &a,const Vector4i &b) {return a.w == b.w && a.x == b.x & a.y == b.y && a.z == b.z;}
+bool operator==(const Vector4i &a,const Vector4i &b) {return a.w == b.w && a.x == b.x && a.y == b.y && a.z == b.z;}
