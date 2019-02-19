@@ -2,10 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+#ifdef ENABLE_MESH_FUNCTIONS
 #include "mathutil/umesh.h"
 #include <Mathematics/GteMinimumVolumeBox3.h>
-
-#pragma comment(lib,"GTEngine.v15.lib")
 
 bool umesh::generate_convex_hull(const std::vector<Vector3> &pointCloud,std::vector<uint32_t> &convexHull)
 {
@@ -55,3 +54,4 @@ void umesh::calc_smallest_enclosing_bbox(const std::vector<Vector3> &pointCloud,
 	rot = uquat::create(axis1,axis2,axis3);
 	extents = extents *rot;
 }
+#endif
