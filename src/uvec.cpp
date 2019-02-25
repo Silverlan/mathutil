@@ -15,7 +15,7 @@ static Vector3 VECTOR_AXIS_Z(0.f,0.f,1.f);
 Vector3 uvec::create(const std::string &str)
 {
 	Vector3 r;
-	ustring::string_to_array<glm::mediump_float,Double>(str,&r[0],atof,3);
+	ustring::string_to_array<glm::vec3::value_type,Double>(str,&r[0],atof,3);
 	return r;
 }
 
@@ -141,16 +141,16 @@ void uvec::match(Vector3 *vecA,const Vector3 &vecB)
 
 void uvec::min(Vector3 *vec)
 {
-	vec->x = std::numeric_limits<glm::mediump_float>::lowest();
-	vec->y = std::numeric_limits<glm::mediump_float>::lowest();
-	vec->z = std::numeric_limits<glm::mediump_float>::lowest();
+	vec->x = std::numeric_limits<glm::vec3::value_type>::lowest();
+	vec->y = std::numeric_limits<glm::vec3::value_type>::lowest();
+	vec->z = std::numeric_limits<glm::vec3::value_type>::lowest();
 }
 
 void uvec::max(Vector3 *vec)
 {
-	vec->x = std::numeric_limits<glm::mediump_float>::max();
-	vec->y = std::numeric_limits<glm::mediump_float>::max();
-	vec->z = std::numeric_limits<glm::mediump_float>::max();
+	vec->x = std::numeric_limits<glm::vec3::value_type>::max();
+	vec->y = std::numeric_limits<glm::vec3::value_type>::max();
+	vec->z = std::numeric_limits<glm::vec3::value_type>::max();
 }
 
 EulerAngles uvec::to_angle(const Vector3 &vec)
