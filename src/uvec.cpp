@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "mathutil/uvec.h"
+#include "mathutil/umath_frustum.hpp"
 #include <sharedutils/util_string.h>
 #include <glm/gtx/projection.hpp>
 
@@ -324,12 +325,12 @@ void uvec::snap_to_grid(Vector3 &v,UInt32 gridSize)
 	v.z = CFloat(umath::snap_to_grid(v.z,gridSize));
 }
 
-Vector3 uvec::calc_world_direction_from_2d_coordinates(Float fovRad,Float width,Float height,const Vector3 &forward,const Vector3 &right,const Vector3 &up,const Vector2 &uv)
+Vector3 uvec::calc_world_direction_from_2d_coordinates(const Vector3 &forward,const Vector3 &right,const Vector3 &up,Float fovRad,Float nearZ,Float farZ,Float aspectRatio,Float width,Float height,const Vector2 &uv)
 {
-	Vector2 szHalf {width *0.5f,height *0.5f};
-	auto d = szHalf.x /static_cast<float>(umath::tan(fovRad *0.5f));
-	auto dir = forward *d +right *((uv.x *width) -szHalf.x) +up *(szHalf.y -(uv.y *height));
-	uvec::normalize(&dir);
+	auto pos0 = umath::frustum::get_near_plane_point({},forward,right,up,fovRad,nearZ,aspectRatio,uv);
+	auto pos1 = umath::frustum::get_far_plane_point({},forward,right,up,fovRad,farZ,aspectRatio,uv);
+	auto dir = pos1 -pos0;
+	normalize(&dir);
 	return dir;
 }
 

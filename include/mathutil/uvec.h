@@ -94,7 +94,7 @@ namespace uvec
 
 	DLLMUTIL void snap_to_grid(Vector3 &v,UInt32 gridSize=1);
 
-	DLLMUTIL Vector3 calc_world_direction_from_2d_coordinates(Float fovRad,Float width,Float height,const Vector3 &forward,const Vector3 &right,const Vector3 &up,const Vector2 &uv);
+	DLLMUTIL Vector3 calc_world_direction_from_2d_coordinates(const Vector3 &forward,const Vector3 &right,const Vector3 &up,Float fovRad,Float nearZ,Float farZ,Float aspectRatio,Float width,Float height,const Vector2 &uv);
 
 	static const auto FORWARD = Vector3(1,0,0);
 	static const auto UP = Vector3(0,1,0);
