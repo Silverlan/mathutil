@@ -13,7 +13,7 @@ set(DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC "" CACHE FILEPATH "Path to static shar
 set(MATHUTIL_ENABLE_MESH_FUNCTIONS "1" CACHE BOOL "Enable mesh functions, requires geometric tools library.")
 set(MATHUTIL_STATIC 0 CACHE BOOL "Build as static library?")
 
-if(${MATHUTIL_STATIC} MATCHES ON)
+if(${MATHUTIL_STATIC})
 	set(LIB_TYPE STATIC)
 else()
 	set(LIB_TYPE SHARED)
@@ -23,7 +23,7 @@ add_definitions(-DSHUTIL_STATIC)
 add_definitions(-DMUTIL_DLL)
 add_definitions(-DGLM_FORCE_DEPTH_ZERO_TO_ONE)
 
-if($(MATHUTIL_ENABLE_MESH_FUNCTIONS) MATCHES ON)
+if($(MATHUTIL_ENABLE_MESH_FUNCTIONS))
 	add_definitions(-DENABLE_MESH_FUNCTIONS)
 endif()
 
@@ -47,7 +47,7 @@ add_library(${PROJ_NAME} ${LIB_TYPE} ${SRC_FILES})
 def_vs_filters("${SRC_FILES}")
 
 target_link_libraries(${PROJ_NAME} ${DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC})
-if($(MATHUTIL_ENABLE_MESH_FUNCTIONS) MATCHES ON)
+if($(MATHUTIL_ENABLE_MESH_FUNCTIONS))
 	target_link_libraries(${PROJ_NAME} ${DEPENDENCY_GEOMETRIC_TOOLS_LIBRARY})
 endif()
 
