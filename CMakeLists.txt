@@ -23,7 +23,7 @@ add_definitions(-DSHUTIL_STATIC)
 add_definitions(-DMUTIL_DLL)
 add_definitions(-DGLM_FORCE_DEPTH_ZERO_TO_ONE)
 
-if($(MATHUTIL_ENABLE_MESH_FUNCTIONS))
+if(MATHUTIL_ENABLE_MESH_FUNCTIONS)
 	add_definitions(-DENABLE_MESH_FUNCTIONS)
 endif()
 
@@ -44,10 +44,14 @@ file(GLOB_RECURSE SRC_FILES
     "${CMAKE_CURRENT_LIST_DIR}/include/*.hpp"
 )
 add_library(${PROJ_NAME} ${LIB_TYPE} ${SRC_FILES})
+if(WIN32)
+	target_compile_options(${PROJ_NAME} PRIVATE /wd4251)
+	target_compile_options(${PROJ_NAME} PRIVATE /wd4996)
+endif()
 def_vs_filters("${SRC_FILES}")
 
 target_link_libraries(${PROJ_NAME} ${DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC})
-if($(MATHUTIL_ENABLE_MESH_FUNCTIONS))
+if(MATHUTIL_ENABLE_MESH_FUNCTIONS)
 	target_link_libraries(${PROJ_NAME} ${DEPENDENCY_GEOMETRIC_TOOLS_LIBRARY})
 endif()
 
