@@ -118,13 +118,6 @@ EulerAngles::EulerAngles(const Quat &rot)
 			p = -180.f -p;
 	}
 	Normalize();*/
-
-	// Obsolete
-	/*this->p = static_cast<Float>(umath::rad_to_deg(umath::atan2(2.f *rot.x *rot.w -2.f *rot.y *rot.z,1.f -2.f *(rot.x *rot.x)
-		-2.f *(rot.z *rot.z))));
-	this->y = static_cast<Float>(umath::rad_to_deg(umath::atan2(2.f *rot.y *rot.w -2.f *rot.x *rot.z,1.f -2.f *(rot.y *rot.y)
-		-2.f *(rot.z *rot.z))));
-	this->r = static_cast<Float>(umath::rad_to_deg(umath::asin(2.f *rot.x *rot.y +2.f *rot.z *rot.w)));*/
 }
 
 static Quat create_quaternion(const Vector3 &forward)
