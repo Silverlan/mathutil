@@ -6,7 +6,6 @@
 #include "mathutil/umath.h"
 
 // Source: https://github.com/erich666/GraphicsGems/blob/240a34f2ad3fa577ef57be74920db6c4b00605e4/gems/Roots3And4.c
-
 int32_t umath::solve_quadric(const std::array<double,3> &c,std::array<double,2> &s)
 {
 	/* normal form: x^2 + px + q = 0 */
