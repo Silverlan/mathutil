@@ -4,8 +4,22 @@
 
 #include "mathutil/color.h"
 #include <sharedutils/util_string.h>
+#include <sharedutils/util.h>
 #include <sstream>
 
+Color Color::CreateFromHexColor(const std::string &hexColor)
+{
+	auto r = ustring::substr(hexColor,0,2);
+	auto g = ustring::substr(hexColor,2,2);
+	auto b = ustring::substr(hexColor,4,2);
+	auto a = ustring::substr(hexColor,6,2);
+	return Color{
+		static_cast<int16_t>(util::to_hex_number(r)),
+		static_cast<int16_t>(util::to_hex_number(g)),
+		static_cast<int16_t>(util::to_hex_number(b)),
+		(a.empty() == false) ? static_cast<int16_t>(util::to_hex_number(a)) : 255
+	};
+}
 Color::Color()
 	: r(255),g(255),b(255),a(255)
 {}
@@ -31,6 +45,20 @@ std::string Color::ToString() const
 	std::stringstream ss;
 	ss<<r<<" "<<g<<" "<<b<<" "<<a;
 	return ss.str();
+}
+std::string Color::ToHexColor() const
+{
+	const auto fToHexString = [](int16_t v) -> std::string {
+		auto sr = util::to_hex_string(umath::clamp<int16_t>(v,0,255));
+		if(sr.empty())
+			sr = "00";
+		else if(sr.size() == 1)
+			sr = "0" +sr;
+		else
+			sr = sr.substr(0,2);
+		return sr;
+	};
+	return fToHexString(r) +fToHexString(g) +fToHexString(b) +fToHexString(a);
 }
 Color Color::Lerp(const Color &other,Float amount) const
 {
