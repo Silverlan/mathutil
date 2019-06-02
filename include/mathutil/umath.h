@@ -163,6 +163,10 @@ namespace umath
 	template<typename T,typename... Args>
 		T abs_max(T a,Args... args);
 
+	// Inclusive between
+	template<typename T>
+		bool between(T value,T min,T max);
+
 	template<typename T>
 		constexpr T get_number_of_times_dividable_by_x(T v,uint32_t x);
 
@@ -403,6 +407,9 @@ template<typename T>
 {
 	return static_cast<std::underlying_type_t<T>>(baseFlags &flag) != static_cast<std::underlying_type_t<T>>(0);
 }
+
+template<typename T>
+	bool umath::between(T value,T min,T max) {return value >= min && value <= max;}
 
 #define REGISTER_BASIC_BITWISE_OPERATORS(type) \
 	inline constexpr type operator|(const type &a,const type &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) | static_cast<std::underlying_type_t<type>>(b));} \

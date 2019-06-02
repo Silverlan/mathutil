@@ -13,6 +13,7 @@
 struct DLLMUTIL Color
 {
 public:
+	static Color CreateFromHexColor(const std::string &hexColor);
 	Color();
 	Color(Int16 r,Int16 g,Int16 b,Int16 a=255);
 	Color(const std::string &str);
@@ -25,6 +26,8 @@ public:
 	Color LerpSimple(const Color &other,Float factor) const;
 	Vector3 ToVector3() const;
 	Vector4 ToVector4() const;
+	// Color will be clamped to range [0,255]
+	std::string ToHexColor() const;
 	std::string ToString() const;
 
 	// Pink Colors
