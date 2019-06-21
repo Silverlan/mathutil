@@ -90,3 +90,10 @@ Mat4 umat::create_from_axes(const Vector3 &forward,const Vector3 &right,const Ve
 		0.f,0.f,0.f,1.f
 	);
 }
+
+void umat::to_axes(const Mat4 &m,Vector3 &outForward,Vector3 &outRight,Vector3 &outUp)
+{
+	outForward = {m[2][0],m[2][1],m[2][2]};
+	outRight = {-m[0][0],-m[0][1],-m[0][2]};
+	outUp = {m[1][0],m[1][1],m[1][2]};
+}
