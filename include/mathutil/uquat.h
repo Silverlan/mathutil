@@ -13,6 +13,7 @@
 class EulerAngles;
 namespace uquat
 {
+	static constexpr auto UNIT = Quat{};
 	DLLMUTIL Quat create(const Vector3 &v,Float ang);
 	DLLMUTIL Quat create(const EulerAngles &ang);
 	DLLMUTIL Quat create(const Vector3 &forward,const Vector3 &right,const Vector3 &up);
