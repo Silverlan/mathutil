@@ -25,6 +25,9 @@ namespace umat
 	DLLMUTIL Mat3 calc_covariance_matrix(const std::vector<Vector3> &points);
 	DLLMUTIL Mat3 calc_covariance_matrix(const std::vector<Vector3> &points,const Vector3 &avg);
 	DLLMUTIL Mat4 identity();
+
+	DLLMUTIL void decompose(const Mat4 &t,Vector3 &outTranslation,Mat3 &outRotation,Vector3 *outScale=nullptr);
+	DLLMUTIL void decompose(const Mat4 &t,Vector3 &outTranslation,Quat &outRotation,Vector3 *outScale=nullptr);
 };
 
 #endif

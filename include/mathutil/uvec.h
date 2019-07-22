@@ -119,6 +119,8 @@ namespace uvec
 	DLLMUTIL Float distance_sqr(const Vector3 &p0,const Vector3 &p1);
 	DLLMUTIL Float planar_distance_sqr(const Vector3 &p0,const Vector3 &p1,const Vector3 &n);
 	DLLMUTIL Float planar_distance(const Vector3 &p0,const Vector3 &p1,const Vector3 &n);
+
+	DLLMUTIL void calc_plane(const Vector3 &a,const Vector3 &b,const Vector3 &c,Vector3 &outPlaneNormal,float &outPlaneDistance);
 };
 
 template<class T>

@@ -382,6 +382,13 @@ Float uvec::planar_distance_sqr(const Vector3 &p0,const Vector3 &p1,const Vector
 
 Float uvec::planar_distance(const Vector3 &p0,const Vector3 &p1,const Vector3 &n) {return sqrtf(planar_distance_sqr(p0,p1,n));}
 
+void uvec::calc_plane(const Vector3 &a,const Vector3 &b,const Vector3 &c,Vector3 &outPlaneNormal,float &outPlaneDistance)
+{
+	outPlaneNormal = glm::cross(b -a,c -a);
+	uvec::normalize(&outPlaneNormal);
+	outPlaneDistance = glm::dot(-outPlaneNormal,a);
+}
+
 std::ostream& operator<<(std::ostream &os,const Vector4 &vec)
 {
 	os<<vec.x<<" "<<vec.y<<" "<<vec.z<<" "<<vec.w;

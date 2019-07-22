@@ -18,6 +18,7 @@ namespace uquat
 	DLLMUTIL Quat create(const EulerAngles &ang);
 	DLLMUTIL Quat create(const Vector3 &forward,const Vector3 &right,const Vector3 &up);
 	DLLMUTIL Quat create(const Mat4 &mat);
+	DLLMUTIL Quat create(const Mat3 &rot);
 	DLLMUTIL Quat create(const std::string &s);
 	DLLMUTIL Vector3 forward(const Quat &q);
 	DLLMUTIL Vector3 right(const Quat &q);
