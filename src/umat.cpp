@@ -39,6 +39,29 @@ Mat4 umat::create_from_axis_angle(const Vector3 &v,Float ang)
 	return m;
 }
 
+void umat::decompose(const Mat4 &t,Vector3 &outTranslation,Mat3 &outRotation,Vector3 *outScale)
+{
+	outTranslation = {t[3][0],t[3][1],t[3][2]};
+	Vector3 scale {
+		uvec::length(Vector3{t[0][0],t[0][1],t[0][2]}),
+		uvec::length(Vector3{t[1][0],t[1][1],t[1][2]}),
+		uvec::length(Vector3{t[2][0],t[2][1],t[2][2]})
+	};
+	if(outScale)
+		*outScale = scale;
+	outRotation = {
+		t[0][0] /scale.x,t[1][0] /scale.y,t[2][0] /scale.z,
+		t[0][1] /scale.x,t[1][1] /scale.y,t[2][1] /scale.z,
+		t[0][2] /scale.x,t[1][2] /scale.y,t[2][2] /scale.z
+	};
+}
+void umat::decompose(const Mat4 &t,Vector3 &outTranslation,Quat &outRotation,Vector3 *outScale)
+{
+	Mat3 mRot;
+	decompose(t,outTranslation,mRot,outScale);
+	outRotation = uquat::create(mRot);
+}
+
 Mat4 umat::look_at(const Vector3 &eye,const Vector3 &center,const Vector3 &up)
 {
 	Vector3 f = center -eye;

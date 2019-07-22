@@ -14,6 +14,17 @@ using namespace umath;
 Quat uquat::identity() {return Quat{1.f,0.f,0.f,0.f};};
 Quat uquat::create(const Vector3 &forward,const Vector3 &right,const Vector3 &up) {return create(umat::create_from_axes(forward,right,up));}
 
+Quat uquat::create(const Mat3 &rot)
+{
+	// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
+	auto w = umath::sqrt(1.f +rot[0][0] +rot[1][1] +rot[2][2]) /2.f;
+	auto w4 = (4.f *w);
+	auto x = (rot[2][1] - rot[1][2]) /w4;
+	auto y = (rot[0][2] - rot[2][0]) /w4;
+	auto z = (rot[1][0] - rot[0][1]) /w4;
+	return {w,x,y,z};
+}
+
 Quat uquat::create(const Vector3 &v,Float ang)
 {
 	Float sAng;

@@ -62,6 +62,9 @@ namespace umath
 	using Double = double;
 	using LDouble = long double;
 
+	using Degree = float;
+	using Radian = float;
+
 	DLLMUTIL Int32 random(Int32 min,Int32 max);
 	DLLMUTIL Float random(Float min,Float max);
 	DLLMUTIL Double deg_to_rad(Double deg);
