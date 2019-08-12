@@ -16,6 +16,7 @@
 #include <type_traits>
 #include <limits>
 #include <stdint.h>
+#include <climits>
 #include <vector>
 #ifdef _WIN32
 #include <Windows.h>
@@ -189,7 +190,11 @@ namespace umath
 		constexpr void remove_flag(T &baseFlags,T flag);
 	template<typename T>
 		constexpr bool is_flag_set(T baseFlags,T flag);
+
+	template<typename T>
+		T swap_endian(T u);
 }
+
 using umath::Char;
 using umath::UChar;
 using umath::Bool;
@@ -409,6 +414,26 @@ template<typename T>
 	constexpr bool umath::is_flag_set(T baseFlags,T flag)
 {
 	return static_cast<std::underlying_type_t<T>>(baseFlags &flag) != static_cast<std::underlying_type_t<T>>(0);
+}
+
+template<typename T>
+	T umath::swap_endian(T u)
+{
+	// Source: https://stackoverflow.com/a/4956493
+	static_assert (CHAR_BIT == 8, "CHAR_BIT != 8");
+
+	union
+	{
+		T u;
+		unsigned char u8[sizeof(T)];
+	} source, dest;
+
+	source.u = u;
+
+	for (size_t k = 0; k < sizeof(T); k++)
+		dest.u8[k] = source.u8[sizeof(T) - k - 1];
+
+	return dest.u;
 }
 
 template<typename T>

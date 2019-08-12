@@ -27,7 +27,8 @@ Quat uquat::create(const Mat3 &rot)
 
 Quat uquat::create(const Vector3 &v,Float ang)
 {
-	Float sAng;
+	return glm::angleAxis(ang,v);
+	/*Float sAng;
 	ang *= 0.5f;
 	Vector3 vn = uvec::get_normal(v);
 
@@ -37,7 +38,7 @@ Quat uquat::create(const Vector3 &v,Float ang)
 		vn.x *sAng,
 		vn.y *sAng,
 		vn.z *sAng
-	);
+	);*/
 }
 
 Quat uquat::create(const EulerAngles &ang)
