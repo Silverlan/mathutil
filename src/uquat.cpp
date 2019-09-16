@@ -256,8 +256,15 @@ float uquat::get_angle(const Quat &rot)
 
 void uquat::to_axis_angle(const Quat &rot,Vector3 &axis,float &angle)
 {
-	angle = get_angle(rot);
 	auto w2 = rot.w *rot.w;
+	if(umath::abs(1.f -w2) < 0.0001)
+	{
+		// It's a identity quaternion
+		axis = uvec::FORWARD;
+		angle = 0.f;
+		return;
+	}
+	angle = get_angle(rot);
 	axis.x = rot.x /umath::sqrt(1-w2);
 	axis.y = rot.y /umath::sqrt(1-w2);
 	axis.z = rot.z /umath::sqrt(1-w2);
