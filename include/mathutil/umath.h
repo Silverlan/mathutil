@@ -193,6 +193,11 @@ namespace umath
 
 	template<typename T>
 		T swap_endian(T u);
+
+	constexpr float calc_solid_angle(Radian apexAngleCos)
+	{
+		return 2 *M_PI *(1.0 -apexAngleCos);
+	}
 }
 
 using umath::Char;
