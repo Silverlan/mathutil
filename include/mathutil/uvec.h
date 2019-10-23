@@ -121,7 +121,62 @@ namespace uvec
 	DLLMUTIL Float planar_distance(const Vector3 &p0,const Vector3 &p1,const Vector3 &n);
 
 	DLLMUTIL void calc_plane(const Vector3 &a,const Vector3 &b,const Vector3 &c,Vector3 &outPlaneNormal,float &outPlaneDistance);
+
+	DLLMUTIL constexpr Vector3 xyz(const Vector4 &v)
+	{
+		return {v.x,v.y,v.z};
+	}
+
+	DLLMUTIL constexpr Vector3 vec3(float v)
+	{
+		return {v,v,v};
+	}
 };
+
+DLLMUTIL constexpr Vector3 operator+(const Vector3 &v,float f)
+{
+	return {
+		v.x +f,
+		v.y +f,
+		v.z +f
+	};
+}
+
+DLLMUTIL constexpr Vector3 operator-(const Vector3 &v,float f)
+{
+	return {
+		v.x -f,
+		v.y -f,
+		v.z -f
+	};
+}
+
+DLLMUTIL constexpr Vector3 operator/(float f,const Vector3 &v)
+{
+	return {
+		f /v.x,
+		f /v.y,
+		f /v.z
+	};
+}
+
+DLLMUTIL constexpr Vector3 operator+(float f,const Vector3 &v)
+{
+	return {
+		f +v.x,
+		f +v.y,
+		f +v.z
+	};
+}
+
+DLLMUTIL constexpr Vector3 operator-(float f,const Vector3 &v)
+{
+	return {
+		f -v.x,
+		f -v.y,
+		f -v.z
+	};
+}
 
 template<class T>
 	bool uvec::cmp(const T &a,const T &b,const T &epsilon)
