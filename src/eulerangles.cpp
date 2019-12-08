@@ -227,7 +227,6 @@ void EulerAngles::Flip()
 
 Vector3 EulerAngles::Forward() const
 {
-#pragma message ("TODO: Find a way to convert this directly!")
 	return uquat::forward(uquat::create(*this));
 /*
 #pragma message ("TODO: This doesn't take roll into account at the moment. FIXME")
@@ -243,7 +242,6 @@ Vector3 EulerAngles::Forward() const
 
 Vector3 EulerAngles::Right() const
 {
-#pragma message ("TODO: Find a way to convert this directly!")
 	return uquat::right(uquat::create(*this));
 /*
 #pragma message ("TODO: This doesn't take roll into account at the moment. FIXME")
@@ -258,7 +256,6 @@ Vector3 EulerAngles::Right() const
 
 Vector3 EulerAngles::Up() const
 {
-#pragma message ("TODO: Find a way to convert this directly!")
 	auto rot = uquat::create(*this);
 	Vector3 forward = uquat::forward(rot);
 	Vector3 right = uquat::right(rot);
