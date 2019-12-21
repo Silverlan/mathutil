@@ -10,8 +10,8 @@ set(DEPENDENCY_SHAREDUTILS_INCLUDE "" CACHE PATH "Path to sharedutils include di
 set(DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE "" CACHE PATH "Path to geometric tools include directory. Only required if mesh functions are enabled.")
 set(DEPENDENCY_GEOMETRIC_TOOLS_LIBRARY "" CACHE FILEPATH "Path to geometric tools library. Only required if mesh functions are enabled.")
 set(DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC "" CACHE FILEPATH "Path to static sharedutils library.")
-set(MATHUTIL_ENABLE_MESH_FUNCTIONS "1" CACHE BOOL "Enable mesh functions, requires geometric tools library.")
-set(MATHUTIL_STATIC 0 CACHE BOOL "Build as static library?")
+option(MATHUTIL_ENABLE_MESH_FUNCTIONS "Enable mesh functions, requires geometric tools library." ON)
+option(MATHUTIL_STATIC "Build as static library?" OFF)
 
 if(${MATHUTIL_STATIC})
 	set(LIB_TYPE STATIC)
