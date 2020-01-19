@@ -327,8 +327,8 @@ void uvec::snap_to_grid(Vector3 &v,UInt32 gridSize)
 
 Vector3 uvec::calc_world_direction_from_2d_coordinates(const Vector3 &forward,const Vector3 &right,const Vector3 &up,Float fovRad,Float nearZ,Float farZ,Float aspectRatio,Float width,Float height,const Vector2 &uv)
 {
-	auto pos0 = umath::frustum::get_near_plane_point({},forward,right,up,fovRad,nearZ,aspectRatio,uv);
-	auto pos1 = umath::frustum::get_far_plane_point({},forward,right,up,fovRad,farZ,aspectRatio,uv);
+	auto pos0 = umath::frustum::get_plane_point({},forward,right,up,fovRad,nearZ,aspectRatio,uv);
+	auto pos1 = umath::frustum::get_plane_point({},forward,right,up,fovRad,farZ,aspectRatio,uv);
 	auto dir = pos1 -pos0;
 	normalize(&dir);
 	return dir;

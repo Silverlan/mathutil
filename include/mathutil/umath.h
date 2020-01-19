@@ -162,6 +162,14 @@ namespace umath
 	DLLMUTIL uint16_t float32_to_float16(float f);
 	DLLMUTIL float float16_to_float32(uint16_t v);
 
+	DLLMUTIL Radian calc_horizontal_fov(float focalLengthImMM,float width,float height);
+	DLLMUTIL Radian calc_vertical_fov(float focalLengthImMM,float width,float height);
+	DLLMUTIL Radian calc_diagonal_fov(float focalLengthImMM,float width,float height);
+
+	DLLMUTIL Radian horizontal_fov_to_vertical_fov(Radian hFov,float width,float height);
+	DLLMUTIL Radian vertical_fov_to_horizontal_fov(Radian vFov,float width,float height);
+	DLLMUTIL Radian diagonal_fov_to_vertical_fov(Degree diagonalFov,float aspectRatio);
+
 	template<typename T>
 		T abs_max(T a,T b);
 	template<typename T,typename... Args>

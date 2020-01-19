@@ -96,9 +96,9 @@ namespace uvec
 
 	DLLMUTIL Vector3 calc_world_direction_from_2d_coordinates(const Vector3 &forward,const Vector3 &right,const Vector3 &up,Float fovRad,Float nearZ,Float farZ,Float aspectRatio,Float width,Float height,const Vector2 &uv);
 
-	static const auto FORWARD = Vector3(1,0,0);
+	static const auto FORWARD = Vector3(0,0,1);
 	static const auto UP = Vector3(0,1,0);
-	static const auto RIGHT = Vector3(0,0,1);
+	static const auto RIGHT = Vector3(-1,0,0);
 	static const auto ORIGIN = Vector3(0.f,0.f,0.f);
 	static const auto MIN = Vector3(std::numeric_limits<decltype(Vector3::x)>::lowest(),std::numeric_limits<decltype(Vector3::x)>::lowest(),std::numeric_limits<decltype(Vector3::x)>::lowest());
 	static const auto MAX = Vector3(std::numeric_limits<decltype(Vector3::x)>::max(),std::numeric_limits<decltype(Vector3::x)>::max(),std::numeric_limits<decltype(Vector3::x)>::max());

@@ -4,31 +4,26 @@
 
 #include "mathutil/umath_frustum.hpp"
 
-void umath::frustum::get_near_plane_size(float fovRad,float nearZ,float aspectRatio,float &outNearW,float &outNearH)
+void umath::frustum::get_plane_size(float fovRad,float z,float aspectRatio,float &outW,float &outH)
 {
-	outNearH = (-(2 *tanf(fovRad /2.f) *nearZ)) *2.f;
-	outNearW = outNearH *aspectRatio;
-}
-void umath::frustum::get_far_plane_size(float fovRad,float farZ,float aspectRatio,float &outFarW,float &outFarH)
-{
-	outFarH = (-(2 *tanf(fovRad /2.f) *farZ)) *2.f;
-	outFarW = outFarH *aspectRatio;
+	fovRad /= 2.f; // Unsure about this TODO: Confirm!
+	outH = (-(2 *tanf(fovRad /2.f) *z)) *2.f;
+	outW = outH *aspectRatio;
 }
 
-Vector3 umath::frustum::get_far_plane_center(const Vector3 &pos,const Vector3 &forward,float farZ) {return pos +forward *farZ;}
-Vector3 umath::frustum::get_near_plane_center(const Vector3 &pos,const Vector3 &forward,float nearZ) {return pos +forward *nearZ;}
+Vector3 umath::frustum::get_plane_center(const Vector3 &pos,const Vector3 &forward,float z) {return pos +forward *z;}
 
-std::array<Vector3,4> umath::frustum::get_far_plane_boundaries(const Vector3 &pos,const Vector3 &forward,const Vector3 &up,float fovRad,float farZ,float aspectRatio,float *outFarW=nullptr,float *outFarH=nullptr)
+std::array<Vector3,4> umath::frustum::get_plane_boundaries(const Vector3 &pos,const Vector3 &forward,const Vector3 &up,float fovRad,float z,float aspectRatio,float *outFarW=nullptr,float *outFarH=nullptr)
 {
 	auto right = -uvec::cross(up,forward);
 	uvec::normalize(&right);
-	float wFar,hFar;
-	get_far_plane_size(fovRad,farZ,aspectRatio,wFar,hFar);
+	float w,h;
+	get_plane_size(fovRad,z,aspectRatio,w,h);
 
-	auto fc = get_far_plane_center(pos,forward,farZ);
+	auto fc = get_plane_center(pos,forward,z);
 
-	auto uFar = up *hFar /2.f;
-	auto rFar = right *wFar /2.f;
+	auto uFar = up *h /2.f;
+	auto rFar = right *w /2.f;
 	std::array<Vector3,4> bounds = {
 		Vector3(fc -uFar -rFar), // Bottom left of far plane
 		Vector3(fc +uFar -rFar), // Top left of far plane
@@ -37,52 +32,18 @@ std::array<Vector3,4> umath::frustum::get_far_plane_boundaries(const Vector3 &po
 	};
 
 	if(outFarW != NULL)
-		*outFarW = wFar;
+		*outFarW = w;
 	if(outFarH != NULL)
-		*outFarH = hFar;
+		*outFarH = h;
 	return bounds;
 }
 
-std::array<Vector3,4> umath::frustum::get_near_plane_boundaries(const Vector3 &pos,const Vector3 &forward,const Vector3 &up,float fovRad,float nearZ,float aspectRatio,float *outNearW,float *outNearH)
+Vector3 umath::frustum::get_plane_point(const Vector3 &pos,const Vector3 &forward,const Vector3 &right,const Vector3 &up,float fovRad,float z,float aspectRatio,const Vector2 &uv)
 {
-	auto right = -uvec::cross(up,forward);
-	uvec::normalize(&right);
-	float wNear,hNear;
-	get_near_plane_size(fovRad,nearZ,aspectRatio,wNear,hNear);
-
-	auto nc = get_near_plane_center(pos,forward,nearZ);
-
-	auto uNear = up *hNear /2.f;
-	auto rNear = right *wNear /2.f;
-	std::array<Vector3,4> bounds = {
-		Vector3(nc -uNear -rNear), // Bottom left of near plane
-		Vector3(nc +uNear -rNear), // Top left of near plane
-		Vector3(nc +uNear +rNear), // Top right of near plane
-		Vector3(nc -uNear +rNear) // Bottom right of near plane
-	};
-
-	if(outNearW != NULL)
-		*outNearW = wNear;
-	if(outNearH != NULL)
-		*outNearH = hNear;
-	return bounds;
-}
-
-Vector3 umath::frustum::get_near_plane_point(const Vector3 &pos,const Vector3 &forward,const Vector3 &right,const Vector3 &up,float fovRad,float nearZ,float aspectRatio,const Vector2 &uv)
-{
-	auto center = get_near_plane_center(pos,forward,nearZ);
-	auto wNear = 0.f;
-	auto hNear = 0.f;
-	get_near_plane_size(fovRad,nearZ,aspectRatio,wNear,hNear);
-	center += right *-(wNear /2.f *(uv.x -0.5f)) +up *(hNear /2.f *(uv.y -0.5f));
-	return center;
-}
-Vector3 umath::frustum::get_far_plane_point(const Vector3 &pos,const Vector3 &forward,const Vector3 &right,const Vector3 &up,float fovRad,float farZ,float aspectRatio,const Vector2 &uv)
-{
-	auto center = get_far_plane_center(pos,forward,farZ);
-	auto wFar = 0.f;
-	auto hFar = 0.f;
-	get_far_plane_size(fovRad,farZ,aspectRatio,wFar,hFar);
-	center += right *-(wFar /2.f *(uv.x -0.5f)) +up *(hFar /2.f *(uv.y -0.5f));
+	auto center = get_plane_center(pos,forward,z);
+	auto w = 0.f;
+	auto h = 0.f;
+	get_plane_size(fovRad,z,aspectRatio,w,h);
+	center += right *-(w /2.f *(uv.x -0.5f)) +up *(h /2.f *(uv.y -0.5f));
 	return center;
 }
