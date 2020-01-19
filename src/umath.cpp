@@ -266,3 +266,29 @@ float umath::float16_to_float32(uint16_t v) {return Float16Compressor::decompres
 
 int16_t umath::float32_to_float16_glm(float f) {return glm::detail::toFloat16(f);}
 float umath::float16_to_float32_glm(int16_t v) {return glm::detail::toFloat32(v);}
+
+umath::Radian umath::calc_horizontal_fov(float focalLengthImMM,float width,float height)
+{
+	return 2.f *atan2(width /2.f,focalLengthImMM);
+}
+umath::Radian umath::calc_vertical_fov(float focalLengthImMM,float width,float height)
+{
+	return 2.f *atan2(height /2.f,focalLengthImMM);
+}
+umath::Radian umath::calc_diagonal_fov(float focalLengthImMM,float width,float height)
+{
+	return 2.f *atan2(sqrt(pow2(width) +pow2(height)) /2.f,focalLengthImMM);
+}
+umath::Radian umath::horizontal_fov_to_vertical_fov(Radian hFov,float width,float height)
+{
+	return hFov *(width /height);
+}
+umath::Radian umath::vertical_fov_to_horizontal_fov(Radian vFov,float width,float height)
+{
+	return vFov *(height /width);
+}
+umath::Radian umath::diagonal_fov_to_vertical_fov(Degree diagonalFov,float aspectRatio)
+{
+	auto diagonalRatio = sqrt(1.f +pow2(aspectRatio));
+	return (atan(tan(diagonalFov *(umath::deg_to_rad(1.f) /2.f)) /diagonalRatio)) *umath::rad_to_deg(1.f) *2.f;
+}
