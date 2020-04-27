@@ -32,7 +32,7 @@ Color::Color(Int16 r,Int16 g,Int16 b,Int16 a)
 }
 Color::Color(const std::string &str) {ustring::string_to_array<Int16,Int32>(str,&r,atoi,4);}
 Color::Color(const Vector3 &v)
-	: r(static_cast<Int16>(v.x *255.f)),g(static_cast<Int16>(v.y *255.f)),b(static_cast<Int16>(v.z *255.f))
+	: r(static_cast<Int16>(v.x *255.f)),g(static_cast<Int16>(v.y *255.f)),b(static_cast<Int16>(v.z *255.f)),a(255)
 {}
 Color::Color(const Vector4 &v)
 	: r(static_cast<Int16>(v.x *255.f)),g(static_cast<Int16>(v.y *255.f)),b(static_cast<Int16>(v.z *255.f)),a(static_cast<Int16>(v.w *255.f))
