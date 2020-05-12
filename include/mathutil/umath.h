@@ -66,6 +66,11 @@ namespace umath
 	using Degree = float;
 	using Radian = float;
 
+	using Centimeter = float;
+	using Meter = float;
+	using Millimeter = float;
+	using Kilometer = float;
+
 	DLLMUTIL Int32 random(Int32 min,Int32 max);
 	DLLMUTIL Float random(Float min,Float max);
 	DLLMUTIL Double deg_to_rad(Double deg);
@@ -95,6 +100,7 @@ namespace umath
 		constexpr T pow4(T base);
 	DLLMUTIL Double sin(Double x);
 	DLLMUTIL Double cos(Double x);
+	DLLMUTIL Double cot(Double x);
 	DLLMUTIL Double tan(Double x);
 	DLLMUTIL Double asin(Double x);
 	DLLMUTIL Double acos(Double x);
