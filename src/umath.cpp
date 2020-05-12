@@ -62,6 +62,10 @@ Double umath::normalize_angle(Double ang)
 
 Double umath::sin(Double x) {return ::sin(x);}
 Double umath::cos(Double x) {return ::cos(x);}
+Double umath::cot(Double x)
+{
+	return cos(x) /sin(x);
+}
 Double umath::tan(Double x) {return ::tan(x);}
 Double umath::asin(Double x)
 {

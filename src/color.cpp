@@ -30,7 +30,7 @@ Color::Color(Int16 r,Int16 g,Int16 b,Int16 a)
 	this->b = b;
 	this->a = a;
 }
-Color::Color(const std::string &str) {ustring::string_to_array<Int16,Int32>(str,&r,atoi,4);}
+Color::Color(const std::string &str) : Color{0,0,0,255} {ustring::string_to_array<Int16,Int32>(str,&r,atoi,4);}
 Color::Color(const Vector3 &v)
 	: r(static_cast<Int16>(v.x *255.f)),g(static_cast<Int16>(v.y *255.f)),b(static_cast<Int16>(v.z *255.f)),a(255)
 {}
@@ -40,25 +40,49 @@ Color::Color(const Vector4 &v)
 void Color::Set(const Color &col) {this->r = col.r; this->g = col.g; this->b = col.b; this->a = col.a;}
 Vector3 Color::ToVector3() const {return Vector3{r /255.f,g /255.f,b /255.f};}
 Vector4 Color::ToVector4() const {return Vector4{r /255.f,g /255.f,b /255.f,a /255.f};}
+Color Color::GetComplementaryColor() const
+{
+	return {
+		255 -r,
+		255 -g,
+		255 -b,
+		a
+	};
+}
+float Color::CalcPerceivedLuminance() const
+{
+	auto vCol = ToVector3();
+	return 0.299 *vCol.r +0.587 *vCol.g +0.114 *vCol.b;
+}
+Color Color::GetContrastColor() const
+{
+	auto luminance = CalcPerceivedLuminance();
+	return (luminance > 0.5f) ? Color::Black : Color::White;
+}
 std::string Color::ToString() const
 {
 	std::stringstream ss;
 	ss<<r<<" "<<g<<" "<<b<<" "<<a;
 	return ss.str();
 }
+static std::string to_hex_string(int16_t v)
+{
+	auto sr = util::to_hex_string(umath::clamp<int16_t>(v,0,255));
+	if(sr.empty())
+		sr = "00";
+	else if(sr.size() == 1)
+		sr = "0" +sr;
+	else
+		sr = sr.substr(0,2);
+	return sr;
+};
+std::string Color::ToHexColorRGB() const
+{
+	return to_hex_string(r) +to_hex_string(g) +to_hex_string(b);
+}
 std::string Color::ToHexColor() const
 {
-	const auto fToHexString = [](int16_t v) -> std::string {
-		auto sr = util::to_hex_string(umath::clamp<int16_t>(v,0,255));
-		if(sr.empty())
-			sr = "00";
-		else if(sr.size() == 1)
-			sr = "0" +sr;
-		else
-			sr = sr.substr(0,2);
-		return sr;
-	};
-	return fToHexString(r) +fToHexString(g) +fToHexString(b) +fToHexString(a);
+	return to_hex_string(r) +to_hex_string(g) +to_hex_string(b) +to_hex_string(a);
 }
 Color Color::Lerp(const Color &other,Float amount) const
 {

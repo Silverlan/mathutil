@@ -28,7 +28,12 @@ public:
 	Vector4 ToVector4() const;
 	// Color will be clamped to range [0,255]
 	std::string ToHexColor() const;
+	std::string ToHexColorRGB() const;
 	std::string ToString() const;
+
+	float CalcPerceivedLuminance() const;
+	Color GetComplementaryColor() const;
+	Color GetContrastColor() const;
 
 	// Pink Colors
 	static const Color Pink;
