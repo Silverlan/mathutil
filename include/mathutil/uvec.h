@@ -32,6 +32,7 @@ DLLMUTIL bool operator==(const Vector4i &a,const Vector4i &b);
 namespace uvec
 {
 	DLLMUTIL Vector3 create(const std::string &str);
+	DLLMUTIL Vector4 create_v4(const std::string &str);
 	DLLMUTIL void mul(Vector3 *vec,Float f);
 	DLLMUTIL void mul(Vector3 *vec,Int32 f);
 	DLLMUTIL void mul(Vector3 *vec,Double f);
@@ -45,6 +46,9 @@ namespace uvec
 
 	DLLMUTIL void min(Vector3 *vecA,const Vector3 &vecB);
 	DLLMUTIL void max(Vector3 *vecA,const Vector3 &vecB);
+
+	DLLMUTIL Vector3 max();
+	DLLMUTIL Vector3 min();
 
 	DLLMUTIL Vector3 create(Float x,Float y,Float z);
 	DLLMUTIL Vector3 create(Vector3 &vec);
