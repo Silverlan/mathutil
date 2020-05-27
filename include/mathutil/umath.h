@@ -106,6 +106,7 @@ namespace umath
 	DLLMUTIL Double acos(Double x);
 	DLLMUTIL Double atan2(Double y,Double x);
 	DLLMUTIL Double lerp(Double start,Double end,Double amount);
+	DLLMUTIL Double lerp(Double v1,Double v2,Double i1,Double i2,Double x);
 	DLLMUTIL Int32 ceil(Float f);
 	DLLMUTIL Int32 ceil(Double d);
 	DLLMUTIL Int64 ceil(LDouble d);
@@ -175,6 +176,8 @@ namespace umath
 	DLLMUTIL Radian horizontal_fov_to_vertical_fov(Radian hFov,float width,float height);
 	DLLMUTIL Radian vertical_fov_to_horizontal_fov(Radian vFov,float width,float height);
 	DLLMUTIL Radian diagonal_fov_to_vertical_fov(Degree diagonalFov,float aspectRatio);
+
+	DLLMUTIL float fade_in_out(float fadeInStart,float fadeInEnd,float fadeOutStart,float fadeOutEnd,float curTime);
 
 	template<typename T>
 		T abs_max(T a,T b);

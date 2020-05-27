@@ -20,6 +20,13 @@ Vector3 uvec::create(const std::string &str)
 	return r;
 }
 
+Vector4 uvec::create_v4(const std::string &str)
+{
+	Vector4 r;
+	ustring::string_to_array<glm::vec4::value_type,Double>(str,&r[0],atof,4);
+	return r;
+}
+
 Vector2 uvec::create_random_unit_vector2()
 {
 	Float azimuth = umath::random(0.f,2.f) *Float(M_PI);
@@ -125,6 +132,9 @@ void uvec::max(Vector3 *vecA,const Vector3 &vecB)
 	if(vecB.y > vecA->y) vecA->y = vecB.y;
 	if(vecB.z > vecA->z) vecA->z = vecB.z;
 }
+
+Vector3 uvec::max() {return Vector3{std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max()};}
+Vector3 uvec::min() {return Vector3{std::numeric_limits<float>::lowest(),std::numeric_limits<float>::lowest(),std::numeric_limits<float>::lowest()};}
 
 void uvec::zero(Vector3 *vec)
 {

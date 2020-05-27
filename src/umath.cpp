@@ -93,6 +93,10 @@ Double umath::lerp(Double start,Double end,Double percent)
 {
 	return (start +percent *(end -start));
 }
+Double umath::lerp(Double v1,Double v2,Double i1,Double i2,Double x)
+{
+	return v1 +(v2 -v1) *(x -i1) /(i2 -i1);
+}
 Double umath::lerp_angle(Double angA,Double angB,Double amount)
 {
 	amount = get_angle_difference(angA,angB) *amount;
@@ -295,4 +299,25 @@ umath::Radian umath::diagonal_fov_to_vertical_fov(Degree diagonalFov,float aspec
 {
 	auto diagonalRatio = sqrt(1.f +pow2(aspectRatio));
 	return (atan(tan(diagonalFov *(umath::deg_to_rad(1.f) /2.f)) /diagonalRatio)) *umath::rad_to_deg(1.f) *2.f;
+}
+float umath::fade_in_out(float fadeInStart,float fadeInEnd,float fadeOutStart,float fadeOutEnd,float curTime)
+{
+	if(fadeInStart > curTime)
+		return 0.0;
+
+	if((fadeOutEnd > 0.f) && (fadeOutEnd < curTime))
+		return 0.f;
+
+	fadeInEnd = max(fadeInEnd,fadeInStart);
+	fadeOutStart = max(fadeOutStart,fadeInEnd);
+	fadeOutEnd = max(fadeOutEnd,fadeOutStart);
+
+	auto flStrength = 1.f;
+	if((fadeInEnd > curTime) && (fadeInEnd > fadeInStart))
+		flStrength = min(flStrength,static_cast<float>(lerp(0,1,fadeInStart,fadeInEnd,curTime)));
+
+	if((curTime > fadeOutStart) && (fadeOutEnd > fadeOutStart))
+		flStrength = min(flStrength,static_cast<float>(lerp(0,1,fadeOutEnd,fadeOutStart,curTime)));
+
+	return flStrength;
 }
