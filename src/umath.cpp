@@ -289,11 +289,11 @@ umath::Radian umath::calc_diagonal_fov(float focalLengthImMM,float width,float h
 }
 umath::Radian umath::horizontal_fov_to_vertical_fov(Radian hFov,float width,float height)
 {
-	return hFov *(width /height);
+	return 2.f *atanf(tanf(hFov /2.f) *(height /width));
 }
 umath::Radian umath::vertical_fov_to_horizontal_fov(Radian vFov,float width,float height)
 {
-	return vFov *(height /width);
+	return 2.f *atanf(tanf(vFov /2.f) *(width /height));
 }
 umath::Radian umath::diagonal_fov_to_vertical_fov(Degree diagonalFov,float aspectRatio)
 {
