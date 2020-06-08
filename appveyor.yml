@@ -42,6 +42,14 @@ before_build:
     } Else {
       $env:DMATHUTIL_ENABLE_MESH_FUNCTIONS="OFF"
     }
+# download google tests
+- cmd: |-
+    cd c:\projects\mathutil
+    mkdir build
+    cd build
+    git clone https://github.com/google/googletest.git googletest
+    cd googletest
+    git checkout v1.10.x
 - cmd: |-
     cd c:\projects\
     git clone https://github.com/Silverlan/sharedutils.git
@@ -52,13 +60,17 @@ before_build:
     cmake .. -G %generator% -DDEPENDENCY_GLM_INCLUDE=c:\projects\glm -DSHAREDUTILS_STATIC=ON  -DDEPENDENCY_MATHUTIL_INCLUDE=C:\projects\mathutil\include\
     msbuild c:\projects\sharedutils\build\sharedutils.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 - cmd: |-
-    cd c:\projects\mathutil
-    mkdir build
-    cd build
+    cd c:\projects\mathutil\build
     cmake --version
-    cmake .. -G %generator% -DDEPENDENCY_GLM_INCLUDE=c:\projects\glm -DDEPENDENCY_SHAREDUTILS_INCLUDE=C:\projects\sharedutils\include -DMATHUTIL_STATIC=OFF -DDEPENDENCY_SHAREDUTILS_LIBRARY_STATIC=c:\projects\sharedutils\build\%CONFIGURATION%\sharedutils.lib -DDEPENDENCY_GEOMETRIC_TOOLS_INCLUDE=C:\projects\GeometricTools\GTEngine\Include\ -DMATHUTIL_ENABLE_MESH_FUNCTIONS=%DMATHUTIL_ENABLE_MESH_FUNCTIONS% -DDEPENDENCY_GEOMETRIC_TOOLS_LIBRARY=C:\projects\GeometricTools\GTEngine\_Output\v142\x64\%configuration%\GTEngine.v16.lib
+    cmake .. -G %generator% -DDEPENDENCY_GLM_INCLUDE=c:\projects\glm -DDEPENDENCY_SHAREDUTILS_INCLUDE=C:\projects\sharedutils\include -DMATHUTIL_STATIC=OFF -DDEPENDENCY_SHAREDUTILS_LIBRARY_STATIC=c:\projects\sharedutils\build\%CONFIGURATION%\sharedutils.lib -DDEPENDENCY_GEOMETRIC_TOOLS_INCLUDE=C:\projects\GeometricTools\GTEngine\Include\ -DMATHUTIL_ENABLE_MESH_FUNCTIONS=%DMATHUTIL_ENABLE_MESH_FUNCTIONS% -DDEPENDENCY_GEOMETRIC_TOOLS_LIBRARY=C:\projects\GeometricTools\GTEngine\_Output\v142\x64\%configuration%\GTEngine.v16.lib -DDEPENDENCY_GOOGLE_TESTS_DIR=googletest -DMATHUTIL_BUILD_TESTS=ON
 
 build:
   project: c:\projects\mathutil\build\mathutil.sln
   verbosity: normal
   parallel: true
+
+test_script:
+- cmd: |-
+    cd c:\projects\mathutil\build\%configuration%
+    dir
+    mathutil_tests.exe
