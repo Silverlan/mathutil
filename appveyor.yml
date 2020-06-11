@@ -54,7 +54,7 @@ before_build:
     cd c:\projects\
     git clone https://github.com/Silverlan/sharedutils.git
     cd sharedutils
-    git checkout 8148bf45cd95050b9bd39ff431daef85c2b29b2c
+    git checkout ba4e07126e91c044a6861670f1476827a24f646d
     mkdir build
     cd build
     cmake .. -G %generator% -DDEPENDENCY_GLM_INCLUDE=c:\projects\glm -DSHAREDUTILS_STATIC=ON  -DDEPENDENCY_MATHUTIL_INCLUDE=C:\projects\mathutil\include\
