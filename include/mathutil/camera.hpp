@@ -6,7 +6,7 @@
 */
 
 #ifndef __UMATH_CAMERA_HPP__
-#ifndef __UMATH_CAMERA_HPP__
+#define __UMATH_CAMERA_HPP__
 
 #include "mathutil/mathutildefinitions.h"
 #include "mathutil/umath.h"
