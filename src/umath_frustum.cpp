@@ -6,8 +6,10 @@
 
 void umath::frustum::get_plane_size(float fovRad,float z,float aspectRatio,float &outW,float &outH)
 {
-	outW = 2.0 *tanf(fovRad /2.0) *z;
-	outH = outW *(1.0 /aspectRatio);
+	outH = (-(2 *tanf(fovRad /2.0) *z)) *2.0;
+	outW = outH *aspectRatio;
+	//outW = 2.0 *tanf(fovRad /2.0) *z;
+	//outH = outW *(1.0 /aspectRatio);
 }
 
 Vector3 umath::frustum::get_plane_center(const Vector3 &pos,const Vector3 &forward,float z) {return pos +forward *z;}
