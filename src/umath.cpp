@@ -300,6 +300,10 @@ umath::Radian umath::diagonal_fov_to_vertical_fov(Degree diagonalFov,float aspec
 	auto diagonalRatio = sqrt(1.f +pow2(aspectRatio));
 	return (atan(tan(diagonalFov *(umath::deg_to_rad(1.f) /2.f)) /diagonalRatio)) *umath::rad_to_deg(1.f) *2.f;
 }
+float umath::calc_dielectric_specular_reflection(float ior)
+{
+	return umath::pow2(((ior -1.0) /(ior +1.0))) /0.08; // Source: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html
+}
 float umath::fade_in_out(float fadeInStart,float fadeInEnd,float fadeOutStart,float fadeOutEnd,float curTime)
 {
 	if(fadeInStart > curTime)

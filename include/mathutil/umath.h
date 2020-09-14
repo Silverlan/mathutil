@@ -177,6 +177,8 @@ namespace umath
 	DLLMUTIL Radian vertical_fov_to_horizontal_fov(Radian vFov,float width,float height);
 	DLLMUTIL Radian diagonal_fov_to_vertical_fov(Degree diagonalFov,float aspectRatio);
 
+	DLLMUTIL float calc_dielectric_specular_reflection(float ior);
+
 	DLLMUTIL float fade_in_out(float fadeInStart,float fadeInEnd,float fadeOutStart,float fadeOutEnd,float curTime);
 
 	template<typename T>
