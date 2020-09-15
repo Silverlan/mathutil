@@ -142,3 +142,21 @@ Vector3 ulighting::wavelength_to_color(Wavelength wavelength)
 	color = max(color, Vector3{0.0f, 0.0f, 0.0f});
 	return color;
 }
+
+// Source: Blender Photographer Addon
+static double srgb_to_luminance(const Vector3 &color)
+{
+	return 0.2126729 *color.r +0.7151522 *color.g +0.072175 *color.b;
+}
+Watt ulighting::cycles::lumen_to_watt_point(Lumen lumen,const Vector3 &color)
+{
+	return lumen *((1.f /ulighting::MAX_LIGHT_EFFICIENCY_EFFICACY) /srgb_to_luminance(color));
+}
+Watt ulighting::cycles::lumen_to_watt_spot(Lumen lumen,const Vector3 &color,umath::Degree spotSize)
+{
+	return lumen *((1.f /(ulighting::MAX_LIGHT_EFFICIENCY_EFFICACY *2.f *umath::pi *(1 -umath::cos(umath::deg_to_rad(spotSize) /2.f))) *4.f *umath::pi) /srgb_to_luminance(color));
+}
+Watt ulighting::cycles::lumen_to_watt_area(Lumen lumen,const Vector3 &color)
+{
+	return lumen *(1.f /(ulighting::MAX_LIGHT_EFFICIENCY_EFFICACY *2.f *(1.f -umath::cos(umath::deg_to_rad(155.f) /2.f))));
+}

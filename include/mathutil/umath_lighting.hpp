@@ -200,6 +200,13 @@ namespace ulighting
 	{
 		return lumens /umath::calc_solid_angle(apexAngleCos);
 	}
+
+	namespace cycles
+	{
+		DLLMUTIL Watt lumen_to_watt_point(Lumen lumen,const Vector3 &color);
+		DLLMUTIL Watt lumen_to_watt_spot(Lumen lumen,const Vector3 &color,umath::Degree spotSize);
+		DLLMUTIL Watt lumen_to_watt_area(Lumen lumen,const Vector3 &color);
+	};
 };
 
 #endif
