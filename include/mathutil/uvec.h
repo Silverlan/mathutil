@@ -99,6 +99,11 @@ namespace uvec
 	DLLMUTIL void snap_to_grid(Vector3 &v,UInt32 gridSize=1);
 
 	DLLMUTIL Vector3 calc_world_direction_from_2d_coordinates(const Vector3 &forward,const Vector3 &right,const Vector3 &up,Float fovRad,Float nearZ,Float farZ,Float aspectRatio,Float width,Float height,const Vector2 &uv);
+	DLLMUTIL Vector2 calc_screenspace_uv_from_worldspace_position(const Vector3 &point,const Mat4 &viewProjection,float nearZ,float farZ,float &outDist);
+	DLLMUTIL Vector2 calc_screenspace_uv_from_worldspace_position(const Vector3 &point,const Mat4 &viewProjection);
+	DLLMUTIL Vector2 calc_screenspace_direction_from_worldspace_direction(const Vector3 &n,const Mat4 &viewProjection);
+	DLLMUTIL float calc_screenspace_distance_to_worldspace_position(const Vector3 &point,const Mat4 &viewProjection,float nearZ,float farZ);
+	DLLMUTIL float depth_to_distance(double depth,float nearZ,float farZ);
 
 	static const auto FORWARD = Vector3(0,0,1);
 	static const auto UP = Vector3(0,1,0);

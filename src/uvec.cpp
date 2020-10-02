@@ -343,6 +343,42 @@ Vector3 uvec::calc_world_direction_from_2d_coordinates(const Vector3 &forward,co
 	normalize(&dir);
 	return dir;
 }
+Vector2 uvec::calc_screenspace_uv_from_worldspace_position(const Vector3 &point,const Mat4 &viewProjection,float nearZ,float farZ,float &outDist)
+{
+	Vector4 tmp {point.x,point.y,point.z,1.f};
+	tmp = viewProjection *tmp;
+
+	Vector3 tmp3 {tmp.x,tmp.y,tmp.z};
+	tmp3 /= tmp.w;
+
+	outDist = depth_to_distance(tmp3.z,nearZ,farZ);
+	return {
+		(tmp3.x +1.0) *0.5,
+		1.0 -((1.0 -tmp3.y) *0.5)
+	};
+}
+Vector2 uvec::calc_screenspace_uv_from_worldspace_position(const Vector3 &point,const Mat4 &viewProjection)
+{
+	float dist;
+	// We don't care about the distance here, so we'll just use arbitrary values for the nearZ/farZ
+	return calc_screenspace_uv_from_worldspace_position(point,viewProjection,0.f,0.f,dist);
+}
+float uvec::calc_screenspace_distance_to_worldspace_position(const Vector3 &point,const Mat4 &viewProjection,float nearZ,float farZ)
+{
+	float dist;
+	calc_screenspace_uv_from_worldspace_position(point,viewProjection,nearZ,farZ,dist);
+	return dist;
+}
+float uvec::depth_to_distance(double depth,float nearZ,float farZ)
+{
+	return nearZ *farZ /(farZ +nearZ -depth *(farZ -nearZ));
+}
+Vector2 uvec::calc_screenspace_direction_from_worldspace_direction(const Vector3 &n,const Mat4 &viewProjection)
+{
+	auto v = calc_screenspace_uv_from_worldspace_position(n,viewProjection) -calc_screenspace_uv_from_worldspace_position({},viewProjection);
+	v = glm::normalize(v);
+	return v;
+}
 
 Vector3 uvec::get_perpendicular(const Vector3 &v)
 {
