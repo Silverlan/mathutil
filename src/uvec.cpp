@@ -277,8 +277,15 @@ std::string uvec::to_string(Vector3 *vec)
 	return r;
 }
 
-Quat uvec::get_rotation(const Vector3 &v1,const Vector3 &v2)
+Quat uvec::get_rotation(const Vector3 &a,const Vector3 &b)
 {
+#if 0
+	auto v1 = a;
+	auto v2 = b;
+	if(uvec::length_sqr(v1) > 1e-06)
+		uvec::normalize(&v1);
+	if(uvec::length_sqr(v2) > 1e-06)
+		uvec::normalize(&v2);
 	Vector3 cross = uvec::cross(v1,v2);
 	Float dot = uvec::dot(v1,v2);
 	if(dot > 0.999999f)
@@ -294,6 +301,55 @@ Quat uvec::get_rotation(const Vector3 &v1,const Vector3 &v2)
 	}
 #pragma message ("TODO: Why do we have to negate the 'w'-component?")
 	return Quat(-w,cross.x,cross.y,cross.z);
+#endif
+	// Source: https://raw.githubusercontent.com/ehsan/ogre/master/OgreMain/include/OgreVector3.h
+	constexpr Vector3 zeroVector {};
+	constexpr Vector3 fallbackAxis = zeroVector;
+    // Based on Stan Melax's article in Game Programming Gems
+    Quat q;
+    // Copy, since cannot modify local
+    Vector3 v0 = a;
+    Vector3 v1 = b;
+	if(uvec::length_sqr(v0) > 1e-06)
+		uvec::normalize(&v0);
+	if(uvec::length_sqr(v1) > 1e-06)
+		uvec::normalize(&v1);
+
+    auto d = uvec::dot(v0,v1);
+    // If dot == 1, vectors are the same
+    if (d >= 1.0f)
+		return uquat::identity();
+	if (d < (1e-6f - 1.0f))
+	{
+		if (fallbackAxis != zeroVector)
+		{
+			// rotate 180 degrees about the fallback axis
+			q = uquat::create(fallbackAxis,umath::pi);
+		}
+		else
+		{
+			// Generate an axis
+			Vector3 axis = uvec::cross(Vector3{1.f,0.f,0.f},a);
+			if (uvec::length_sqr(axis) < 1e-06 *1e-06) // pick another if colinear
+				axis = uvec::cross(Vector3{0.f,1.f,0.f},a);
+			uvec::normalize(&axis);
+			q = uquat::create(axis,umath::pi);
+		}
+	}
+	else
+	{
+        auto s = umath::sqrt( (1+d)*2 );
+	    auto invs = 1 / s;
+
+		Vector3 c = uvec::cross(v0,v1);
+
+    	q.x = c.x * invs;
+        q.y = c.y * invs;
+        q.z = c.z * invs;
+        q.w = s * 0.5f;
+		uquat::normalize(q);
+	}
+    return q;
 }
 
 Float uvec::distance(const Vector3 &a,const Vector3 &b) {return glm::distance(a,b);}
