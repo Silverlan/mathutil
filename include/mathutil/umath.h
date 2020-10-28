@@ -132,6 +132,7 @@ namespace umath
 	DLLMUTIL UInt16 get_highest_bit(UInt16 n);
 	DLLMUTIL UInt32 get_highest_bit(UInt32 n);
 	DLLMUTIL UInt64 get_highest_bit(UInt64 n);
+	DLLMUTIL UInt32 get_least_significant_set_bit_index(UInt32 n);
 	template<class T>
 		T get_aligned_offset(T baseOffset,T alignment);
 

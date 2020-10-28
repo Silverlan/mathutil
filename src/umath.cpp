@@ -264,6 +264,24 @@ UInt64 umath::get_highest_bit(UInt64 n)
 	n |= (n >> 32);
 	return n -(n >> 1);
 }
+/* Return position (0, 1, ...) of rightmost (least-significant) one bit in n.
+ *
+ * This code uses a 32-bit version of algorithm to find the rightmost
+ * one bit in Knuth, _The Art of Computer Programming_, volume 4A
+ * (draft fascicle), section 7.1.3, "Bitwise tricks and
+ * techniques." 
+ *
+ * Assumes n has a 1 bit, i.e. n != 0
+ *
+ */
+// Source: https://stackoverflow.com/a/61701395/2482983
+UInt32 umath::get_least_significant_set_bit_index(UInt32 n)
+{
+	const uint32_t a = 0x05f66a47;      /* magic number, found by brute force */
+	static const unsigned decode[32] = { 0, 1, 2, 26, 23, 3, 15, 27, 24, 21, 19, 4, 12, 16, 28, 6, 31, 25, 22, 14, 20, 18, 11, 5, 30, 13, 17, 10, 29, 9, 8, 7 };
+	n = a * (n & (-n));
+	return decode[n >> 27];
+}
 
 float umath::sqrt(float v) {return sqrtf(v);}
 double umath::sqrt(double v) {return ::sqrt(v);}

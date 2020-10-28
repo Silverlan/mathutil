@@ -174,7 +174,7 @@ Quat umath::ScaledTransform::operator*(const Quat &rot) const
 
 Mat4 umath::ScaledTransform::ToMatrix() const
 {
-	return glm::scale(glm::mat4{1.f},m_scale) *Transform::ToMatrix();
+	return Transform::ToMatrix() *glm::scale(glm::mat4{1.f},m_scale);
 }
 
 umath::ScaledTransform umath::ScaledTransform::operator*(float weight) const

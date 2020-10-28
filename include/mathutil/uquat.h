@@ -42,6 +42,7 @@ namespace uquat
 	DLLMUTIL float get_angle(const Quat &rot);
 	DLLMUTIL void to_axis_angle(const Quat &rot,Vector3 &axis,float &angle);
 	DLLMUTIL Quat identity();
+	DLLMUTIL Quat calc_average(const std::vector<Quat> &rotations);
 };
 
 #endif

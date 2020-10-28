@@ -4,7 +4,6 @@
 
 #include "mathutil/umath_frustum.hpp"
 
-#pragma optimize("",off)
 void umath::frustum::get_plane_size(float fovRad,float z,float aspectRatio,float &outW,float &outH)
 {
 	static auto altMode = false;
@@ -56,4 +55,3 @@ Vector3 umath::frustum::get_plane_point(const Vector3 &pos,const Vector3 &forwar
 	center += right *-(w /2.f *(uv.x -0.5f)) +up *(h /2.f *(uv.y -0.5f));
 	return center;
 }
-#pragma optimize("",on)

@@ -12,6 +12,21 @@
 using namespace umath;
 
 Quat uquat::identity() {return Quat{1.f,0.f,0.f,0.f};};
+
+Quat uquat::calc_average(const std::vector<Quat> &rotations)
+{
+	if(rotations.empty())
+		return identity();
+	auto qAvg = rotations.front();
+	float weight;
+	for(auto i=decltype(rotations.size()){1};i<rotations.size();++i)
+	{
+		auto weight = 1.f /(i +1.f);
+		qAvg = slerp(qAvg,rotations.at(i),weight);
+	}
+	return qAvg;
+}
+
 Quat uquat::create(const Vector3 &forward,const Vector3 &right,const Vector3 &up) {return create(umat::create_from_axes(forward,right,up));}
 
 Quat uquat::create(const Mat3 &rot)
