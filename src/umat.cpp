@@ -120,3 +120,15 @@ void umat::to_axes(const Mat4 &m,Vector3 &outForward,Vector3 &outRight,Vector3 &
 	outRight = {-m[0][0],-m[0][1],-m[0][2]};
 	outUp = {m[1][0],m[1][1],m[1][2]};
 }
+
+float umat::calc_projection_depth_bias_offset(float p,float nearZ,float farZ,float d,float delta)
+{
+	// See http://mathfor3dgameprogramming.com/ , chapter 9.1.1
+	// delta = Eye space z offset
+	auto pz = -d; // Negative eye space depth value
+
+	auto epsilon = -2.0 *farZ *nearZ *delta /((farZ +nearZ) *pz *(pz +delta));
+	return p *(1.0 +epsilon);
+}
+
+void umat::apply_projection_depth_bias_offset(Mat4 &inOutP,float nearZ,float farZ,float d,float delta) {inOutP[2][2] = calc_projection_depth_bias_offset(inOutP[2][2],nearZ,farZ,d,delta);}

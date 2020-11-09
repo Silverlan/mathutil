@@ -28,6 +28,9 @@ namespace umat
 
 	DLLMUTIL void decompose(const Mat4 &t,Vector3 &outTranslation,Mat3 &outRotation,Vector3 *outScale=nullptr);
 	DLLMUTIL void decompose(const Mat4 &t,Vector3 &outTranslation,Quat &outRotation,Vector3 *outScale=nullptr);
+
+	DLLMUTIL float calc_projection_depth_bias_offset(float p,float nearZ,float farZ,float d,float delta);
+	DLLMUTIL void apply_projection_depth_bias_offset(Mat4 &inOutP,float nearZ,float farZ,float d,float delta);
 };
 
 #endif
