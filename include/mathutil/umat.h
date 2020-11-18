@@ -31,6 +31,8 @@ namespace umat
 
 	DLLMUTIL float calc_projection_depth_bias_offset(float p,float nearZ,float farZ,float d,float delta);
 	DLLMUTIL void apply_projection_depth_bias_offset(Mat4 &inOutP,float nearZ,float farZ,float d,float delta);
+
+	DLLMUTIL Vector2 to_screen_uv(const Vector3 &point,const Mat4 &vp);
 };
 
 #endif

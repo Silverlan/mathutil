@@ -132,3 +132,13 @@ float umat::calc_projection_depth_bias_offset(float p,float nearZ,float farZ,flo
 }
 
 void umat::apply_projection_depth_bias_offset(Mat4 &inOutP,float nearZ,float farZ,float d,float delta) {inOutP[2][2] = calc_projection_depth_bias_offset(inOutP[2][2],nearZ,farZ,d,delta);}
+
+Vector2 umat::to_screen_uv(const Vector3 &point,const Mat4 &vp)
+{
+	Vector4 v{point,1.f};
+	v = vp *v;
+	return Vector2{
+		((v.x /v.w) +1.f) /2.f,
+		((v.y /v.w) +1.f) /2.f
+	};
+}
