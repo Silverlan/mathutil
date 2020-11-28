@@ -11,6 +11,7 @@
 #include "uquat.h"
 
 #pragma warning(disable: 4251)
+namespace umath {class ScaledTransform;};
 namespace bounding_volume
 {
 	class DLLMUTIL Sphere
@@ -28,6 +29,7 @@ namespace bounding_volume
 		AABB();
 		Vector3 min;
 		Vector3 max;
+		AABB Transform(const umath::ScaledTransform &pose);
 	};
 	class DLLMUTIL OBB
 		: public AABB

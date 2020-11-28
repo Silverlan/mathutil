@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "mathutil/boundingvolume.h"
+#include "mathutil/transform.hpp"
 
 using namespace bounding_volume;
 
@@ -18,6 +19,39 @@ AABB::AABB(const Vector3 &_min,const Vector3 &_max)
 {}
 AABB::AABB()
 {}
+
+AABB AABB::Transform(const umath::ScaledTransform &pose)
+{
+	// See http://www.realtimerendering.com/resources/GraphicsGems/gems/TransBox.c
+	auto srcBounds = *this;
+	auto &scale = pose.GetScale();
+	srcBounds.min *= scale;
+	srcBounds.max *= scale;
+
+	auto rotMat = glm::mat3_cast(pose.GetRotation());
+	auto &translation = pose.GetOrigin();
+
+	AABB newBounds {translation,translation};
+	for(uint8_t i=0;i<3;++i)
+	{
+		for(uint8_t j=0;j<3;++j)
+		{
+			auto a = rotMat[i][j] *srcBounds.min[j];
+			auto b = rotMat[i][j] *srcBounds.max[j];
+			if(a < b)
+			{
+				newBounds.min[i] += a;
+				newBounds.max[i] += b;
+			}
+			else
+			{
+				newBounds.min[i] += b;
+				newBounds.max[i] += a;
+			}
+		}
+	}
+	return newBounds;
+}
 
 OBB::OBB(const Vector3 &min,const Vector3 &max,const Quat &rot)
 	: AABB(min,max),rotation(rot)
