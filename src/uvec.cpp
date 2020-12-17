@@ -484,6 +484,28 @@ Float uvec::planar_distance_sqr(const Vector3 &p0,const Vector3 &p1,const Vector
 
 Float uvec::planar_distance(const Vector3 &p0,const Vector3 &p1,const Vector3 &n) {return sqrtf(planar_distance_sqr(p0,p1,n));}
 
+double uvec::calc_area_of_triangle(const Vector3 &a,const Vector3 &b,const Vector3 &c)
+{
+	auto ab = b -a;
+	auto ac = c -a;
+	auto cross = uvec::cross(ab,ac);
+	return 0.5 *uvec::length(cross);
+}
+
+Vector3 uvec::calc_point_on_triangle(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2,float a,float b)
+{
+	return (1.f - umath::sqrt(a)) *v0 +(umath::sqrt(a) *(1.f -b)) *v1 +(umath::sqrt(a) *b) *v2;
+}
+
+Vector3 uvec::calc_face_normal(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2)
+{
+	if(uvec::distance_sqr(v1 -v0,v2 -v0) < 0.001)
+		return uvec::FORWARD;
+	auto n = uvec::cross(v1 -v0,v2 -v0);
+	uvec::normalize(&n);
+	return n;
+}
+
 void uvec::calc_plane(const Vector3 &a,const Vector3 &b,const Vector3 &c,Vector3 &outPlaneNormal,float &outPlaneDistance)
 {
 	outPlaneNormal = glm::cross(b -a,c -a);

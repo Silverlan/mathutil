@@ -4,6 +4,7 @@
 
 #include "mathutil/boundingvolume.h"
 #include "mathutil/transform.hpp"
+#include "mathutil/umath_geometry.hpp"
 
 using namespace bounding_volume;
 
@@ -20,6 +21,10 @@ AABB::AABB(const Vector3 &_min,const Vector3 &_max)
 AABB::AABB()
 {}
 
+bool AABB::Intersects(const AABB &other) const
+{
+	return umath::intersection::aabb_aabb(*this,other);
+}
 AABB AABB::Transform(const umath::ScaledTransform &pose)
 {
 	// See http://www.realtimerendering.com/resources/GraphicsGems/gems/TransBox.c

@@ -29,7 +29,34 @@ namespace bounding_volume
 		AABB();
 		Vector3 min;
 		Vector3 max;
+		Vector3 GetCenter() const {return (min +max) /2.f;}
+		Vector3 GetExtents() const {return (max -min) /2.f;}
+		bool Intersects(const AABB &other) const;
 		AABB Transform(const umath::ScaledTransform &pose);
+		static void GetRotatedBounds(const Vector3 &min,const Vector3 &max,Mat4 rot,Vector3 *rmin,Vector3 *rmax)
+		{
+			rot = glm::inverse(rot);
+			uvec::zero(rmin);
+			uvec::zero(rmax);
+			for(int i=0;i<3;i++)
+			{
+				for(int j=0;j<3;j++)
+				{
+					float e = rot[i][j] *min[j];
+					float f = rot[i][j] *max[j];
+					if(e < f)
+					{
+						(*rmin)[i] += e;
+						(*rmax)[i] += f;
+					}
+					else
+					{
+						(*rmin)[i] += f;
+						(*rmax)[i] += e;
+					}
+				}
+			}
+		}
 	};
 	class DLLMUTIL OBB
 		: public AABB
