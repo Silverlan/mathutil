@@ -277,6 +277,14 @@ std::string uvec::to_string(Vector3 *vec)
 	return r;
 }
 
+umath::Degree uvec::get_angle(const Vector3 &a,const Vector3 &b)
+{
+	auto dot = uvec::dot(a,b);
+	auto la = uvec::length(a);
+	auto lb = uvec::length(b);
+	return umath::rad_to_deg(umath::acos(dot /(la *lb)));
+}
+
 Quat uvec::get_rotation(const Vector3 &a,const Vector3 &b)
 {
 #if 0

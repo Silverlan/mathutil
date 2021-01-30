@@ -86,6 +86,8 @@ namespace uvec
 	// Requires two normalized vectors and returns the rotation between them. The result is NOT normalized.
 	DLLMUTIL Quat get_rotation(const Vector3 &v1,const Vector3 &v2);
 
+	DLLMUTIL umath::Degree get_angle(const Vector3 &v1,const Vector3 &v2);
+
 	DLLMUTIL Float distance(const Vector3 &a,const Vector3 &b);
 
 	DLLMUTIL void local_to_world(const Vector3 &localPos,const Quat &localRot,Vector3 &ioPos,Quat &ioRot);

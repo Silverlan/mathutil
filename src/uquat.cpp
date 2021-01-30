@@ -27,6 +27,30 @@ Quat uquat::calc_average(const std::vector<Quat> &rotations)
 	return qAvg;
 }
 
+Quat uquat::clamp_rotation(const Quat &pq,const EulerAngles &minBounds,const EulerAngles &maxBounds)
+{
+	// Source: https://forum.unity.com/threads/how-do-i-clamp-a-quaternion.370041/#post-5494723
+	auto q = pq;
+	q.x /= q.w;
+	q.y /= q.w;
+	q.z /= q.w;
+	q.w = 1.0;
+ 
+	auto angleX = static_cast<float>(2.f *umath::rad_to_deg(atan(q.x)));
+	angleX = umath::clamp(angleX, minBounds.p, maxBounds.p);
+	q.x = umath::tan(0.5 *umath::deg_to_rad(angleX));
+ 
+	auto angleY = static_cast<float>(2.f *umath::rad_to_deg(atan(q.y)));
+	angleY = umath::clamp(angleY, minBounds.y, maxBounds.y);
+	q.y = umath::tan(0.5 *umath::deg_to_rad(angleY));
+ 
+	auto angleZ = static_cast<float>(2.f *umath::rad_to_deg(atan(q.z)));
+	angleZ = umath::clamp(angleZ, minBounds.r, maxBounds.r);
+	q.z = umath::tan(0.5 *umath::deg_to_rad(angleZ));
+	normalize(q);
+	return q;
+}
+
 Quat uquat::create(const Vector3 &forward,const Vector3 &right,const Vector3 &up) {return create(umat::create_from_axes(forward,right,up));}
 
 Quat uquat::create(const Mat3 &rot)
