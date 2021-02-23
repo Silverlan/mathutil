@@ -308,3 +308,11 @@ void uquat::to_axis_angle(const Quat &rot,Vector3 &axis,float &angle)
 	axis.y = rot.y /umath::sqrt(1-w2);
 	axis.z = rot.z /umath::sqrt(1-w2);
 }
+
+Radian uquat::distance(const Quat &q0,const Quat &q1)
+{
+	// Source: https://stackoverflow.com/a/23263233/2482983
+	auto qd = uquat::get_inverse(q0) *q1;
+	auto angle = 2.f * umath::atan2(uvec::length(Vector3{qd.x,qd.y,qd.z}),qd.w);
+	return angle;
+}

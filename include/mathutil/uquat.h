@@ -44,6 +44,7 @@ namespace uquat
 	DLLMUTIL Quat identity();
 	DLLMUTIL Quat calc_average(const std::vector<Quat> &rotations);
 	DLLMUTIL Quat clamp_rotation(const Quat &q,const EulerAngles &minBounds,const EulerAngles &maxBounds);
+	DLLMUTIL float distance(const Quat &q0,const Quat &q1);
 };
 
 #endif
