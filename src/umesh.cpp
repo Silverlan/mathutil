@@ -4,14 +4,15 @@
 
 #ifdef ENABLE_MESH_FUNCTIONS
 #include "mathutil/umesh.h"
-#include <Mathematics/GteMinimumVolumeBox3.h>
+#include <Mathematics/MinimumVolumeBox3.h>
 
 bool umesh::generate_convex_hull(const std::vector<Vector3> &pointCloud,std::vector<uint32_t> &convexHull)
 {
 	if(pointCloud.size() < 4)
 		return false;
-	gte::ConvexHull3<float,float> hull{};
-	if(hull(static_cast<int32_t>(pointCloud.size()),reinterpret_cast<const gte::Vector3<float>*>(pointCloud.data()),0.0001f) == false || hull.GetDimension() < 3)
+	gte::ConvexHull3<float> hull{};
+	hull(static_cast<size_t>(pointCloud.size()),reinterpret_cast<const gte::Vector3<float>*>(pointCloud.data()),3);
+	if(hull.GetDimension() < 3)
 		return false;
 	auto &hullMesh = hull.GetHullMesh();
 	auto &triangles = hullMesh.GetTriangles();
@@ -34,12 +35,14 @@ std::vector<uint32_t> umesh::generate_convex_hull(const std::vector<Vector3> &po
 
 void umesh::calc_smallest_enclosing_bbox(const std::vector<Vector3> &pointCloud,Vector3 &center,Vector3 &extents,Quat &rot)
 {
-	gte::MinimumVolumeBox3<decltype(Vector3::x),decltype(Vector3::x)> vol{};
+	gte::MinimumVolumeBox3<decltype(Vector3::x),false> vol{};
 	auto &gtVerts = reinterpret_cast<const std::vector<gte::Vector3<decltype(Vector3::x)>>&>(pointCloud);
 	std::vector<uint32_t> indices;
 	generate_convex_hull(pointCloud,indices);
 	auto &gtIndices = reinterpret_cast<std::vector<int32_t>&>(indices);
-	auto minBox = vol(static_cast<int32_t>(gtVerts.size()),gtVerts.data(),static_cast<int32_t>(gtIndices.size()),gtIndices.data());
+	gte::OrientedBox3<float> minBox;
+	float volume;
+	vol(static_cast<int32_t>(gtVerts.size()),gtVerts.data(),static_cast<int32_t>(gtIndices.size()),gtIndices.data(),2 /* maxSample */,minBox,volume);
 	std::array<Vector3,8> boxVerts;
 	minBox.GetVertices(reinterpret_cast<std::array<gte::Vector3<decltype(Vector3::x)>,8>&>(boxVerts));
 
