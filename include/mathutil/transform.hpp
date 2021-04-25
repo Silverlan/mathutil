@@ -27,6 +27,9 @@ namespace umath
 		Transform(const Vector3 &translation,const Quat &rotation);
 		~Transform()=default;
 
+		bool operator==(const Transform &t) const;
+		bool operator!=(const Transform &t) const {return !operator==(t);}
+
 		const Vector3 &GetOrigin() const;
 		const Quat &GetRotation() const;
 		Vector3 &GetOrigin();
@@ -76,6 +79,11 @@ namespace umath
 		ScaledTransform &operator*=(const Transform &tOther);
 		Vector3 operator*(const Vector3 &translation) const;
 		Quat operator*(const Quat &rot) const;
+
+		bool operator==(const ScaledTransform &t) const;
+		bool operator==(const Transform &t) const;
+		bool operator!=(const ScaledTransform &t) const {return !operator==(t);}
+		bool operator!=(const Transform &t) const {return !operator==(t);}
 
 		ScaledTransform operator*(float weight) const;
 		ScaledTransform &operator*=(float weight);

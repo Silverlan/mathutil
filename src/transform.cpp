@@ -23,6 +23,11 @@ umath::Transform::Transform(const Vector3 &translation,const Quat &rotation)
 	: m_translation{translation},m_rotation{rotation}
 {}
 
+bool umath::Transform::operator==(const Transform &t) const
+{
+	return uvec::cmp(m_translation,t.m_translation,{0.001f,0.001f,0.001f}) && uquat::cmp(m_rotation,t.m_rotation,0.001f);
+}
+
 umath::Transform umath::Transform::GetInverse() const
 {
 	Transform result {-m_translation,uquat::get_inverse(m_rotation)};
@@ -122,6 +127,14 @@ void umath::ScaledTransform::SetIdentity()
 {
 	Transform::SetIdentity();
 	m_scale = {1.f,1.f,1.f};
+}
+bool umath::ScaledTransform::operator==(const ScaledTransform &t) const
+{
+	return Transform::operator==(t) && uvec::cmp(m_scale,t.m_scale);
+}
+bool umath::ScaledTransform::operator==(const Transform &t) const
+{
+	return Transform::operator==(t) && uvec::cmp(m_scale,Vector3{1.f,1.f,1.f},{0.001f,0.001f,0.001f});
 }
 const Vector3 &umath::ScaledTransform::GetScale() const {return const_cast<ScaledTransform*>(this)->GetScale();}
 Vector3 &umath::ScaledTransform::GetScale() {return m_scale;}

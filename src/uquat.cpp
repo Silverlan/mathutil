@@ -149,9 +149,8 @@ Quat uquat::create(const std::string &s)
 	return Quat{r.x,r.y,r.z,r.w};
 }
 
-bool uquat::cmp(const Quat &a,const Quat &b)
+bool uquat::cmp(const Quat &a,const Quat &b,float epsilon)
 {
-	const auto epsilon = 0.0001f;
 	return (
 		glm::abs(a.x -b.x) <= epsilon &&
 		glm::abs(a.y -b.y) <= epsilon &&

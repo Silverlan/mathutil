@@ -37,7 +37,7 @@ namespace uquat
 	DLLMUTIL void rotate_x(Quat &q,Float ang);
 	DLLMUTIL void rotate_y(Quat &q,Float ang);
 	DLLMUTIL void rotate_z(Quat &q,Float ang);
-	DLLMUTIL bool cmp(const Quat &a,const Quat &b);
+	DLLMUTIL bool cmp(const Quat &a,const Quat &b,float epsilon=0.0001f);
 	DLLMUTIL Quat create_look_rotation(const Vector3 &forward,const Vector3 &up);
 	DLLMUTIL float get_angle(const Quat &rot);
 	DLLMUTIL void to_axis_angle(const Quat &rot,Vector3 &axis,float &angle);
