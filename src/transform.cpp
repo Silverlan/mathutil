@@ -117,6 +117,9 @@ umath::Transform &umath::Transform::operator*=(float weight)
 
 /////////////
 
+umath::ScaledTransform::ScaledTransform(const Transform &t,const Vector3 &scale)
+	: Transform{t},m_scale{scale}
+{}
 umath::ScaledTransform::ScaledTransform(const Transform &t)
 	: Transform{t}
 {}

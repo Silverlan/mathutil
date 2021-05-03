@@ -63,6 +63,7 @@ namespace umath
 	{
 	public:
 		using Transform::Transform;
+		ScaledTransform(const Transform &t,const Vector3 &scale);
 		ScaledTransform(const Transform &t);
 		ScaledTransform(const Vector3 &pos,const Quat &rot,const Vector3 &scale);
 		void SetIdentity();
