@@ -44,6 +44,7 @@ namespace umath
 		void Interpolate(const Transform &dst,float factor);
 		void InterpolateToIdentity(float factor);
 		Transform GetInverse() const;
+		ScaledTransform operator*(const ScaledTransform &tOther) const;
 		Transform operator*(const Transform &tOther) const;
 		Transform &operator*=(const Transform &tOther);
 		Vector3 operator*(const Vector3 &translation) const;

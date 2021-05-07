@@ -75,6 +75,7 @@ void umath::Transform::Interpolate(const Transform &dst,float factor)
 	m_rotation = uquat::slerp(m_rotation,dst.m_rotation,factor);
 }
 void umath::Transform::InterpolateToIdentity(float factor) {Interpolate({},factor);}
+umath::ScaledTransform umath::Transform::operator*(const ScaledTransform &tOther) const {return umath::ScaledTransform{*this} *tOther;}
 umath::Transform umath::Transform::operator*(const Transform &tOther) const
 {
 	auto res = *this;
