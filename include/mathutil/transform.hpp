@@ -19,6 +19,7 @@
 
 namespace umath
 {
+	class ScaledTransform;
 	class DLLMUTIL Transform
 	{
 	public:
