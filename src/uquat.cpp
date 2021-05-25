@@ -315,3 +315,9 @@ Radian uquat::distance(const Quat &q0,const Quat &q1)
 	auto angle = 2.f * umath::atan2(uvec::length(Vector3{qd.x,qd.y,qd.z}),qd.w);
 	return angle;
 }
+
+std::ostream &operator<<(std::ostream &out,const Quat &o)
+{
+	out<<o.w<<" "<<o.x<<" "<<o.y<<" "<<o.z;
+	return out;
+}

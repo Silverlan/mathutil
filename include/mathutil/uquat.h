@@ -47,4 +47,6 @@ namespace uquat
 	DLLMUTIL float distance(const Quat &q0,const Quat &q1);
 };
 
+DLLMUTIL std::ostream &operator<<(std::ostream &out,const Quat &o);
+
 #endif
