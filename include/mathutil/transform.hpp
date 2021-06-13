@@ -26,6 +26,8 @@ namespace umath
 		Transform();
 		Transform(const Mat4 &t);
 		Transform(const Vector3 &translation,const Quat &rotation);
+		Transform(const Vector3 &translation);
+		Transform(const Quat &rotation);
 		~Transform()=default;
 
 		bool operator==(const Transform &t) const;
@@ -45,6 +47,13 @@ namespace umath
 		void Interpolate(const Transform &dst,float factor);
 		void InterpolateToIdentity(float factor);
 		Transform GetInverse() const;
+
+		EulerAngles GetAngles() const;
+		void SetAngles(const EulerAngles &ang);
+		Vector3 GetForward() const;
+		Vector3 GetRight() const;
+		Vector3 GetUp() const;
+
 		ScaledTransform operator*(const ScaledTransform &tOther) const;
 		Transform operator*(const Transform &tOther) const;
 		Transform &operator*=(const Transform &tOther);

@@ -23,6 +23,13 @@ umath::Transform::Transform(const Vector3 &translation,const Quat &rotation)
 	: m_translation{translation},m_rotation{rotation}
 {}
 
+umath::Transform::Transform(const Vector3 &translation)
+	: Transform{translation,uquat::identity()}
+{}
+umath::Transform::Transform(const Quat &rotation)
+	: Transform{Vector3{},rotation}
+{}
+
 bool umath::Transform::operator==(const Transform &t) const
 {
 	return uvec::cmp(m_translation,t.m_translation,{0.001f,0.001f,0.001f}) && uquat::cmp(m_rotation,t.m_rotation,0.001f);
@@ -34,6 +41,12 @@ umath::Transform umath::Transform::GetInverse() const
 	uvec::rotate(&result.m_translation,result.m_rotation);
 	return result;
 }
+
+EulerAngles umath::Transform::GetAngles() const {return EulerAngles{GetRotation()};}
+void umath::Transform::SetAngles(const EulerAngles &ang) {SetRotation(uquat::create(ang));}
+Vector3 umath::Transform::GetForward() const {return uquat::forward(GetRotation());}
+Vector3 umath::Transform::GetRight() const {return uquat::right(GetRotation());}
+Vector3 umath::Transform::GetUp() const {return uquat::up(GetRotation());}
 
 const Vector3 &umath::Transform::GetOrigin() const {return const_cast<Transform*>(this)->GetOrigin();}
 const Quat &umath::Transform::GetRotation() const {return const_cast<Transform*>(this)->GetRotation();}
