@@ -434,18 +434,24 @@ template<typename T>
 template<typename T>
 	constexpr void umath::add_flag(T &baseFlags,T flag)
 {
-	baseFlags |= flag;
+	// Messy msvc c++20 compiler bug fix
+	reinterpret_cast<std::underlying_type_t<T>&>(baseFlags) |= static_cast<std::underlying_type_t<T>>(flag);
+	// baseFlags |= flag;
 }
 template<typename T>
 	constexpr void umath::remove_flag(T &baseFlags,T flag)
 {
-	baseFlags &= ~flag;
+	// Messy msvc c++20 compiler bug fix
+	reinterpret_cast<std::underlying_type_t<T>&>(baseFlags) &= ~static_cast<std::underlying_type_t<T>>(flag);
+	//baseFlags &= ~flag;
 }
 
 template<typename T>
 	constexpr bool umath::is_flag_set(T baseFlags,T flag)
 {
-	return static_cast<std::underlying_type_t<T>>(baseFlags &flag) != static_cast<std::underlying_type_t<T>>(0);
+	// Messy msvc c++20 compiler bug fix
+	return (static_cast<std::underlying_type_t<T>>(baseFlags) &static_cast<std::underlying_type_t<T>>(flag)) != static_cast<std::underlying_type_t<T>>(0);
+	//return static_cast<std::underlying_type_t<T>>(baseFlags &flag) != static_cast<std::underlying_type_t<T>>(0);
 }
 
 template<typename T>
