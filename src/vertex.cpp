@@ -66,9 +66,27 @@ umath::VertexWeight::VertexWeight()
 
 bool umath::VertexWeight::operator==(const VertexWeight &other) const
 {
-	return (boneIds == other.boneIds &&
-		umath::abs(weights.x -other.weights.x) <= VERTEX_EPSILON && umath::abs(weights.y -other.weights.y) <= VERTEX_EPSILON && umath::abs(weights.z -other.weights.z) <= VERTEX_EPSILON && umath::abs(weights.w -other.weights.w) <= VERTEX_EPSILON
-	) ? true : false;
+	std::array<bool,4> matched {false};
+	uint32_t numMatch = 0;
+	auto n = boneIds.length();
+	for(auto i=decltype(n){0u};i<n;++i)
+	{
+		auto id0 = boneIds[i];
+		auto weight0 = weights[i];
+		for(auto j=decltype(n){0u};j<n;++j)
+		{
+			auto id1 = other.boneIds[j];
+			auto weight1 = other.weights[j];
+			if(matched[j] || id0 != id1)
+				continue;
+			if(id0 != -1 && umath::abs(weight0 -weight1) > VERTEX_EPSILON)
+				break;
+			matched[j] = true;
+			++numMatch;
+			break;
+		}
+	}
+	return numMatch == n;
 }
 bool umath::VertexWeight::operator!=(const VertexWeight &other) const
 {
