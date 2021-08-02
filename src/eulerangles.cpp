@@ -27,18 +27,6 @@ EulerAngles operator-(const EulerAngles &a) {return EulerAngles(-a.p,-a.y,-a.r);
 EulerAngles operator+=(const EulerAngles &a,const EulerAngles &b) {return a +b;}
 EulerAngles operator-=(const EulerAngles &a,const EulerAngles &b) {return a -b;}
 
-EulerAngles::EulerAngles(Float _p,Float _y,Float _r)
-	: p(_p),y(_y),r(_r)
-{}
-
-EulerAngles::EulerAngles()
-	: EulerAngles(0.f,0.f,0.f)
-{}
-
-EulerAngles::EulerAngles(const EulerAngles &ang)
-	: EulerAngles(ang.p,ang.y,ang.r)
-{}
-
 EulerAngles::EulerAngles(const Mat4 &mat)
 	: EulerAngles()
 {

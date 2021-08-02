@@ -13,14 +13,21 @@
 class DLLMUTIL EulerAngles
 {
 public:
-	EulerAngles();
-	EulerAngles(Float p,Float y,Float r);
-	EulerAngles(const EulerAngles &ang);
+	constexpr EulerAngles()
+		: EulerAngles{0.f,0.f,0.f}
+	{}
+	constexpr EulerAngles(Float p,Float y,Float r)
+		: p{p},y{y},r{r}
+	{}
+	constexpr EulerAngles(const EulerAngles &ang)
+		: EulerAngles{ang.p,ang.y,ang.r}
+	{}
 	EulerAngles(const Mat4 &mat);
 	EulerAngles(const Quat &rot);
 	EulerAngles(const Vector3 &forward);
 	EulerAngles(const Vector3 &forward,const Vector3 &up);
 	EulerAngles(const std::string &str);
+
 	friend bool operator==(const EulerAngles &a,const EulerAngles &b);
 	friend bool operator!=(const EulerAngles &a,const EulerAngles &b);
 private:
