@@ -11,8 +11,6 @@
 
 using namespace umath;
 
-Quat uquat::identity() {return Quat{1.f,0.f,0.f,0.f};};
-
 Quat uquat::calc_average(const std::vector<Quat> &rotations)
 {
 	if(rotations.empty())

@@ -23,7 +23,9 @@ namespace umath
 	class DLLMUTIL Transform
 	{
 	public:
-		Transform();
+		constexpr Transform()
+			: translation{},rotation{uquat::identity()}
+		{}
 		Transform(const Mat4 &t);
 		Transform(const Vector3 &translation,const Quat &rotation);
 		Transform(const Vector3 &translation);
@@ -64,9 +66,12 @@ namespace umath
 		Transform &operator*=(float weight);
 
 		Mat4 ToMatrix() const;
-	private:
-		Vector3 m_translation = {};
-		Quat m_rotation = uquat::identity();
+
+		// Note: Getter/Setter methods should be preferred, these are public primarily to allow
+		// the class to be used as a literal non-type template parameter
+	public:
+		Vector3 translation = {};
+		Quat rotation = uquat::identity();
 	};
 
 	class DLLMUTIL ScaledTransform
@@ -101,8 +106,11 @@ namespace umath
 		ScaledTransform &operator*=(float weight);
 
 		Mat4 ToMatrix() const;
-	private:
-		Vector3 m_scale = {1.f,1.f,1.f};
+
+		// Note: Getter/Setter methods should be preferred, these are public primarily to allow
+		// the class to be used as a literal non-type template parameter
+	public:
+		Vector3 scale = {1.f,1.f,1.f};
 	};
 };
 DLLMUTIL Vector3 operator*(const Vector3 &v,const umath::Transform &t);

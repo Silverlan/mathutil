@@ -41,7 +41,7 @@ namespace uquat
 	DLLMUTIL Quat create_look_rotation(const Vector3 &forward,const Vector3 &up);
 	DLLMUTIL float get_angle(const Quat &rot);
 	DLLMUTIL void to_axis_angle(const Quat &rot,Vector3 &axis,float &angle);
-	DLLMUTIL Quat identity();
+	DLLMUTIL constexpr Quat identity() {return Quat{1.f,0.f,0.f,0.f};}
 	DLLMUTIL Quat calc_average(const std::vector<Quat> &rotations);
 	DLLMUTIL Quat clamp_rotation(const Quat &q,const EulerAngles &minBounds,const EulerAngles &maxBounds);
 	DLLMUTIL float distance(const Quat &q0,const Quat &q1);

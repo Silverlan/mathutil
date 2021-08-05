@@ -9,18 +9,13 @@
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-umath::Transform::Transform()
-{
-	SetIdentity();
-}
-
 umath::Transform::Transform(const Mat4 &t)
 {
-	umat::decompose(t,m_translation,m_rotation);
+	umat::decompose(t,translation,rotation);
 }
 
 umath::Transform::Transform(const Vector3 &translation,const Quat &rotation)
-	: m_translation{translation},m_rotation{rotation}
+	: translation{translation},rotation{rotation}
 {}
 
 umath::Transform::Transform(const Vector3 &translation)
@@ -32,13 +27,13 @@ umath::Transform::Transform(const Quat &rotation)
 
 bool umath::Transform::operator==(const Transform &t) const
 {
-	return uvec::cmp(m_translation,t.m_translation,{0.001f,0.001f,0.001f}) && uquat::cmp(m_rotation,t.m_rotation,0.001f);
+	return uvec::cmp(translation,t.translation,{0.001f,0.001f,0.001f}) && uquat::cmp(rotation,t.rotation,0.001f);
 }
 
 umath::Transform umath::Transform::GetInverse() const
 {
-	Transform result {-m_translation,uquat::get_inverse(m_rotation)};
-	uvec::rotate(&result.m_translation,result.m_rotation);
+	Transform result {-translation,uquat::get_inverse(rotation)};
+	uvec::rotate(&result.translation,result.rotation);
 	return result;
 }
 
@@ -50,42 +45,42 @@ Vector3 umath::Transform::GetUp() const {return uquat::up(GetRotation());}
 
 const Vector3 &umath::Transform::GetOrigin() const {return const_cast<Transform*>(this)->GetOrigin();}
 const Quat &umath::Transform::GetRotation() const {return const_cast<Transform*>(this)->GetRotation();}
-Vector3 &umath::Transform::GetOrigin() {return m_translation;}
-Quat &umath::Transform::GetRotation() {return m_rotation;}
+Vector3 &umath::Transform::GetOrigin() {return translation;}
+Quat &umath::Transform::GetRotation() {return rotation;}
 
 Mat4 umath::Transform::ToMatrix() const
 {
-	auto m = glm::translate(Mat4{1.f},m_translation);
-	m *= umat::create(m_rotation);
+	auto m = glm::translate(Mat4{1.f},translation);
+	m *= umat::create(rotation);
 	return m;
 }
 
-void umath::Transform::SetOrigin(const Vector3 &origin) {m_translation = origin;}
+void umath::Transform::SetOrigin(const Vector3 &origin) {translation = origin;}
 
-void umath::Transform::SetRotation(const Quat &rot) {m_rotation = rot;}
+void umath::Transform::SetRotation(const Quat &rot) {rotation = rot;}
 
 void umath::Transform::SetIdentity()
 {
-	m_translation = {};
-	m_rotation = uquat::identity();
+	translation = {};
+	rotation = uquat::identity();
 }
-void umath::Transform::TranslateGlobal(const Vector3 &v) {m_translation += v;}
+void umath::Transform::TranslateGlobal(const Vector3 &v) {translation += v;}
 void umath::Transform::TranslateLocal(const Vector3 &v)
 {
 	auto vrot = v;
-	uvec::rotate(&vrot,m_rotation);
-	m_translation += vrot;
+	uvec::rotate(&vrot,rotation);
+	translation += vrot;
 }
 void umath::Transform::RotateGlobal(const Quat &rot)
 {
-	uvec::rotate(&m_translation,rot);
-	m_rotation = rot *m_rotation;
+	uvec::rotate(&translation,rot);
+	rotation = rot *rotation;
 }
-void umath::Transform::RotateLocal(const Quat &rot) {m_rotation *= rot;}
+void umath::Transform::RotateLocal(const Quat &rot) {rotation *= rot;}
 void umath::Transform::Interpolate(const Transform &dst,float factor)
 {
-	m_translation = uvec::lerp(m_translation,dst.m_translation,factor);
-	m_rotation = uquat::slerp(m_rotation,dst.m_rotation,factor);
+	translation = uvec::lerp(translation,dst.translation,factor);
+	rotation = uquat::slerp(rotation,dst.rotation,factor);
 }
 void umath::Transform::InterpolateToIdentity(float factor) {Interpolate({},factor);}
 umath::ScaledTransform umath::Transform::operator*(const ScaledTransform &tOther) const {return umath::ScaledTransform{*this} *tOther;}
@@ -98,22 +93,22 @@ umath::Transform umath::Transform::operator*(const Transform &tOther) const
 
 umath::Transform &umath::Transform::operator*=(const Transform &tOther)
 {
-	auto translation = tOther.m_translation;
-	uvec::rotate(&translation,m_rotation);
-	m_rotation *= tOther.m_rotation;
-	m_translation += translation;
+	auto translation = tOther.translation;
+	uvec::rotate(&translation,rotation);
+	rotation *= tOther.rotation;
+	translation += translation;
 	return *this;
 }
 Vector3 umath::Transform::operator*(const Vector3 &translation) const
 {
 	auto result = translation;
-	uvec::rotate(&result,m_rotation);
-	result += m_translation;
+	uvec::rotate(&result,rotation);
+	result += translation;
 	return result;
 }
 Quat umath::Transform::operator*(const Quat &rot) const
 {
-	return m_rotation *rot;
+	return rotation *rot;
 }
 umath::Transform umath::Transform::operator*(float weight) const
 {
@@ -123,44 +118,44 @@ umath::Transform umath::Transform::operator*(float weight) const
 }
 umath::Transform &umath::Transform::operator*=(float weight)
 {
-	m_translation *= weight;
+	translation *= weight;
 	// Not entirely sure about this...
-	m_rotation = uquat::slerp(uquat::identity(),m_rotation,weight);
+	rotation = uquat::slerp(uquat::identity(),rotation,weight);
 	return *this;
 }
 
 /////////////
 
 umath::ScaledTransform::ScaledTransform(const Transform &t,const Vector3 &scale)
-	: Transform{t},m_scale{scale}
+	: Transform{t},scale{scale}
 {}
 umath::ScaledTransform::ScaledTransform(const Transform &t)
 	: Transform{t}
 {}
 umath::ScaledTransform::ScaledTransform(const Vector3 &pos,const Quat &rot,const Vector3 &scale)
-	: Transform{pos,rot},m_scale{scale}
+	: Transform{pos,rot},scale{scale}
 {}
 void umath::ScaledTransform::SetIdentity()
 {
 	Transform::SetIdentity();
-	m_scale = {1.f,1.f,1.f};
+	scale = {1.f,1.f,1.f};
 }
 bool umath::ScaledTransform::operator==(const ScaledTransform &t) const
 {
-	return Transform::operator==(t) && uvec::cmp(m_scale,t.m_scale);
+	return Transform::operator==(t) && uvec::cmp(scale,t.scale);
 }
 bool umath::ScaledTransform::operator==(const Transform &t) const
 {
-	return Transform::operator==(t) && uvec::cmp(m_scale,Vector3{1.f,1.f,1.f},{0.001f,0.001f,0.001f});
+	return Transform::operator==(t) && uvec::cmp(scale,Vector3{1.f,1.f,1.f},{0.001f,0.001f,0.001f});
 }
 const Vector3 &umath::ScaledTransform::GetScale() const {return const_cast<ScaledTransform*>(this)->GetScale();}
-Vector3 &umath::ScaledTransform::GetScale() {return m_scale;}
-void umath::ScaledTransform::SetScale(const Vector3 &scale) {m_scale = scale;}
-void umath::ScaledTransform::Scale(const Vector3 &scale) {m_scale *= scale;}
+Vector3 &umath::ScaledTransform::GetScale() {return scale;}
+void umath::ScaledTransform::SetScale(const Vector3 &scale) {this->scale = scale;}
+void umath::ScaledTransform::Scale(const Vector3 &scale) {this->scale *= scale;}
 void umath::ScaledTransform::Interpolate(const ScaledTransform &dst,float factor)
 {
 	Transform::Interpolate(dst,factor);
-	m_scale = uvec::lerp(m_scale,dst.m_scale,factor);
+	scale = uvec::lerp(scale,dst.scale,factor);
 }
 void umath::ScaledTransform::InterpolateToIdentity(float factor) {Interpolate({},factor);}
 umath::ScaledTransform umath::ScaledTransform::GetInverse() const
@@ -185,7 +180,7 @@ umath::ScaledTransform umath::ScaledTransform::operator*(const Transform &tOther
 umath::ScaledTransform &umath::ScaledTransform::operator*=(const ScaledTransform &tOther)
 {
 	Transform::operator*=(tOther);
-	m_scale *= tOther.m_scale;
+	scale *= tOther.scale;
 	return *this;
 }
 umath::ScaledTransform &umath::ScaledTransform::operator*=(const Transform &tOther)
@@ -204,7 +199,7 @@ Quat umath::ScaledTransform::operator*(const Quat &rot) const
 
 Mat4 umath::ScaledTransform::ToMatrix() const
 {
-	return Transform::ToMatrix() *glm::scale(glm::mat4{1.f},m_scale);
+	return Transform::ToMatrix() *glm::scale(glm::mat4{1.f},scale);
 }
 
 umath::ScaledTransform umath::ScaledTransform::operator*(float weight) const
@@ -216,7 +211,7 @@ umath::ScaledTransform umath::ScaledTransform::operator*(float weight) const
 umath::ScaledTransform &umath::ScaledTransform::operator*=(float weight)
 {
 	Transform::operator*=(weight);
-	m_scale *= weight;
+	scale *= weight;
 	return *this;
 }
 
