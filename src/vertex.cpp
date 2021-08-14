@@ -42,9 +42,9 @@ Vector3 umath::Vertex::GetBiTangent() const
 bool umath::Vertex::Equal(const Vertex &other,float epsilon) const
 {
 	return (
-		umath::abs(position.x -other.position.x) <= VERTEX_EPSILON && umath::abs(position.y -other.position.y) <= VERTEX_EPSILON && umath::abs(position.z -other.position.z) <= VERTEX_EPSILON &&
-		umath::abs(uv.x -other.uv.x) <= VERTEX_EPSILON && umath::abs(uv.y -other.uv.y) <= VERTEX_EPSILON &&
-		umath::abs(normal.x -other.normal.x) <= VERTEX_EPSILON && umath::abs(normal.y -other.normal.y) <= VERTEX_EPSILON && umath::abs(normal.z -other.normal.z) <= VERTEX_EPSILON
+		umath::abs(position.x -other.position.x) <= epsilon && umath::abs(position.y -other.position.y) <= epsilon && umath::abs(position.z -other.position.z) <= epsilon &&
+		umath::abs(uv.x -other.uv.x) <= epsilon && umath::abs(uv.y -other.uv.y) <= epsilon &&
+		umath::abs(normal.x -other.normal.x) <= epsilon && umath::abs(normal.y -other.normal.y) <= epsilon && umath::abs(normal.z -other.normal.z) <= epsilon
 	) ? true : false;
 }
 

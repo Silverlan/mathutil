@@ -12,7 +12,7 @@
 #pragma warning(disable : 4251)
 namespace umath
 {
-	static const auto VERTEX_EPSILON = 0.001f;
+	static constexpr double VERTEX_EPSILON = 0.001;
 
 	struct DLLMUTIL Vertex
 	{
