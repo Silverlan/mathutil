@@ -99,9 +99,9 @@ umath::Transform &umath::Transform::operator*=(const Transform &tOther)
     translation += t;
 	return *this;
 }
-Vector3 umath::Transform::operator*(const Vector3 &translation) const
+Vector3 umath::Transform::operator*(const Vector3 &t) const
 {
-	auto result = translation;
+	auto result = t;
 	uvec::rotate(&result,rotation);
 	result += translation;
 	return result;
