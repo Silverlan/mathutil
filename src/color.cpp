@@ -95,12 +95,7 @@ Color Color::Lerp(const Color &other,Float amount) const
 	util::rgb_to_hsv(rgb1,hsv1[0],hsv1[1],hsv1[2]);
 
 	// Source: https://stackoverflow.com/a/33347522/2482983
-	auto d = hsv1.at(0) -hsv0.at(0);
-	auto delta = (d +((abs(d) > 180.0) ? ((d < 0.0) ? 360.0 : -360.0) : 0.0));
-
-	hsv0.at(0) = fmodf(((hsv0.at(0) +(delta *amount)) +360.0),360.0);
-	hsv0.at(1) = umath::lerp(hsv0[1],hsv1[1],amount);
-	hsv0.at(2) = umath::lerp(hsv0[2],hsv1[2],amount);
+	util::lerp_hsv(hsv0[0],hsv0[1],hsv0[2],hsv1[0],hsv1[1],hsv1[2],amount);
 
 	Color r(util::hsv_to_rgb(hsv0[0],hsv0[1],hsv0[2]));
 	r.a = umath::lerp(this->a,other.a,amount);

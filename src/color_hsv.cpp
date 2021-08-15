@@ -43,6 +43,15 @@ void util::rgb_to_hsv(const Vector3 &rgb,double &hDeg,double &s,double &v)
 	if(hDeg < 0.0)
 		hDeg += 360.0;
 }
+void util::lerp_hsv(double &h0,double &s0,double &v0,double h1,double s1,double v1,double factor)
+{
+	auto d = h1 -h0;
+	auto delta = (d +((abs(d) > 180.0) ? ((d < 0.0) ? 360.0 : -360.0) : 0.0));
+
+	h0 = fmodf(((h0 +(delta *factor)) +360.0),360.0);
+	s0 = umath::lerp(s0,s1,factor);
+	v0 = umath::lerp(v0,v1,factor);
+}
 Vector3 util::hsv_to_rgb(double hDeg,double s,double v)
 {
 	Vector3 r;
