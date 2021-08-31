@@ -49,4 +49,31 @@ using Vector4i = glm::ivec4;
 
 using Quat = glm::quat;
 
+namespace umath
+{
+	template<typename T>
+		concept is_matrix_type = std::is_same_v<T,Mat2> ||
+			std::is_same_v<T,Mat2x3> ||
+			std::is_same_v<T,Mat2x4> ||
+			std::is_same_v<T,Mat3x2> ||
+			std::is_same_v<T,Mat3> ||
+			std::is_same_v<T,Mat3x4> ||
+			std::is_same_v<T,Mat4x2> ||
+			std::is_same_v<T,Mat4x3> ||
+			std::is_same_v<T,Mat4>;
+
+	template<typename T>
+		concept is_integral_vector_type = std::is_same_v<T,Vector2i> ||
+			std::is_same_v<T,Vector3i> ||
+			std::is_same_v<T,Vector4i>;
+
+	template<typename T>
+		concept is_floating_point_vector_type = std::is_same_v<T,Vector2> ||
+			std::is_same_v<T,Vector3> ||
+			std::is_same_v<T,Vector4>;
+
+	template<typename T>
+		concept is_vector_type = is_integral_vector_type<T> || is_floating_point_vector_type<T>;
+};
+
 #endif
