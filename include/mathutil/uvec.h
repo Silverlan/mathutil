@@ -146,6 +146,20 @@ namespace uvec
 	{
 		return {v,v,v};
 	}
+
+	template<typename T> requires(umath::is_vector_type<T>)
+		std::string to_string(const T &v)
+	{
+		std::string s;
+		constexpr auto len = T::length();
+		for(auto i=decltype(len){0u};i<len;++i)
+		{
+			if(i > 0)
+				s += ',';
+			s += std::to_string(v[i]);
+		}
+		return s;
+	}
 };
 
 DLLMUTIL constexpr Vector3 operator+(const Vector3 &v,float f)

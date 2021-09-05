@@ -7,6 +7,7 @@
 #include "mathutildefinitions.h"
 #include "glmutil.h"
 #include "umath.h"
+#include <string>
 
 namespace umat
 {
@@ -33,6 +34,23 @@ namespace umat
 	DLLMUTIL void apply_projection_depth_bias_offset(Mat4 &inOutP,float nearZ,float farZ,float d,float delta);
 
 	DLLMUTIL Vector2 to_screen_uv(const Vector3 &point,const Mat4 &vp);
+	template<typename T> requires(umath::is_matrix_type<T>)
+		std::string to_string(const T &m)
+	{
+		std::string s;
+		constexpr auto len = T::length();
+		for(auto i=decltype(len){0u};i<len;++i)
+		{
+			constexpr auto lenc = T::col_type::length();
+			for(auto j=decltype(lenc){0u};j<lenc;++j)
+			{
+				if(i > 0 || j > 0)
+					s += ',';
+				s += std::to_string(m[i][j]);
+			}
+		}
+		return s;
+	}
 };
 
 #endif
