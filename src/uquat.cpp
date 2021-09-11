@@ -314,9 +314,9 @@ Radian uquat::distance(const Quat &q0,const Quat &q1)
 	return angle;
 }
 
-std::string uquat::to_string(const Quat &q)
+std::string uquat::to_string(const Quat &q,char sep)
 {
-	return std::to_string(q.w) +',' +std::to_string(q.x) +',' +std::to_string(q.y) +',' +std::to_string(q.z);
+	return std::to_string(q.w) +sep +std::to_string(q.x) +sep +std::to_string(q.y) +sep +std::to_string(q.z);
 }
 
 std::ostream &operator<<(std::ostream &out,const Quat &o)
