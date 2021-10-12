@@ -34,7 +34,7 @@ before_build:
 - ps: >-
     If ($env:MATHUTIL_ENABLE_MESH_FUNCTIONS -Match "ON") {
       cd c:\projects\
-      Start-FileDownload 'https://www.geometrictools.com/Downloads/GeometricToolsEngine3p30.zip'
+      Start-FileDownload 'https://www.geometrictools.com/Downloads/GeometricToolsEngine5p13.zip'
       7z x GeometricToolsEngine3p30.zip
       cd GeometricTools\GTEngine
       msbuild GTEngine.v16.sln
@@ -54,7 +54,7 @@ before_build:
     cd c:\projects\
     git clone https://github.com/Silverlan/sharedutils.git
     cd sharedutils
-    git checkout 8148bf45cd95050b9bd39ff431daef85c2b29b2c
+    git checkout master
     mkdir build
     cd build
     cmake .. -G %generator% -DDEPENDENCY_GLM_INCLUDE=c:\projects\glm -DSHAREDUTILS_STATIC=ON  -DDEPENDENCY_MATHUTIL_INCLUDE=C:\projects\mathutil\include\
