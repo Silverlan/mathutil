@@ -35,7 +35,7 @@ before_build:
     If ($env:MATHUTIL_ENABLE_MESH_FUNCTIONS -Match "ON") {
       cd c:\projects\
       Start-FileDownload 'https://www.geometrictools.com/Downloads/GeometricToolsEngine5p13.zip'
-      7z x GeometricToolsEngine3p30.zip
+      7z x GeometricToolsEngine5p13.zip
       cd GeometricTools\GTEngine
       msbuild GTEngine.v16.sln
       $env:DMATHUTIL_ENABLE_MESH_FUNCTIONS="ON"
