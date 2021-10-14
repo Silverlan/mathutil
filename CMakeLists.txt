@@ -16,6 +16,7 @@ set(DEPENDENCY_GOOGLE_TESTS_DIR "" CACHE PATH "Path to google tests directory.")
 
 if(${MATHUTIL_STATIC})
 	set(LIB_TYPE STATIC)
+	add_definitions(-DMUTIL_STATIC)
 else()
 	set(LIB_TYPE SHARED)
 endif()
