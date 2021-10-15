@@ -75,13 +75,7 @@ jobs:
             archiver: "7z a",
             generators: "Unix Makefiles"
           }
-          
-    env:
-      if [ "$RUNNER_OS" == "Linux" ]; then
-        CC:   gcc-11
-        CXX:  g++-11
-      fi
-          
+  
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
