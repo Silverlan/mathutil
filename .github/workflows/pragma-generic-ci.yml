@@ -1,10 +1,10 @@
 name: Generic Pragma CI
-
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push]
+#on:
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
     
 env:
   shared_cmake_definitions: ''
