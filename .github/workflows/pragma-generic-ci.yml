@@ -1,10 +1,10 @@
 name: Generic Pragma CI
-on: [push]
-#on:
-#  push:
-#    branches: [ master ]
-#  pull_request:
-#    branches: [ master ]
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
     
 env:
   shared_cmake_definitions: -DDEPENDENCY_GLM_INCLUDE=./third_party_libs/glm -DDEPENDENCY_SHAREDUTILS_INCLUDE=./external_libs/sharedutils/include -DMATHUTIL_ENABLE_MESH_FUNCTIONS=OFF -DMATHUTIL_STATIC=ON
@@ -51,7 +51,7 @@ jobs:
           repo_name: 'sharedutils'
           
       - name: CMake Build
-        uses: Silverlan/common_actions/build_cmake@Silverlan-patch-1
+        uses: Silverlan/common_actions/build_cmake@main
         with:
           build_type: ${{ matrix.config.build_type }}
           build_generator: ${{ matrix.config.generators }}
@@ -102,7 +102,7 @@ jobs:
           repo_name: 'sharedutils'
           
       - name: CMake Build
-        uses: Silverlan/common_actions/build_cmake@Silverlan-patch-1
+        uses: Silverlan/common_actions/build_cmake@main
         with:
           build_type: ${{ matrix.config.build_type }}
           build_generator: ${{ matrix.config.generators }}
