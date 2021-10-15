@@ -51,7 +51,7 @@ jobs:
           repo_name: 'sharedutils'
           
       - name: CMake Build
-        uses: Silverlan/common_actions/build_cmake@main
+        uses: Silverlan/common_actions/build_cmake@Silverlan-patch-1
         with:
           build_type: ${{ matrix.config.build_type }}
           build_generator: ${{ matrix.config.generators }}
@@ -101,7 +101,7 @@ jobs:
           repo_name: 'sharedutils'
           
       - name: CMake Build
-        uses: Silverlan/common_actions/build_cmake@main
+        uses: Silverlan/common_actions/build_cmake@Silverlan-patch-1
         with:
           build_type: ${{ matrix.config.build_type }}
           build_generator: ${{ matrix.config.generators }}
