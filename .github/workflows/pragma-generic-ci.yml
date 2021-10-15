@@ -7,7 +7,7 @@ on: [push]
 #    branches: [ master ]
     
 env:
-  shared_cmake_definitions: '-DDEPENDENCY_GLM_INCLUDE=./third_party_libs/glm -DDEPENDENCY_SHAREDUTILS_INCLUDE=./external_libs/sharedutils/include -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DMATHUTIL_ENABLE_MESH_FUNCTIONS=OFF -DMATHUTIL_STATIC=ON'
+  shared_cmake_definitions: -DDEPENDENCY_GLM_INCLUDE=./third_party_libs/glm -DDEPENDENCY_SHAREDUTILS_INCLUDE=./external_libs/sharedutils/include -DMATHUTIL_ENABLE_MESH_FUNCTIONS=OFF -DMATHUTIL_STATIC=ON
 
 jobs:
   # WINDOWS x64 MSVC
@@ -55,7 +55,7 @@ jobs:
         with:
           build_type: ${{ matrix.config.build_type }}
           build_generator: ${{ matrix.config.generators }}
-          cmake_definitions: ${{ env.shared_cmake_definitions }}
+          cmake_definitions: ${{ env.shared_cmake_definitions }} -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
           
   # UBUNTU x64 GCC
   build-ubuntu:
@@ -105,4 +105,4 @@ jobs:
         with:
           build_type: ${{ matrix.config.build_type }}
           build_generator: ${{ matrix.config.generators }}
-          cmake_definitions: ${{ env.shared_cmake_definitions }}
+          cmake_definitions: ${{ env.shared_cmake_definitions }} -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }}
