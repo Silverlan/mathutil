@@ -13,12 +13,18 @@ option(MATHUTIL_ENABLE_MESH_FUNCTIONS "Enable mesh functions, requires geometric
 option(MATHUTIL_STATIC "Build as static library?" OFF)
 option(MATHUTIL_BUILD_TESTS "Build tests of library?" OFF)
 set(DEPENDENCY_GOOGLE_TESTS_DIR "" CACHE PATH "Path to google tests directory.")
+option(LINK_COMMON_LIBS_STATIC "Link to common Pragma libraries statically?" OFF)
 
 if(${MATHUTIL_STATIC})
 	set(LIB_TYPE STATIC)
 	add_definitions(-DMUTIL_STATIC)
 else()
 	set(LIB_TYPE SHARED)
+endif()
+
+if(${LINK_COMMON_LIBS_STATIC})
+	add_definitions(-DVFILESYSTEM_STATIC)
+	add_definitions(-DSHUTIL_STATIC)
 endif()
 
 add_definitions(-DSHUTIL_STATIC)
