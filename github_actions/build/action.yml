@@ -50,6 +50,28 @@ runs:
         cmake_script_location: 'third_party_libs/GeometricTools/GTE'
         build_type: 'Release'
         include_dir: 'GTE'
+        
+    - name: Download sharedutils
+      uses: Silverlan/common_actions/get_submodule@main
+      with:
+        repo: 'https://github.com/Silverlan/sharedutils.git'
+        repo_name: 'sharedutils'
+        dir: 'external_libs'
+        cmake_var: 'DEPENDENCY_SHAREDUTILS_INCLUDE'
+        cmake_definitions: ${{ env.cmake_definitions }}
+        
+    # Build
+    - name: Build sharedutils-static
+      uses: Silverlan/common_actions/build_cmake@main
+      with:
+        build_type: ${{ matrix.config.build_type }}
+        build_generator: ${{ matrix.config.generators }}
+        cmake_definitions_tmp: ${{ env.cmake_definitions }} -DSHAREDUTILS_STATIC=ON -DDEPENDENCY_MATHUTIL_INCLUDE=$GA_ROOT_DIR/external_libs/mathutil/include
+        build_target: 'sharedutils'
+        build_dir: 'build/external_libs/sharedutils-static'
+        cmake_script_location: 'external_libs/sharedutils'
+        cmake_var: 'DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC'
+        cmake_definitions: ${{ env.cmake_definitions }}
 
     - uses: Silverlan/common_actions/build_cmake@main
       name: CMake Build
