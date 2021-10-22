@@ -1,0 +1,63 @@
+name: Build
+description: 'Build library'
+inputs:
+  root_dir:
+    description: 'Root directory'
+    required: true
+  should_checkout:
+    description: 'Checkout the core library?'
+    required: true
+    default: '1'
+  dir:
+    description: 'Library directory'
+    required: true
+    default: 'external_libs/mathutil'
+runs:
+  using: "composite"
+  steps:
+    - name: Initialize Env
+      id: init-env
+      uses: Silverlan/common_actions/set_common_env_vars@main
+      
+    - uses: ChristopherHX/conditional@b4a9649204f81002ec9a4ef7d4bf7d6b2ab7fa55
+      name: CMake Build
+      with:
+        if: ${{inputs.should_checkout == '1'}}
+        step: |
+          uses: Silverlan/common_actions/get_submodule@main
+          with:
+            repo: 'Silverlan/mathutil'
+            repo_name: 'mathutil'
+            cmake_var: 'DEPENDENCY_MATHUTIL_INCLUDE'
+            dir: 'external_libs'
+            
+    - name: Download GLM
+      uses: Silverlan/common_actions/get_glm@main
+      with:
+        cmake_var: 'DEPENDENCY_GLM_INCLUDE'
+        cmake_definitions: ${{ env.cmake_definitions }}
+        
+    - name: Download GeometricTools
+      uses: Silverlan/common_actions/build_submodule@main
+      with:
+        repo: 'https://github.com/davideberly/GeometricTools.git'
+        repo_name: 'GeometricTools'
+        build_target: '${{ env.GA_ROOT_DIR }}/third_party_libs/GeometricTools/GTE/GTMathematics.v14'
+        lib_name: 'third_party_libs/GeometricTools/GTE/GTMathematics.v14'
+        cmake_var: 'DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE'
+        cmake_definitions: ${{ env.cmake_definitions }}
+        top_level_dir: 'third_party_libs'
+        cmake_script_location: 'third_party_libs/GeometricTools/GTE'
+        build_type: 'Release'
+        include_dir: 'GTE'
+
+    - uses: Silverlan/common_actions/build_cmake@main
+      name: CMake Build
+      with:
+        build_type: ${{ matrix.config.build_type }}
+        build_generator: ${{ matrix.config.generators }}
+        cmake_var: 'DEPENDENCY_MATHUTIL_LIBRARY'
+        build_target: mathutil
+        build_dir: '${{ matrix.config.build_dir }}/${{ inputs.dir }}'
+        cmake_script_location: '${{ inputs.dir }}'
+        
