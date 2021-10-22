@@ -38,7 +38,7 @@ runs:
         cmake_definitions: ${{ env.cmake_definitions }}
         
     - name: Download GeometricTools
-      uses: Silverlan/common_actions/build_submodule@main
+      uses: Silverlan/common_actions/build_submodule@actions
       with:
         repo: 'https://github.com/davideberly/GeometricTools.git'
         repo_name: 'GeometricTools'
