@@ -39,7 +39,7 @@ jobs:
 
       - name: Setup
         id: setup
-        uses: Silverlan/common_actions/setup@main
+        uses: Silverlan/common_actions/setup@actions
           
       - name: Download binaries
         uses: Silverlan/common_actions/download_build_binaries@main
