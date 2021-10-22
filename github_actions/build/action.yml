@@ -66,7 +66,7 @@ runs:
       with:
         build_type: ${{ matrix.config.build_type }}
         build_generator: ${{ matrix.config.generators }}
-        cmake_definitions_tmp: ${{ env.cmake_definitions }} -DSHAREDUTILS_STATIC=ON -DDEPENDENCY_MATHUTIL_INCLUDE=$GA_ROOT_DIR/mathutil/include
+        cmake_definitions_tmp: ${{ env.cmake_definitions }} -DSHAREDUTILS_STATIC=ON -DDEPENDENCY_MATHUTIL_INCLUDE=$GA_ROOT_DIR/include
         build_target: 'sharedutils'
         build_dir: 'build/external_libs/sharedutils-static'
         cmake_script_location: 'external_libs/sharedutils'
