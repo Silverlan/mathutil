@@ -52,7 +52,7 @@ runs:
       with:
         repo: 'https://github.com/davideberly/GeometricTools.git'
         repo_name: 'GeometricTools'
-        build_target_windows: '${{ inputs.root_dir }}/third_party_libs/GeometricTools/${{ steps.setup-gt.outputs.gt_build_target }}'
+        build_target_windows: '${{ env.GA_ROOT_DIR }}/third_party_libs/GeometricTools/${{ steps.setup-gt.outputs.gt_build_target }}'
         build_target_linux: 'Mathematics'
         lib_name: 'third_party_libs/GeometricTools/GTE/GTMathematics.v14'
         cmake_var: 'DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE'
