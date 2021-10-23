@@ -52,7 +52,7 @@ runs:
       with:
         repo: 'https://github.com/davideberly/GeometricTools.git'
         repo_name: 'GeometricTools'
-        build_target_windows: '${{ env.GA_ROOT_DIR }}/third_party_libs/GeometricTools/${{ steps.setup-gt.outputs.gt_build_target }}'
+        build_target_windows: '${{ inputs.root_dir }}/third_party_libs/GeometricTools/${{ steps.setup-gt.outputs.gt_build_target }}'
         build_target_linux: 'Mathematics'
         lib_name: 'third_party_libs/GeometricTools/GTE/GTMathematics.v14'
         cmake_var: 'DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE'
@@ -77,7 +77,7 @@ runs:
       with:
         build_type: ${{ matrix.config.build_type }}
         build_generator: ${{ matrix.config.generators }}
-        cmake_definitions_tmp: ${{ env.cmake_definitions }} -DSHAREDUTILS_STATIC=ON -DDEPENDENCY_MATHUTIL_INCLUDE=$GA_ROOT_DIR/include
+        cmake_definitions_tmp: ${{ env.cmake_definitions }} -DSHAREDUTILS_STATIC=ON -DDEPENDENCY_MATHUTIL_INCLUDE=${{ inputs.root_dir }}/include
         build_target: 'sharedutils'
         build_dir: 'build/external_libs/sharedutils-static'
         cmake_script_location: 'external_libs/sharedutils'
