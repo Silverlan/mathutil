@@ -86,7 +86,7 @@ runs:
         cmake_definitions: ${{ env.cmake_definitions }}
         static_library: '1'
 
-    - uses: Silverlan/common_actions/build_cmake@main
+    - uses: Silverlan/common_actions/build_cmake@actions
       name: CMake Build
       with:
         build_type: ${{ matrix.config.build_type }}
