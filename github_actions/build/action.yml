@@ -67,7 +67,6 @@ runs:
       with:
         repo: 'https://github.com/Silverlan/sharedutils.git'
         repo_name: 'sharedutils'
-        repo_branch: 'actions'
         dir: 'external_libs'
         cmake_var: 'DEPENDENCY_SHAREDUTILS_INCLUDE'
         cmake_definitions: ${{ env.cmake_definitions }}
