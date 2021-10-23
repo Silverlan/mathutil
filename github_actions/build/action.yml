@@ -52,9 +52,8 @@ runs:
       with:
         repo: 'https://github.com/davideberly/GeometricTools.git'
         repo_name: 'GeometricTools'
-        #build_target: '${{ env.GA_ROOT_DIR }}/third_party_libs/GeometricTools/${{ steps.setup-gt.outputs.gt_build_target }}'
-        #build_target: '/home/runner/work/mathutil/mathutil/build/third_party_libs/GeometricTools/Mathematics'
-        build_target: 'Mathematics'
+        build_target_windows: '${{ env.GA_ROOT_DIR }}/third_party_libs/GeometricTools/${{ steps.setup-gt.outputs.gt_build_target }}'
+        build_target_linux: 'Mathematics'
         lib_name: 'third_party_libs/GeometricTools/GTE/GTMathematics.v14'
         cmake_var: 'DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE'
         cmake_definitions: ${{ env.cmake_definitions }}
