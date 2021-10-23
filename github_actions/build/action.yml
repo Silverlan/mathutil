@@ -48,7 +48,7 @@ runs:
         fi
         
     - name: Download GeometricTools
-      uses: Silverlan/common_actions/build_submodule@actions
+      uses: Silverlan/common_actions/build_submodule@main
       with:
         repo: 'https://github.com/davideberly/GeometricTools.git'
         repo_name: 'GeometricTools'
@@ -63,7 +63,7 @@ runs:
         include_dir: 'GTE'
         
     - name: Download sharedutils
-      uses: Silverlan/common_actions/get_submodule@actions
+      uses: Silverlan/common_actions/get_submodule@main
       with:
         repo: 'https://github.com/Silverlan/sharedutils.git'
         repo_name: 'sharedutils'
@@ -74,7 +74,7 @@ runs:
         
     # Build
     - name: Build sharedutils-static
-      uses: Silverlan/common_actions/build_cmake@actions
+      uses: Silverlan/common_actions/build_cmake@main
       with:
         build_type: ${{ matrix.config.build_type }}
         build_generator: ${{ matrix.config.generators }}
@@ -86,7 +86,7 @@ runs:
         cmake_definitions: ${{ env.cmake_definitions }}
         static_library: '1'
 
-    - uses: Silverlan/common_actions/build_cmake@actions
+    - uses: Silverlan/common_actions/build_cmake@main
       name: CMake Build
       with:
         build_type: ${{ matrix.config.build_type }}
