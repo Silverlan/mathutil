@@ -84,6 +84,7 @@ runs:
         cmake_script_location: 'external_libs/sharedutils'
         cmake_var: 'DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC'
         cmake_definitions: ${{ env.cmake_definitions }}
+        static_library: '1'
 
     - uses: Silverlan/common_actions/build_cmake@main
       name: CMake Build
