@@ -63,7 +63,7 @@ runs:
         include_dir: 'GTE'
         
     - name: Download sharedutils
-      uses: Silverlan/common_actions/get_submodule@main
+      uses: Silverlan/common_actions/get_submodule@actions
       with:
         repo: 'https://github.com/Silverlan/sharedutils.git'
         repo_name: 'sharedutils'
