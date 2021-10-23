@@ -73,7 +73,7 @@ runs:
         
     # Build
     - name: Build sharedutils-static
-      uses: Silverlan/common_actions/build_cmake@main
+      uses: Silverlan/common_actions/build_cmake@actions
       with:
         build_type: ${{ matrix.config.build_type }}
         build_generator: ${{ matrix.config.generators }}
