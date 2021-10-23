@@ -30,7 +30,7 @@ jobs:
 
       - name: Setup
         id: setup
-        uses: Silverlan/common_actions/setup@actions
+        uses: Silverlan/common_actions/setup@main
           
       - name: Download binaries
         uses: Silverlan/common_actions/download_build_binaries@main
@@ -38,7 +38,7 @@ jobs:
           
       - name: Build
         id: build
-        uses: Silverlan/mathutil/github_actions/build@actions
+        uses: Silverlan/mathutil/github_actions/build@master
         with:
           root_dir: "${{ env.GA_ROOT_DIR }}"
           should_checkout: "0"
