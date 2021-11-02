@@ -514,6 +514,15 @@ Vector3 uvec::calc_face_normal(const Vector3 &v0,const Vector3 &v1,const Vector3
 	return n;
 }
 
+void uvec::reflect(Vector3 &p,const Vector3 &n,float d)
+{
+	auto k = (-n.x *p.x -n.y *p.y -n.z *p.z -d) /(n.x *n.x +n.y *n.y +n.z *n.z);
+	auto v = n *k +p;
+	p.x = 2.f *v.x -p.x;
+	p.y = 2.f *v.y -p.y;
+	p.z = 2.f *v.z -p.z;
+}
+
 void uvec::calc_plane(const Vector3 &a,const Vector3 &b,const Vector3 &c,Vector3 &outPlaneNormal,float &outPlaneDistance)
 {
 	outPlaneNormal = glm::cross(b -a,c -a);

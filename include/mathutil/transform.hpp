@@ -66,6 +66,7 @@ namespace umath
 		Transform &operator*=(float weight);
 
 		Mat4 ToMatrix() const;
+		void Reflect(const Vector3 &n,float d);
 
 		// Note: Getter/Setter methods should be preferred, these are public primarily to allow
 		// the class to be used as a literal non-type template parameter

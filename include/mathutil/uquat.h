@@ -46,6 +46,7 @@ namespace uquat
 	DLLMUTIL Quat clamp_rotation(const Quat &q,const EulerAngles &minBounds,const EulerAngles &maxBounds);
 	DLLMUTIL float distance(const Quat &q0,const Quat &q1);
 	DLLMUTIL std::string to_string(const Quat &q,char sep=',');
+	DLLMUTIL void mirror_on_axis(Quat &q,uint8_t axis);
 };
 
 DLLMUTIL std::ostream &operator<<(std::ostream &out,const Quat &o);

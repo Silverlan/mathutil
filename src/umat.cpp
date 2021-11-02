@@ -104,6 +104,16 @@ Mat3 umat::calc_covariance_matrix(const std::vector<Vector3> &points,const Vecto
 	return C;
 }
 
+Mat4 umat::create_reflection(const Vector3 &n,float d)
+{
+	return Mat4{
+		1.f -2.f *n.x *n.x,-2.f *n.x *n.y,-2.f *n.x *n.z,0.f,
+		-2.f *n.x *n.y,1.f -2.f *n.y *n.y,-2.f *n.y *n.z,0.f,
+		-2.f *n.x *n.z,-2.f *n.y *n.z,1.f -2.f *n.z *n.z,0.f,
+		0.f,0.f,0.f,1.f
+	};
+}
+
 Mat4 umat::create_from_axes(const Vector3 &forward,const Vector3 &right,const Vector3 &up)
 {
 	return Mat4(

@@ -136,6 +136,8 @@ namespace uvec
 	DLLMUTIL double calc_area_of_triangle(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2);
 	DLLMUTIL Vector3 calc_point_on_triangle(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2,float a,float b);
 	DLLMUTIL Vector3 calc_face_normal(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2);
+	
+	DLLMUTIL void reflect(Vector3 &p,const Vector3 &n,float d);
 
 	DLLMUTIL constexpr Vector3 xyz(const Vector4 &v)
 	{

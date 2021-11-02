@@ -319,6 +319,25 @@ std::string uquat::to_string(const Quat &q,char sep)
 	return std::to_string(q.w) +sep +std::to_string(q.x) +sep +std::to_string(q.y) +sep +std::to_string(q.z);
 }
 
+void uquat::mirror_on_axis(Quat &q,uint8_t axis)
+{
+	switch(axis)
+	{
+	case 0:
+		q.y *= -1.f;
+		q.z *= -1.f;
+		break;
+	case 1:
+		q.x *= -1.f;
+		q.z *= -1.f;
+		break;
+	case 2:
+		q.x *= -1.f;
+		q.y *= -1.f;
+		break;
+	}
+}
+
 std::ostream &operator<<(std::ostream &out,const Quat &o)
 {
 	out<<o.w<<" "<<o.x<<" "<<o.y<<" "<<o.z;

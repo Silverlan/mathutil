@@ -20,6 +20,7 @@ namespace umat
 	DLLMUTIL Mat4 create(const Quat &q);
 	DLLMUTIL Mat4 create_from_axis_angle(const Vector3 &v,Float ang);
 	DLLMUTIL Mat4 create_from_axes(const Vector3 &forward,const Vector3 &right,const Vector3 &up);
+	DLLMUTIL Mat4 create_reflection(const Vector3 &n,float d);
 	DLLMUTIL void to_axes(const Mat4 &m,Vector3 &outForward,Vector3 &outRight,Vector3 &outUp);
 	// Safer than glm::lookat (No division by 0 possible)
 	DLLMUTIL Mat4 look_at(const Vector3 &eye,const Vector3 &center,const Vector3 &up);

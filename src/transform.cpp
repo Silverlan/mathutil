@@ -55,6 +55,21 @@ Mat4 umath::Transform::ToMatrix() const
 	return m;
 }
 
+void umath::Transform::Reflect(const Vector3 &n,float d)
+{
+	auto &rot = GetRotation();
+	Vector3 forward,right,up;
+	uquat::get_orientation(rot,&forward,&right,&up);
+	uvec::reflect(forward,n,0.f);
+	uvec::reflect(right,n,0.f);
+	uvec::reflect(up,n,0.f);
+
+	auto &origin = GetOrigin();
+	uvec::reflect(origin,n,d);
+
+	rot = uquat::create(forward,-right,up); // Reflection caused our handedness to flip, so we have to inverse 'right' 
+}
+
 void umath::Transform::SetOrigin(const Vector3 &origin) {translation = origin;}
 
 void umath::Transform::SetRotation(const Quat &rot) {rotation = rot;}
