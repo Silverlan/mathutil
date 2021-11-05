@@ -13,6 +13,7 @@
 #include "mathutil/glmutil.h"
 #include "mathutil/uvec.h"
 #include "mathutil/uquat.h"
+#include "mathutil/plane.hpp"
 #include <memory>
 #include <sharedutils/def_handle.h>
 #include <vector>
@@ -49,6 +50,8 @@ namespace umath
 		void Interpolate(const Transform &dst,float factor);
 		void InterpolateToIdentity(float factor);
 		Transform GetInverse() const;
+
+		Plane ToPlane() const;
 
 		EulerAngles GetAngles() const;
 		void SetAngles(const EulerAngles &ang);

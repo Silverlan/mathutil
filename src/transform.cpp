@@ -37,6 +37,15 @@ umath::Transform umath::Transform::GetInverse() const
 	return result;
 }
 
+umath::Plane umath::Transform::ToPlane() const
+{
+	auto &origin = GetOrigin();
+	auto p0 = origin;
+	auto p1 = origin +GetUp() *10.f;
+	auto p2 = origin +GetRight() *10.f;
+	return umath::Plane{p0,p1,p2};
+}
+
 EulerAngles umath::Transform::GetAngles() const {return EulerAngles{GetRotation()};}
 void umath::Transform::SetAngles(const EulerAngles &ang) {SetRotation(uquat::create(ang));}
 Vector3 umath::Transform::GetForward() const {return uquat::forward(GetRotation());}
