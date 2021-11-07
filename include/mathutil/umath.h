@@ -8,6 +8,7 @@
 	#define _USE_MATH_DEFINES
 #endif
 #include "mathutildefinitions.h"
+#include "scoped_enum_operators.hpp"
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -482,31 +483,5 @@ template<typename T>
 
 template<typename T>
 	bool umath::between(T value,T min,T max) {return value >= min && value <= max;}
-
-#define REGISTER_BASIC_BITWISE_OPERATORS(type) \
-	inline constexpr type operator|(const type &a,const type &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) | static_cast<std::underlying_type_t<type>>(b));} \
-	inline type &operator|=(type &a,const type &b) {a = a | b; return a;} \
-	inline constexpr type operator&(const type &a,const type &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) & static_cast<std::underlying_type_t<type>>(b));} \
-	inline type &operator&=(type &a,const type &b) {a = a & b; return a;} \
-	inline constexpr type operator<<(const type &a,const type &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) << static_cast<std::underlying_type_t<type>>(b));} \
-	inline type &operator<<=(type &a,const type &b) {a = a << b; return a;} \
-	inline constexpr type operator>>(const type &a,const type &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) >> static_cast<std::underlying_type_t<type>>(b));} \
-	inline type &operator>>=(type &a,const type &b) {a = a >> b; return a;} \
-	inline constexpr type operator~(const type &a) {return static_cast<type>(~static_cast<std::underlying_type_t<type>>(a));}
-
-#define REGISTER_BASIC_ARITHMETIC_OPERATORS(type) \
-	inline constexpr type operator+(const type &a,const type &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) +static_cast<std::underlying_type_t<type>>(b));} \
-	inline constexpr type operator++(const type &a) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) +1);} \
-	inline type &operator+=(type &a,const type &b) {a = a +b; return a;} \
-	inline constexpr type operator+(const type &a,const std::underlying_type_t<type> &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) +b);} \
-	inline constexpr type operator+(const std::underlying_type_t<type> &a,const type &b) {return static_cast<type>(a +static_cast<std::underlying_type_t<type>>(b));} \
-	inline type &operator+=(type &a,const std::underlying_type_t<type> &b) {a = a +b; return a;} \
-	inline constexpr type operator-(const type &a,const type &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) -static_cast<std::underlying_type_t<type>>(b));} \
-	inline constexpr type operator--(const type &a) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) -1);} \
-	inline type &operator-=(type &a,const type &b) {a = a -b; return a;} \
-	inline constexpr type operator-(const type &a,const std::underlying_type_t<type> &b) {return static_cast<type>(static_cast<std::underlying_type_t<type>>(a) -b);} \
-	inline constexpr type operator-(const std::underlying_type_t<type> &a,const type &b) {return static_cast<type>(a -static_cast<std::underlying_type_t<type>>(b));} \
-	inline type &operator-=(type &a,const std::underlying_type_t<type> &b) {a = a -b; return a;} \
-	REGISTER_BASIC_BITWISE_OPERATORS(type)
 
 #endif
