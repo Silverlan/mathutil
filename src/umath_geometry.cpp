@@ -351,7 +351,7 @@ umath::geometry::PlaneSide umath::geometry::get_side_of_point_to_plane(const Vec
 void umath::geometry::local_plane_to_world_space(Vector3 &inOutN,double &inOutD,const Vector3 &pos,const Quat &rot)
 {
 	uvec::rotate(&inOutN,rot);
-	inOutD = -uvec::dot(inOutN,inOutN *static_cast<float>(inOutD) -pos);
+	inOutD = uvec::dot(inOutN,inOutN *static_cast<float>(inOutD) -pos);
 }
 
 umath::geometry::WindingOrder umath::geometry::get_triangle_winding_order(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2,const Vector3 &n)
