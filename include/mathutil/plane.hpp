@@ -16,6 +16,7 @@ namespace umath
 		Plane(const Vector3 &a,const Vector3 &b,const Vector3 &c);
 		Plane(Vector3 n,const Vector3 &pos);
 		Plane(Vector3 n,double d);
+		Plane(const Vector4 &plane);
 		Plane();
 	private:
 		Vector3 m_normal;
@@ -31,6 +32,7 @@ namespace umath
 		Vector3 &GetNormal();
 		Vector3 &GetPos();
 		Vector3 &GetCenterPos();
+		Vector4 ToVector4() const;
 		double GetDistance() const;
 		float GetDistance(const Vector3 &pos) const;
 		void SetDistance(double d);

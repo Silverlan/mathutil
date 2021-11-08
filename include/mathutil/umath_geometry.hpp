@@ -95,6 +95,7 @@ namespace umath::geometry
 		OnPlane
 	};
 	DLLMUTIL PlaneSide get_side_of_point_to_plane(const Vector3 &n,double d,const Vector3 &p);
+	DLLMUTIL void local_plane_to_world_space(Vector3 &inOutN,double &inOutD,const Vector3 &pos,const Quat &rot);
 
 	DLLMUTIL std::optional<std::vector<uint32_t>> get_outline_vertices(const std::vector<Vector2> &polygons);
 	DLLMUTIL WindingOrder get_triangle_winding_order(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2,const Vector3 &n);

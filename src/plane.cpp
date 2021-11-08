@@ -33,6 +33,10 @@ Plane::Plane()
 	: Plane(Vector3{},0.0)
 {}
 
+Plane::Plane(const Vector4 &plane)
+	: Plane{Vector3{plane[0],plane[1],plane[2]},plane[3]}
+{}
+
 void Plane::Initialize(Vector3 n,double d)
 {
 	m_normal = n;
@@ -49,6 +53,7 @@ const Vector3 &Plane::GetCenterPos() const {return const_cast<Plane*>(this)->Get
 Vector3 &Plane::GetNormal() {return m_normal;}
 Vector3 &Plane::GetPos() {return m_pos;}
 Vector3 &Plane::GetCenterPos() {return m_posCenter;}
+Vector4 Plane::ToVector4() const {return Vector4{m_normal,m_distance};}
 double Plane::GetDistance() const {return m_distance;}
 float Plane::GetDistance(const Vector3 &pos) const
 {
