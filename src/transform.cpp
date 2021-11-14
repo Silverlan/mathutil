@@ -134,6 +134,16 @@ Quat umath::Transform::operator*(const Quat &rot) const
 {
 	return rotation *rot;
 }
+umath::Plane umath::Transform::operator*(const Plane &plane) const
+{
+	auto newPlane = plane;
+	auto &n = newPlane.GetNormal();
+	uvec::rotate(&n,GetRotation());
+	auto d = newPlane.GetDistance();
+	d = uvec::dot(n,n *static_cast<float>(d) +GetOrigin());
+	newPlane.SetDistance(d);
+	return newPlane;
+}
 umath::Transform umath::Transform::operator*(float weight) const
 {
 	auto res = *this;
@@ -219,6 +229,10 @@ Vector3 umath::ScaledTransform::operator*(const Vector3 &translation) const
 Quat umath::ScaledTransform::operator*(const Quat &rot) const
 {
 	return Transform::operator*(rot);
+}
+umath::Plane umath::ScaledTransform::operator*(const Plane &plane) const
+{
+	return Transform::operator*(plane);
 }
 
 Mat4 umath::ScaledTransform::ToMatrix() const

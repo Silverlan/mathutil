@@ -64,6 +64,7 @@ namespace umath
 		Transform &operator*=(const Transform &tOther);
 		Vector3 operator*(const Vector3 &translation) const;
 		Quat operator*(const Quat &rot) const;
+		Plane operator*(const Plane &plane) const;
 
 		Transform operator*(float weight) const;
 		Transform &operator*=(float weight);
@@ -100,6 +101,7 @@ namespace umath
 		ScaledTransform &operator*=(const Transform &tOther);
 		Vector3 operator*(const Vector3 &translation) const;
 		Quat operator*(const Quat &rot) const;
+		Plane operator*(const Plane &plane) const;
 
 		bool operator==(const ScaledTransform &t) const;
 		bool operator==(const Transform &t) const;
