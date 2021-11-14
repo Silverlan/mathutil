@@ -329,7 +329,7 @@ bool umath::intersection::point_in_plane_mesh(const Vector3 &vec,const std::vect
 {
 	for(unsigned int i=0;i<planes.size();i++)
 	{
-		if(planes[i].GetDistance(vec) < 0.f)
+		if(planes[i].GetDistance(vec) > 0.f)
 			return false;
 	}
 	return true;
@@ -343,7 +343,7 @@ umath::intersection::Intersect umath::intersection::sphere_in_plane_mesh(const V
 		{
 			auto &plane = const_cast<Plane&>(*it);
 			Vector3 p = vec +plane.GetNormal() *radius; // Closest point on sphere to plane
-			if(plane.GetDistance(p) < 0)
+			if(plane.GetDistance(p) > 0)
 				return Intersect::Outside;
 		}
 		return Intersect::Overlap;
@@ -355,7 +355,7 @@ umath::intersection::Intersect umath::intersection::sphere_in_plane_mesh(const V
 	{
 		auto &plane = const_cast<Plane&>(*it);
 		Vector3 r;
-		umath::geometry::closest_point_on_plane_to_point(plane.GetNormal(),CFloat(-plane.GetDistance()),vec,&r);
+		umath::geometry::closest_point_on_plane_to_point(plane.GetNormal(),CFloat(plane.GetDistance()),vec,&r);
 		if(uvec::length_sqr(r -vec) < radiusSqr)
 			return Intersect::Overlap;
 	}
@@ -402,7 +402,7 @@ umath::intersection::Intersect umath::intersection::aabb_in_plane_mesh(const Vec
 	for(auto &plane : planes)
 	{
 		auto &n = plane.GetNormal();
-		if(n.x > 0)
+		if(n.x < 0)
 		{
 			vMin.x = min.x; 
 			vMax.x = max.x; 
@@ -412,7 +412,7 @@ umath::intersection::Intersect umath::intersection::aabb_in_plane_mesh(const Vec
 			vMin.x = max.x; 
 			vMax.x = min.x; 
 		}
-		if(n.y > 0)
+		if(n.y < 0)
 		{ 
 			vMin.y = min.y; 
 			vMax.y = max.y; 
@@ -422,7 +422,7 @@ umath::intersection::Intersect umath::intersection::aabb_in_plane_mesh(const Vec
 			vMin.y = max.y; 
 			vMax.y = min.y; 
 		}
-		if(n.z > 0)
+		if(n.z < 0)
 		{ 
 			vMin.z = min.z; 
 			vMax.z = max.z; 
@@ -432,9 +432,9 @@ umath::intersection::Intersect umath::intersection::aabb_in_plane_mesh(const Vec
 			vMin.z = max.z; 
 			vMax.z = min.z; 
 		} 
-		if(plane.GetDistance(vMax) < 0)
+		if(plane.GetDistance(vMax) > 0)
 			return Intersect::Outside;
-		else if(plane.GetDistance(vMin) < 0)
+		else if(plane.GetDistance(vMin) > 0)
 			r = Intersect::Overlap;
 	}
 	return r;

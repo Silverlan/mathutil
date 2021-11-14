@@ -527,7 +527,7 @@ void uvec::calc_plane(const Vector3 &a,const Vector3 &b,const Vector3 &c,Vector3
 {
 	outPlaneNormal = glm::cross(b -a,c -a);
 	uvec::normalize(&outPlaneNormal);
-	outPlaneDistance = glm::dot(-outPlaneNormal,a);
+	outPlaneDistance = -glm::dot(-outPlaneNormal,a);
 }
 
 std::ostream& operator<<(std::ostream &os,const Vector4 &vec)

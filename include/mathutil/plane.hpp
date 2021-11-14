@@ -18,6 +18,7 @@ namespace umath
 		Plane(Vector3 n,double d);
 		Plane(const Vector4 &plane);
 		Plane();
+		Plane operator-() const;
 	private:
 		Vector3 m_normal;
 		Vector3 m_pos;

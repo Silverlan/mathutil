@@ -37,13 +37,18 @@ Plane::Plane(const Vector4 &plane)
 	: Plane{Vector3{plane[0],plane[1],plane[2]},plane[3]}
 {}
 
+Plane Plane::operator-() const
+{
+	return Plane{-m_normal,-m_distance};
+}
+
 void Plane::Initialize(Vector3 n,double d)
 {
 	m_normal = n;
 	m_distance = d;
-	m_pos.x = n.x *static_cast<float>(-d);
-	m_pos.y = n.y *static_cast<float>(-d);
-	m_pos.z = n.z *static_cast<float>(-d);
+	m_pos.x = n.x *static_cast<float>(d);
+	m_pos.y = n.y *static_cast<float>(d);
+	m_pos.z = n.z *static_cast<float>(d);
 	m_posCenter = m_pos;
 }
 
