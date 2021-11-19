@@ -342,8 +342,7 @@ umath::intersection::Intersect umath::intersection::sphere_in_plane_mesh(const V
 		for(auto it=planes.begin();it!=planes.end();++it)
 		{
 			auto &plane = const_cast<Plane&>(*it);
-			Vector3 p = vec +plane.GetNormal() *radius; // Closest point on sphere to plane
-			if(plane.GetDistance(p) > 0)
+			if(plane.GetDistance(vec) > radius)
 				return Intersect::Outside;
 		}
 		return Intersect::Overlap;
