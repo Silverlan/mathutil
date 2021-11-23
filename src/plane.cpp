@@ -78,7 +78,7 @@ void Plane::MoveToPos(const Vector3 &pos)
 {
 	Vector3 &n = GetNormal();
 	double dNew = glm::dot(n,pos);
-	m_distance = -dNew;
+	m_distance = dNew;
 	m_pos = n *float(dNew);
 	m_posCenter = pos;
 }
