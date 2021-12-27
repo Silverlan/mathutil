@@ -6,7 +6,7 @@
 #include "mathutil/inverse_kinematics/constraints.hpp"
 
 using namespace uvec::ik;
-#pragma optimize("",off)
+
 static Quat fromTo(const Vector3& from, const Vector3& to)
 {
 	auto f = uvec::get_normal(from);
@@ -267,4 +267,3 @@ umath::ScaledTransform IkSolver::GetGlobalTransform(unsigned int index) const {
 	}
 	return world;
 }
-#pragma optimize("",on)
