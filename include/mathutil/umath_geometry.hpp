@@ -31,6 +31,7 @@ namespace umath::intersection
 
 	// Return true if the first AABB is contained within the second AABB
 	DLLMUTIL bool aabb_in_aabb(const Vector3 &minA,const Vector3 &maxA,const Vector3 &minB,const Vector3 &maxB);
+	DLLMUTIL bool point_in_aabb(const Vector3 &p,const Vector3 &min,const Vector3 &max);
 
 	DLLMUTIL Intersect aabb_aabb(const Vector3 &minA,const Vector3 &maxA,const Vector3 &minB,const Vector3 &maxB);
 	DLLMUTIL bool aabb_aabb(const bounding_volume::AABB &a,const bounding_volume::AABB &b);

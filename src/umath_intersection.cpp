@@ -58,6 +58,11 @@ bool umath::intersection::aabb_in_aabb(const Vector3 &minA,const Vector3 &maxA,c
 		(maxA.x <= maxB.x && maxA.y <= maxB.y && maxA.z <= maxB.z))) ? true : false;
 }
 
+bool umath::intersection::point_in_aabb(const Vector3 &p,const Vector3 &min,const Vector3 &max)
+{
+	return p.x > min.x && p.x < max.x && p.y > min.y && p.y < max.y && p.z > min.z && p.z < max.z;
+}
+
 bool umath::intersection::line_sphere(const Vector3 &lineOrigin,const Vector3 &lineDir,const Vector3 &sphereOrigin,float sphereRadius,float &outT,Vector3 &outP)
 {
 	// Source: https://gamedev.stackexchange.com/a/96487/49279
@@ -200,7 +205,7 @@ umath::intersection::Result umath::intersection::line_plane(const Vector3 &o,con
 	float f = glm::dot(nPlane,dir);
 	if(f == 0.f)
 		return Result::NoIntersection;
-	float hit = (glm::dot(nPlane,(nPlane *-distPlane) -o)) /f;
+	float hit = (glm::dot(nPlane,(nPlane *distPlane) -o)) /f;
 	if(t != NULL)
 		*t = hit;
 	return (hit >= 0.f && hit <= 1.f) ? Result::Intersect : Result::OutOfRange;
