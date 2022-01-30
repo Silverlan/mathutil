@@ -25,6 +25,17 @@ Quat uquat::calc_average(const std::vector<Quat> &rotations)
 	return qAvg;
 }
 
+Quat uquat::calc_average(const std::vector<Quat> &rotations,const std::vector<float> &weights)
+{
+	if(rotations.empty())
+		return uquat::identity();
+	auto qAvg = rotations.front();
+	float weight;
+	for(auto i=decltype(rotations.size()){1};i<rotations.size();++i)
+		qAvg = slerp(qAvg,rotations.at(i),weights[i]);
+	return qAvg;
+}
+
 Quat uquat::clamp_rotation(const Quat &pq,const EulerAngles &minBounds,const EulerAngles &maxBounds)
 {
 	// Source: https://forum.unity.com/threads/how-do-i-clamp-a-quaternion.370041/#post-5494723
