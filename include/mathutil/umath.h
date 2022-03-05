@@ -66,6 +66,7 @@ namespace umath
 
 	using Degree = float;
 	using Radian = float;
+	using Fraction = float; // Represents a value in the range [0,1]
 
 	using Centimeter = float;
 	using Meter = float;
