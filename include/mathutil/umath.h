@@ -130,6 +130,7 @@ namespace umath
 	DLLMUTIL Int8 sign(Int32 i);
 	DLLMUTIL Int8 sign(Float f);
 	DLLMUTIL Int32 snap_to_grid(Float f,UInt32 gridSize=1);
+	DLLMUTIL Float snap_to_gridf(Float f,Float gridSize=1);
 	DLLMUTIL UInt8 get_highest_bit(UInt8 n);
 	DLLMUTIL UInt16 get_highest_bit(UInt16 n);
 	DLLMUTIL UInt32 get_highest_bit(UInt32 n);

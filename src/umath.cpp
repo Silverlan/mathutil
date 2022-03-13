@@ -230,6 +230,20 @@ Int32 umath::snap_to_grid(Float f,UInt32 gridSize)
 	return r *s;
 }
 
+float umath::snap_to_gridf(float f,float gridSize)
+{
+	if(gridSize == 0)
+		return 0;
+	auto s = umath::sign(f);
+	auto r = f *s;
+	auto d = fmodf(r,gridSize);
+	if(d < (CFloat(gridSize) *0.5f))
+		r -= d;
+	else
+		r += gridSize -d;
+	return r *s;
+}
+
 UInt8 umath::get_highest_bit(UInt8 n)
 {
 	n |= (n >> 1);
