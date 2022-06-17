@@ -143,11 +143,6 @@ Vector3 ulighting::wavelength_to_color(Wavelength wavelength)
 	return color;
 }
 
-// Source: Blender Photographer Addon
-static double srgb_to_luminance(const Vector3 &color)
-{
-	return 0.2126729 *color.r +0.7151522 *color.g +0.072175 *color.b;
-}
 Watt ulighting::cycles::lumen_to_watt_point(Lumen lumen,const Vector3 &color)
 {
 	return lumen *((1.f /ulighting::MAX_LIGHT_EFFICIENCY_EFFICACY) /srgb_to_luminance(color));

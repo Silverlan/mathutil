@@ -201,6 +201,22 @@ namespace ulighting
 		return lumens /umath::calc_solid_angle(apexAngleCos);
 	}
 
+	constexpr double srgb_to_luminance(const Vector3 &color)
+	{
+		return 0.2126729 *color.r +0.7151522 *color.g +0.072175 *color.b;
+	}
+
+	constexpr float calc_light_falloff(umath::Meter distance,umath::Meter radius)
+	{
+		float falloff = 0;
+		float fDistOverRadius = umath::pow4(distance /radius);
+		falloff = umath::pow2(umath::clamp(1.0 -fDistOverRadius,0.0,1.0));
+		falloff /= umath::pow2(distance) +1.0;
+		return falloff;
+	}
+
+	DLLMUTIL float calc_cone_falloff(const Vector3 &lightDir,const Vector3 &dirToLight,umath::Degree outerCutoffAngle,umath::Degree innerCutoffAngle);
+
 	namespace cycles
 	{
 		DLLMUTIL Watt lumen_to_watt_point(Lumen lumen,const Vector3 &color);
