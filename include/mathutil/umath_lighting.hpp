@@ -215,6 +215,11 @@ namespace ulighting
 		return falloff;
 	}
 
+	constexpr float calc_light_falloff(umath::Meter distance)
+	{
+		return 1.f /umath::pow2(distance);
+	}
+
 	DLLMUTIL float calc_cone_falloff(const Vector3 &lightDir,const Vector3 &dirToLight,umath::Degree outerCutoffAngle,umath::Degree innerCutoffAngle);
 
 	namespace cycles
