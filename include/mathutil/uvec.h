@@ -138,6 +138,10 @@ namespace uvec
 	DLLMUTIL Vector3 calc_face_normal(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2);
 	
 	DLLMUTIL void reflect(Vector3 &p,const Vector3 &n,float d);
+	DLLMUTIL void calc_spherical_stereo_transform(
+		Vector3 &p,Vector3 &d,umath::Meter interocularDistance=0.065f,
+		umath::Meter convergenceDistance=30.0f *0.065f
+	);
 
 	DLLMUTIL constexpr Vector3 xyz(const Vector4 &v)
 	{

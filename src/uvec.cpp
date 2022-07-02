@@ -523,6 +523,22 @@ void uvec::reflect(Vector3 &p,const Vector3 &n,float d)
 	p.z = 2.f *v.z -p.z;
 }
 
+void uvec::calc_spherical_stereo_transform(
+	Vector3 &p,Vector3 &d,umath::Meter interocularDistance,
+	umath::Meter convergenceDistance
+)
+{
+	float interocularOffset = interocularDistance *0.5f;
+
+	Vector3 up {0.f,1.f,0.f};
+	Vector3 side = uvec::get_normal(uvec::cross(d,up));
+	auto stereoOffset = side *interocularOffset;
+	p += stereoOffset;
+
+	auto screen_offset = convergenceDistance *d;
+	d = uvec::get_normal(screen_offset -stereoOffset);
+}
+
 void uvec::calc_plane(const Vector3 &a,const Vector3 &b,const Vector3 &c,Vector3 &outPlaneNormal,float &outPlaneDistance)
 {
 	outPlaneNormal = glm::cross(b -a,c -a);
