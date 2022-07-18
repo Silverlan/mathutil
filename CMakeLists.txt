@@ -61,6 +61,18 @@ def_vs_filters("${SRC_FILES}")
 
 target_link_libraries(${PROJ_NAME} ${DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC})
 
+target_precompile_headers(
+	${PROJ_NAME} PRIVATE
+	include/mathutil/glmutil.h
+	include/mathutil/transform.hpp
+	include/mathutil/umath.h
+	include/mathutil/uquat.h
+	include/mathutil/uvec.h
+	include/mathutil/mathutildefinitions.h
+	include/mathutil/color.h
+	include/mathutil/umat.h
+)
+
 set_target_properties(${PROJ_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(${PROJ_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${PROJ_NAME} PRIVATE ${DEPENDENCY_GLM_INCLUDE})
