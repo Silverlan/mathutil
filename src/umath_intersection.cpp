@@ -112,26 +112,6 @@ bool umath::intersection::aabb_aabb(const bounding_volume::AABB &a,const boundin
 		&& fabs(t.z) <= (extentsA.z +extentsB.z);
 }
 
-bool umath::intersection::aabb_triangle(const Vector3 &min,const Vector3 &max,const Vector3 &a,const Vector3 &b,const Vector3 &c)
-{
-	Vector3 center = (min +max) *0.5f;
-	min -= center;
-	max -= center;
-	a -= center;
-	b -= center;
-	c -= center;
-	Vector3 minTri = a;
-	Vector3 maxTri = a;
-	uvec::min(&minTri,b);
-	uvec::min(&minTri,c);
-	uvec::max(&maxTri,b);
-	uvec::max(&maxTri,c);
-	if(aabb_aabb(min,max,minTri,maxTri) == Intersect::Outside)
-		return false;
-	// TODO
-	return true;
-}
-
 bool umath::intersection::obb_plane(const Vector3 &min,const Vector3 &max,const Vector3 &origin,const Quat &rot,const Vector3 &n,double d)
 {
 	const std::array<Vector3,8> points = {
