@@ -346,6 +346,29 @@ umath::intersection::Intersect umath::intersection::sphere_in_plane_mesh(const V
 	return Intersect::Inside;
 }
 
+umath::intersection::Intersect umath::intersection::triangle_in_plane_mesh(const Vector3 &a,const Vector3 &b,const Vector3 &c,const std::vector<Plane> &planes)
+{
+	using Flags = uint8_t;
+	constexpr Flags FLAG_INSIDE = 1;
+	constexpr Flags FLAG_OUTSIDE = 2;
+	Flags flags = 0;
+	auto testPoint = +[](const umath::Plane &plane,const Vector3 &p,Flags &outFlags) -> bool {
+		
+		auto side = umath::geometry::get_side_of_point_to_plane(plane.GetNormal(),plane.GetDistance(),p);
+		if(side == umath::geometry::PlaneSide::Back || side == umath::geometry::PlaneSide::OnPlane)
+			outFlags |= FLAG_INSIDE;
+		else
+			outFlags |= FLAG_OUTSIDE;
+		return outFlags == (FLAG_INSIDE | FLAG_OUTSIDE);
+	};
+	for(auto &p : planes)
+	{
+		if(testPoint(p,a,flags))
+			return umath::intersection::Intersect::Inside;
+	}
+	return umath::intersection::Intersect::Outside;
+}
+
 umath::intersection::Intersect umath::intersection::aabb_in_plane_mesh(const Vector3 &min,const Vector3 &max,const std::vector<Plane> &planes)
 {
 	// Note: If the current method causes problems, try switching to the other one.

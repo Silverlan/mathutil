@@ -49,6 +49,7 @@ namespace umath::intersection
 	DLLMUTIL bool point_in_plane_mesh(const Vector3 &vec,const std::vector<Plane> &planes);
 	DLLMUTIL Intersect sphere_in_plane_mesh(const Vector3 &vec,float radius,const std::vector<Plane> &planes,bool skipInsideTest=false);
 	DLLMUTIL Intersect aabb_in_plane_mesh(const Vector3 &min,const Vector3 &max,const std::vector<Plane> &planes);
+	DLLMUTIL Intersect triangle_in_plane_mesh(const Vector3 &a,const Vector3 &b,const Vector3 &c,const std::vector<Plane> &planes);
 	DLLMUTIL bool sphere_cone(const Vector3 &sphereOrigin,float radius,const Vector3 &coneOrigin,const Vector3 &coneDir,float coneAngle);
 	DLLMUTIL bool sphere_cone(const Vector3 &sphereOrigin,float radius,const Vector3 &coneOrigin,const Vector3 &coneDir,float coneAngle,float coneSize);
 	DLLMUTIL bool line_triangle(const Vector3 &lineOrigin,const Vector3 &lineDir,const Vector3 &v0,const Vector3 &v1,const Vector3 &v2,double &t,double &u,double &v,bool bCull=false);
