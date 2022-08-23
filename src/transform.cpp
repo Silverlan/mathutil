@@ -136,13 +136,11 @@ Quat umath::Transform::operator*(const Quat &rot) const
 }
 umath::Plane umath::Transform::operator*(const Plane &plane) const
 {
-	auto newPlane = plane;
-	auto &n = newPlane.GetNormal();
-	uvec::rotate(&n,GetRotation());
-	auto d = newPlane.GetDistance();
-	d = uvec::dot(n,n *static_cast<float>(d) +GetOrigin());
-	newPlane.SetDistance(d);
-	return newPlane;
+	auto pos = plane.GetPos();
+	auto n = plane.GetNormal();
+	pos = *this *pos;
+	n = GetRotation() *n;
+	return Plane {n,pos};
 }
 umath::Transform umath::Transform::operator*(float weight) const
 {
