@@ -57,6 +57,10 @@ if(WIN32)
 	target_compile_options(${PROJ_NAME} PRIVATE /wd4251)
 	target_compile_options(${PROJ_NAME} PRIVATE /wd4996)
 endif()
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(${PROJ_NAME} PRIVATE -Wno-c++11-narrowing)
+endif()
 def_vs_filters("${SRC_FILES}")
 
 target_link_libraries(${PROJ_NAME} ${DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC})

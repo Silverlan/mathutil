@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "mathutil/umath_geometry.hpp"
+#include <unordered_map>
 
 // Source: http://stackoverflow.com/a/1568551/2482983
 double umath::geometry::calc_volume_of_triangle(const Vector3 &v0,const Vector3 &v1,const Vector3 &v2)
@@ -460,7 +461,7 @@ std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const
 		center += v;
 	center /= static_cast<float>(verts.size());
 
-	std::unordered_map<size_t,size_t> outlineMap {};
+    std::unordered_map<std::size_t,std::size_t> outlineMap {};
 	for(auto i=decltype(vertexIndices.size()){0u};i<vertexIndices.size();++i)
 	{
 		auto idx0 = vertexIndices.at(i);

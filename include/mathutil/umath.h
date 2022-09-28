@@ -82,7 +82,7 @@ namespace umath
 	DLLMUTIL Double get_angle_difference(Double angA,Double angB);
 	DLLMUTIL Double approach_angle(Double angA,Double angB,Double percent);
 	template<typename T>
-		T clamp(T val,T min,T max);
+        constexpr T clamp(T val,T min,T max);
 	template<typename T>
 		T min(T a,T b);
 	template<typename T,typename... Args>
@@ -279,7 +279,7 @@ template<class T>
 }
 
 template<typename T>
-	T umath::clamp(T val,T min,T max)
+    constexpr T umath::clamp(T val,T min,T max)
 {
 	if(val < min) return min;
 	if(val > max) return max;
