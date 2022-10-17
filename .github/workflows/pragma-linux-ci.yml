@@ -1,9 +1,13 @@
 name: Build Linux
 on:
   push:
-    branches: [ master, actions ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, actions ]
+    branches: [ master ]
+
+concurrency:
+  group: environment-lin-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -13,12 +17,12 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             name: "Ubuntu GCC-11"
             artifact: "ubuntu_gcc.7z"
             build_type: "RelWithDebInfo"
-            cc: "gcc-11"
-            cxx: "g++-11"
+            cc: "clang-14"
+            cxx: "clang++-14"
             archiver: "7z a"
             generators: "Unix Makefiles"
             build_dir: 'build'
@@ -43,5 +47,15 @@ jobs:
           should_checkout: "0"
           dir: '.'
           
-      - name: Upload binaries
-        uses: Silverlan/common_actions/upload_build_binaries@main
+      - name: Create Release Files
+        shell: bash
+        run: |
+          mkdir release
+          mkdir release/lib
+          rsync build/libmathutil.so release/lib/libmathutil.so
+          
+      - name: Release Binaries
+        uses: Silverlan/common_actions/release_nightly_binaries@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit: ${{ github.ref_name }}
