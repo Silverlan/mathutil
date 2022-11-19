@@ -43,7 +43,7 @@ jobs:
         id: build
         uses: Silverlan/mathutil/github_actions/build@master
         with:
-          repo-directory: '.'
+          repo-directory: '${{ github.workspace }}'
           
       - name: Create Release Files
         shell: bash

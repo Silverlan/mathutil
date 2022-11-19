@@ -1,17 +1,14 @@
 name: Build
 description: 'Build library'
 inputs:
-  root_dir:
-    description: 'Root directory'
+  repo-directory:
+    description: 'Specifies source code location. If empty, source code will be downloaded to working-directory.'
     required: true
-  should_checkout:
-    description: 'Checkout the core library?'
+    default: ''
+  working-directory:
+    description: 'Working Directory'
     required: true
-    default: '1'
-  dir:
-    description: 'Library directory'
-    required: true
-    default: 'external_libs/mathutil'
+    default: '${{ github.workspace }}'
 runs:
   using: "composite"
   steps:
@@ -65,7 +62,7 @@ runs:
       with:
         build_type: ${{ matrix.config.build_type }}
         build_generator: ${{ matrix.config.generators }}
-        cmake_definitions_tmp: ${{ env.cmake_definitions }} -DSHAREDUTILS_STATIC=ON -DDEPENDENCY_MATHUTIL_INCLUDE=${{ inputs.root_dir }}/include
+        cmake_definitions_tmp: ${{ env.cmake_definitions }} -DSHAREDUTILS_STATIC=ON -DDEPENDENCY_MATHUTIL_INCLUDE=${{ inputs.working-directory }}/include
         build_target: 'sharedutils'
         build_dir: 'build/external_libs/sharedutils-static'
         cmake_script_location: 'external_libs/sharedutils'
@@ -81,8 +78,8 @@ runs:
         build_generator: ${{ matrix.config.generators }}
         cmake_var: 'DEPENDENCY_MATHUTIL_LIBRARY'
         build_target: mathutil
-        build_dir: '${{inputs.working-directory}}/build'
-        cmake_script_location: '${{inputs.working-directory}}'
+        build_dir: './build'
+        cmake_script_location: '.'
         working-directory: ${{inputs.working-directory}}
         
     - uses: Silverlan/common_actions/action_end@main
