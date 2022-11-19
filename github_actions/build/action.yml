@@ -15,30 +15,39 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: Silverlan/common_actions/action_start@main
+      with:
+        name: "mathutil > build"
+        input_values: "repo-directory: ${{inputs.repo-directory}},working-directory: ${{inputs.working-directory}}"
+        
     - name: Initialize Env
       id: init-env
       uses: Silverlan/common_actions/set_common_env_vars@main
+      with:
+        working-directory: ${{inputs.working-directory}}
       
     - uses: ChristopherHX/conditional@b4a9649204f81002ec9a4ef7d4bf7d6b2ab7fa55
       name: CMake Build
       with:
-        if: ${{inputs.should_checkout == '1'}}
+        if: ${{inputs.repo-directory == ''}}
         step: |
-          uses: Silverlan/common_actions/get_submodule@main
+          uses: Silverlan/common_actions/get_submodule_simple@main
           with:
             repo: 'Silverlan/mathutil'
-            repo_name: 'mathutil'
             cmake_var: 'DEPENDENCY_MATHUTIL_INCLUDE'
-            dir: 'external_libs'
+            working-directory: ${{inputs.working-directory}}
             
     - name: Download GLM
       uses: Silverlan/common_actions/get_glm@main
       with:
         cmake_var: 'DEPENDENCY_GLM_INCLUDE'
         cmake_definitions: ${{ env.cmake_definitions }}
+        working-directory: ${{inputs.working-directory}}
         
     - name: Build GeometricTools
       uses: Silverlan/common_actions/build_geometric_tools@main
+      with:
+        working-directory: ${{inputs.working-directory}}
         
     - name: Download sharedutils
       uses: Silverlan/common_actions/get_submodule@main
@@ -48,6 +57,7 @@ runs:
         dir: 'external_libs'
         cmake_var: 'DEPENDENCY_SHAREDUTILS_INCLUDE'
         cmake_definitions: ${{ env.cmake_definitions }}
+        working-directory: ${{inputs.working-directory}}
         
     # Build
     - name: Build sharedutils-static
@@ -62,6 +72,7 @@ runs:
         cmake_var: 'DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC'
         cmake_definitions: ${{ env.cmake_definitions }}
         static_library: '1'
+        working-directory: ${{inputs.working-directory}}
 
     - uses: Silverlan/common_actions/build_cmake@main
       name: CMake Build
@@ -70,6 +81,8 @@ runs:
         build_generator: ${{ matrix.config.generators }}
         cmake_var: 'DEPENDENCY_MATHUTIL_LIBRARY'
         build_target: mathutil
-        build_dir: '${{ matrix.config.build_dir }}/${{ inputs.dir }}'
-        cmake_script_location: '${{ inputs.dir }}'
+        build_dir: '${{inputs.working-directory}}/build'
+        cmake_script_location: '${{inputs.working-directory}}'
+        working-directory: ${{inputs.working-directory}}
         
+    - uses: Silverlan/common_actions/action_end@main
