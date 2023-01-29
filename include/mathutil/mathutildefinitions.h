@@ -6,19 +6,19 @@
 #define __MATHUTILDEFINITIONS_H__
 
 #ifdef MUTIL_STATIC
-	#define DLLMUTIL
+#define DLLMUTIL
 #elif MUTIL_DLL
-	#ifdef __linux__
-		#define DLLMUTIL __attribute__((visibility("default")))
-	#else
-		#define DLLMUTIL __declspec(dllexport)
-	#endif
+#ifdef __linux__
+#define DLLMUTIL __attribute__((visibility("default")))
 #else
-	#ifdef __linux__
-		#define DLLMUTIL
-	#else
-		#define DLLMUTIL __declspec(dllimport)
-	#endif
+#define DLLMUTIL __declspec(dllexport)
+#endif
+#else
+#ifdef __linux__
+#define DLLMUTIL
+#else
+#define DLLMUTIL __declspec(dllimport)
+#endif
 #endif
 
 #endif

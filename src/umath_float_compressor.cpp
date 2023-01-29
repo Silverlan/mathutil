@@ -22,7 +22,8 @@ FloatCompressor::FloatCompressor(float min, float epsilon, float max, int precis
 		pepsU = _epsF ^ signF;
 		_maxC = _maxF ^ signF;
 		_zeroC = signF;
-	} else {
+	}
+	else {
 		nepsU = uint32_t(_epsF ^ signF) >> _shift;
 		pepsU = uint32_t(_epsF) >> _shift;
 		_maxC = uint32_t(_maxF) >> _shift;

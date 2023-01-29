@@ -5,10 +5,8 @@
 #include <cinttypes>
 
 // Source: Unknown
-class DLLMUTIL Float16Compressor
-{
-	union Bits
-	{
+class DLLMUTIL Float16Compressor {
+	union Bits {
 		float f;
 		int32_t si;
 		uint32_t ui;
@@ -16,9 +14,9 @@ class DLLMUTIL Float16Compressor
 	static int const shift = 13;
 	static int const shiftSign = 16;
 
-	static int32_t const infN = 0x7F800000; // flt32 infinity
-	static int32_t const maxN = 0x477FE000; // max flt16 normal as a flt32
-	static int32_t const minN = 0x38800000; // min flt16 normal as a flt32
+	static int32_t const infN = 0x7F800000;  // flt32 infinity
+	static int32_t const maxN = 0x477FE000;  // max flt16 normal as a flt32
+	static int32_t const minN = 0x38800000;  // min flt16 normal as a flt32
 	static int32_t const signN = 0x80000000; // flt32 sign bit
 
 	static int32_t const infC = infN >> shift;
@@ -35,7 +33,7 @@ class DLLMUTIL Float16Compressor
 
 	static int32_t const maxD = infC - maxC - 1;
 	static int32_t const minD = minC - subC - 1;
-public:
+  public:
 	static uint16_t compress(float value);
 	static float decompress(uint16_t value);
 };

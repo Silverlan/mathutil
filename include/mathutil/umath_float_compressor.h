@@ -5,10 +5,8 @@
 #include <cinttypes>
 
 // Source: Unknown
-class DLLMUTIL FloatCompressor
-{
-	union Bits
-	{
+class DLLMUTIL FloatCompressor {
+	union Bits {
 		float f;
 		int32_t si;
 		uint32_t ui;
@@ -26,7 +24,7 @@ class DLLMUTIL FloatCompressor
 
 	static int32_t const signF = 0x80000000;
 	static int32_t const absF = ~signF;
-public:
+  public:
 	FloatCompressor(float min, float epsilon, float max, int precision);
 	float clamp(float value);
 	uint32_t compress(float value);

@@ -9,49 +9,37 @@
 #include "mathutil/uvec.h"
 #include <optional>
 
-namespace uvec::ik
-{
+namespace uvec::ik {
 	class IkJoint;
-	class DLLMUTIL IkConstraint
-	{
-	public:
-		IkConstraint(IkJoint &joint)
-			: m_joint{joint}
-		{}
-		virtual void Apply(int i)=0;
-		IkJoint &GetJoint() const {return m_joint;}
-	public:
+	class DLLMUTIL IkConstraint {
+	  public:
+		IkConstraint(IkJoint &joint) : m_joint {joint} {}
+		virtual void Apply(int i) = 0;
+		IkJoint &GetJoint() const { return m_joint; }
+	  public:
 		IkJoint &m_joint;
 	};
 
-	class DLLMUTIL IkHingeConstraint
-		: public IkConstraint
-	{
-	public:
-		IkHingeConstraint(IkJoint &joint,const Vector3 &axis)
-			: IkConstraint{joint},m_axis{axis}
-		{}
+	class DLLMUTIL IkHingeConstraint : public IkConstraint {
+	  public:
+		IkHingeConstraint(IkJoint &joint, const Vector3 &axis) : IkConstraint {joint}, m_axis {axis} {}
 		virtual void Apply(int i) override;
 		void SetLimits(const Vector2 &limits);
 		void ClearLimits();
 		std::optional<Vector2> GetLimits() const;
-	private:
-		Vector3 m_axis {0.f,0.f,1.f};
+	  private:
+		Vector3 m_axis {0.f, 0.f, 1.f};
 		std::optional<Vector2> m_limits {};
 	};
 
-	class DLLMUTIL IkBallSocketConstraint
-		: public IkConstraint
-	{
-	public:
-		IkBallSocketConstraint(IkJoint &joint,float limit)
-			: IkConstraint{joint},m_limit{limit}
-		{}
+	class DLLMUTIL IkBallSocketConstraint : public IkConstraint {
+	  public:
+		IkBallSocketConstraint(IkJoint &joint, float limit) : IkConstraint {joint}, m_limit {limit} {}
 		virtual void Apply(int i) override;
 
-		void SetLimit(float limit) {m_limit = limit;}
-		bool GetLimit(float &outLimit) const {return m_limit;}
-	private:
+		void SetLimit(float limit) { m_limit = limit; }
+		bool GetLimit(float &outLimit) const { return m_limit; }
+	  private:
 		float m_limit = 0.f;
 	};
 };
