@@ -22,6 +22,7 @@ namespace umath {
 	enum class CoordinateSpace : uint32_t {
 		Local = 0,
 		World,
+		Object,
 		View,
 		Screen,
 
