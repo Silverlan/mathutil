@@ -19,6 +19,15 @@
 #include <vector>
 
 namespace umath {
+	enum class CoordinateSpace : uint32_t {
+		Local = 0,
+		World,
+		View,
+		Screen,
+
+		Count
+	};
+
 	class ScaledTransform;
 	class DLLMUTIL Transform {
 	  public:
