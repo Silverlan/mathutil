@@ -8,25 +8,23 @@
 #include "mathutildefinitions.h"
 #include "uvec.h"
 
-namespace umath
-{
-	class DLLMUTIL Plane
-	{
-	public:
-		Plane(const Vector3 &a,const Vector3 &b,const Vector3 &c);
-		Plane(Vector3 n,const Vector3 &pos);
-		Plane(Vector3 n,double d);
+namespace umath {
+	class DLLMUTIL Plane {
+	  public:
+		Plane(const Vector3 &a, const Vector3 &b, const Vector3 &c);
+		Plane(Vector3 n, const Vector3 &pos);
+		Plane(Vector3 n, double d);
 		Plane(const Vector4 &plane);
 		Plane();
 		Plane operator-() const;
-	private:
+	  private:
 		Vector3 m_normal;
 		Vector3 m_pos;
 		Vector3 m_posCenter;
 		double m_distance;
-		void Initialize(Vector3 n,double d);
-	public:
-		static bool GetPlaneIntersection(Vector3 *intersect,const Vector3 &na,const Vector3 &nb,const Vector3 &nc,double da,double db,double dc);
+		void Initialize(Vector3 n, double d);
+	  public:
+		static bool GetPlaneIntersection(Vector3 *intersect, const Vector3 &na, const Vector3 &nb, const Vector3 &nc, double da, double db, double dc);
 		const Vector3 &GetNormal() const;
 		const Vector3 &GetPos() const;
 		const Vector3 &GetCenterPos() const;

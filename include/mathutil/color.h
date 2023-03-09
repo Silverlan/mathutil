@@ -10,20 +10,19 @@
 #include "uvec.h"
 #include <ostream>
 
-struct DLLMUTIL Color
-{
-public:
+struct DLLMUTIL Color {
+  public:
 	static Color CreateFromHexColor(const std::string &hexColor);
 	Color();
-	Color(Int16 r,Int16 g,Int16 b,Int16 a=255);
+	Color(Int16 r, Int16 g, Int16 b, Int16 a = 255);
 	Color(const std::string &str);
 	Color(const Vector3 &v);
 	Color(const Vector4 &v);
-	Int16 r,g,b,a;
+	Int16 r, g, b, a;
 	void Set(const Color &col);
-	Color Lerp(const Color &other,Float factor) const;
+	Color Lerp(const Color &other, Float factor) const;
 	// Fast but inaccurate RGB interpolation
-	Color LerpSimple(const Color &other,Float factor) const;
+	Color LerpSimple(const Color &other, Float factor) const;
 	Vector3 ToVector3() const;
 	Vector4 ToVector4() const;
 	// Color will be clamped to range [0,255]
@@ -198,22 +197,21 @@ public:
 	static const Color Black;
 };
 
-namespace util
-{
-	DLLMUTIL void rgb_to_hsv(const Vector3 &rgb,double &hDeg,double &s,double &v);
-	DLLMUTIL Vector3 hsv_to_rgb(double hDeg,double s,double v);
-	DLLMUTIL void lerp_hsv(double &h0,double &s0,double &v0,double h1,double s1,double v1,double factor);
+namespace util {
+	DLLMUTIL void rgb_to_hsv(const Vector3 &rgb, double &hDeg, double &s, double &v);
+	DLLMUTIL Vector3 hsv_to_rgb(double hDeg, double s, double v);
+	DLLMUTIL void lerp_hsv(double &h0, double &s0, double &v0, double h1, double s1, double v1, double factor);
 };
 
-DLLMUTIL Color operator/(const Color &col,Float f);
-DLLMUTIL Color operator*(const Color &col,Float f);
-DLLMUTIL Color operator+(const Color &a,const Color &b);
-DLLMUTIL Color operator-(const Color &a,const Color &b);
+DLLMUTIL Color operator/(const Color &col, Float f);
+DLLMUTIL Color operator*(const Color &col, Float f);
+DLLMUTIL Color operator+(const Color &a, const Color &b);
+DLLMUTIL Color operator-(const Color &a, const Color &b);
 DLLMUTIL Color operator-(const Color &a);
-DLLMUTIL Color operator*(Float f,const Color &c);
+DLLMUTIL Color operator*(Float f, const Color &c);
 
-DLLMUTIL std::ostream& operator<<(std::ostream &os,const Color &col);
-DLLMUTIL bool operator==(const Color &a,const Color &b);
-DLLMUTIL bool operator!=(const Color &a,const Color &b);
+DLLMUTIL std::ostream &operator<<(std::ostream &os, const Color &col);
+DLLMUTIL bool operator==(const Color &a, const Color &b);
+DLLMUTIL bool operator!=(const Color &a, const Color &b);
 
 #endif

@@ -19,12 +19,12 @@
 #define GLM_FORCE_CTOR_INIT
 #endif
 
-#pragma warning(disable: 4201)
+#pragma warning(disable : 4201)
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/rotate_vector.hpp>
-#pragma warning(default: 4201)
+#pragma warning(default : 4201)
 
 using Mat2 = glm::mat2x2;
 using Mat2x2 = glm::mat2x2;
@@ -49,31 +49,18 @@ using Vector4i = glm::ivec4;
 
 using Quat = glm::quat;
 
-namespace umath
-{
+namespace umath {
 	template<typename T>
-		concept is_matrix_type = std::is_same_v<T,Mat2> ||
-			std::is_same_v<T,Mat2x3> ||
-			std::is_same_v<T,Mat2x4> ||
-			std::is_same_v<T,Mat3x2> ||
-			std::is_same_v<T,Mat3> ||
-			std::is_same_v<T,Mat3x4> ||
-			std::is_same_v<T,Mat4x2> ||
-			std::is_same_v<T,Mat4x3> ||
-			std::is_same_v<T,Mat4>;
+	concept is_matrix_type = std::is_same_v<T, Mat2> || std::is_same_v<T, Mat2x3> || std::is_same_v<T, Mat2x4> || std::is_same_v<T, Mat3x2> || std::is_same_v<T, Mat3> || std::is_same_v<T, Mat3x4> || std::is_same_v<T, Mat4x2> || std::is_same_v<T, Mat4x3> || std::is_same_v<T, Mat4>;
 
 	template<typename T>
-		concept is_integral_vector_type = std::is_same_v<T,Vector2i> ||
-			std::is_same_v<T,Vector3i> ||
-			std::is_same_v<T,Vector4i>;
+	concept is_integral_vector_type = std::is_same_v<T, Vector2i> || std::is_same_v<T, Vector3i> || std::is_same_v<T, Vector4i>;
 
 	template<typename T>
-		concept is_floating_point_vector_type = std::is_same_v<T,Vector2> ||
-			std::is_same_v<T,Vector3> ||
-			std::is_same_v<T,Vector4>;
+	concept is_floating_point_vector_type = std::is_same_v<T, Vector2> || std::is_same_v<T, Vector3> || std::is_same_v<T, Vector4>;
 
 	template<typename T>
-		concept is_vector_type = is_integral_vector_type<T> || is_floating_point_vector_type<T>;
+	concept is_vector_type = is_integral_vector_type<T> || is_floating_point_vector_type<T>;
 };
 
 #endif
