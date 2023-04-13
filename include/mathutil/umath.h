@@ -117,7 +117,12 @@ namespace umath {
 	DLLMUTIL Int32 round(Float f);
 	DLLMUTIL Int32 round(Double d);
 	DLLMUTIL Int64 round(LDouble d);
-	DLLMUTIL Double round(Double v, Int32 to);
+	template<typename T>
+	T round(T v, Int32 to)
+	{
+		T places = ::pow(10.0, T(to));
+		return ::round(v * places) / places;
+	}
 	DLLMUTIL UInt64 next_power_of_2(UInt64 v);
 	DLLMUTIL UInt64 previous_power_of_2(UInt64 v);
 	DLLMUTIL std::vector<UInt64> get_power_of_2_values(UInt64 v);
@@ -172,7 +177,7 @@ namespace umath {
 	template<typename T>
 	T smoother_step(T edge0, T edge1, T x);
 
-	const auto pi = acos(-1);
+	const auto pi = ::acos(-1);
 	DLLMUTIL bool is_zero(double x);
 
 	DLLMUTIL float sqrt(float v);

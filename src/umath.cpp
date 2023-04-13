@@ -128,12 +128,6 @@ Int32 umath::round(Float f) { return static_cast<Int32>(::roundf(f)); }
 Int32 umath::round(Double d) { return static_cast<Int32>(::round(d)); }
 Int64 umath::round(LDouble d) { return static_cast<Int64>(::roundl(d)); }
 
-Double umath::round(Double v, Int32 to)
-{
-	Double places = pow(10.0, Double(to));
-	return ::round(v * places) / places;
-}
-
 UInt64 umath::next_power_of_2(UInt64 v)
 {
 	UInt64 powerOf2 = 1;
