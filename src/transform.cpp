@@ -193,7 +193,10 @@ umath::ScaledTransform &umath::ScaledTransform::operator*=(const Transform &tOth
 	Transform::operator*=(tOther);
 	return *this;
 }
-Vector3 umath::ScaledTransform::operator*(const Vector3 &translation) const { return Transform::operator*(translation); }
+Vector3 umath::ScaledTransform::operator*(const Vector3 &translation) const { 
+	Vector3 v = translation * GetScale();
+	return Transform::operator*(v);
+}
 Quat umath::ScaledTransform::operator*(const Quat &rot) const { return Transform::operator*(rot); }
 umath::Plane umath::ScaledTransform::operator*(const Plane &plane) const { return Transform::operator*(plane); }
 
