@@ -250,6 +250,18 @@ void umath::geometry::generate_truncated_cone_mesh(const Vector3 &origin, float 
 		--segmentCount;
 	}
 }
+void umath::geometry::generate_truncated_elliptic_cone_mesh(const Vector3 &origin, float startRadiusX, float startRadiusY, const Vector3 &dir, float dist, float endRadiusX, float endRadiusY, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles, std::vector<Vector3> *normals,
+  uint32_t segmentCount, bool bAddCaps)
+{
+	generate_truncated_cone_mesh(origin, startRadiusX, dir, dist, endRadiusX, verts, triangles, normals, segmentCount, bAddCaps);
+	auto aspectRatioEnd = (endRadiusX > 0.f) ? (endRadiusY / endRadiusX) : 1.f;
+	auto aspectRatioStart = (startRadiusX == 0.f || startRadiusY == 0.f) ? aspectRatioEnd : (startRadiusY / startRadiusX);
+	for(auto &v : verts) {
+		auto yFactor = (dist > 0.f) ? (v.z / dist) : 0.f;
+		auto aspectRatio = umath::lerp(aspectRatioStart, aspectRatioEnd, yFactor);
+		v.x *= aspectRatio;
+	}
+}
 
 bool umath::geometry::calc_barycentric_coordinates(const Vector3 &p0, const Vector3 &p1, const Vector3 &p2, const Vector3 &hitPoint, float &b1, float &b2)
 {

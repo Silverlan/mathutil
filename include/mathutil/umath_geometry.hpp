@@ -60,6 +60,8 @@ namespace umath::geometry {
 
 	DLLMUTIL void generate_truncated_cone_mesh(const Vector3 &origin, float startRadius, const Vector3 &dir, float dist, float endRadius, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles = nullptr, std::vector<Vector3> *normals = nullptr, uint32_t segmentCount = 12,
 	  bool bAddCaps = true);
+	DLLMUTIL void generate_truncated_elliptic_cone_mesh(const Vector3 &origin, float startRadiusX, float startRadiusY, const Vector3 &dir, float dist, float endRadiusX, float endRadiusY, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles = nullptr,
+	  std::vector<Vector3> *normals = nullptr, uint32_t segmentCount = 12, bool bAddCaps = true);
 
 	DLLMUTIL double calc_volume_of_triangle(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2);
 	DLLMUTIL double calc_volume_of_polyhedron(const std::function<bool(const Vector3 **, const Vector3 **, const Vector3 **)> &fGetNextTriangle, Vector3 *centerOfMass = nullptr);
