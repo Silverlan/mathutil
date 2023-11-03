@@ -13,7 +13,7 @@ Color Color::CreateFromHexColor(const std::string &hexColor)
 	auto g = ustring::substr(hexColor, 2, 2);
 	auto b = ustring::substr(hexColor, 4, 2);
 	auto a = ustring::substr(hexColor, 6, 2);
-	return Color {static_cast<int16_t>(util::to_hex_number(r)), static_cast<int16_t>(util::to_hex_number(g)), static_cast<int16_t>(util::to_hex_number(b)), (a.empty() == false) ? static_cast<int16_t>(util::to_hex_number(a)) : 255};
+	return Color {static_cast<int16_t>(util::to_hex_number(r)), static_cast<int16_t>(util::to_hex_number(g)), static_cast<int16_t>(util::to_hex_number(b)), (a.empty() == false) ? static_cast<int16_t>(util::to_hex_number(a)) : static_cast<int16_t>(255)};
 }
 Color::Color() : r(255), g(255), b(255), a(255) {}
 Color::Color(Int16 r, Int16 g, Int16 b, Int16 a)
@@ -35,7 +35,7 @@ void Color::Set(const Color &col)
 }
 Vector3 Color::ToVector3() const { return Vector3 {r / 255.f, g / 255.f, b / 255.f}; }
 Vector4 Color::ToVector4() const { return Vector4 {r / 255.f, g / 255.f, b / 255.f, a / 255.f}; }
-Color Color::GetComplementaryColor() const { return {255 - r, 255 - g, 255 - b, a}; }
+Color Color::GetComplementaryColor() const { return {static_cast<int16_t>(255 - r), static_cast<int16_t>(255 - g), static_cast<int16_t>(255 - b), static_cast<int16_t>(a)}; }
 float Color::CalcPerceivedLuminance() const
 {
 	auto vCol = ToVector3();
