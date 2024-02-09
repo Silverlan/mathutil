@@ -29,6 +29,7 @@ namespace umath::intersection {
 	DLLMUTIL Intersect aabb_aabb(const Vector3 &minA, const Vector3 &maxA, const Vector3 &minB, const Vector3 &maxB);
 	DLLMUTIL bool aabb_aabb(const bounding_volume::AABB &a, const bounding_volume::AABB &b);
 	DLLMUTIL bool aabb_triangle(const Vector3 &min, const Vector3 &max, const Vector3 &a, const Vector3 &b, const Vector3 &c);
+	DLLMUTIL bool obb_triangle(const Vector3 &min, const Vector3 &max, const Quat &rot, const Vector3 &a, const Vector3 &b, const Vector3 &c);
 	DLLMUTIL bool aabb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &n, double d);
 	DLLMUTIL bool obb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &n, double d);
 	DLLMUTIL bool sphere_plane(const Vector3 &sphereOrigin, float sphereRadius, const Vector3 &n, double d);

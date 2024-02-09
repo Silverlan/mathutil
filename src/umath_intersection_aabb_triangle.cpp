@@ -9,6 +9,18 @@ bool umath::intersection::aabb_triangle(const Vector3 &pmin, const Vector3 &pmax
 	return triBoxOverlap(center, extents, pa, pb, pc);
 }
 
+bool umath::intersection::obb_triangle(const Vector3 &min, const Vector3 &max, const Quat &rot, const Vector3 &a, const Vector3 &b, const Vector3 &c)
+{
+	auto rotInv = uquat::get_inverse(rot);
+	auto arot = a;
+	auto brot = b;
+	auto crot = c;
+	uvec::rotate(&arot, rotInv);
+	uvec::rotate(&brot, rotInv);
+	uvec::rotate(&crot, rotInv);
+	return aabb_triangle(min, max, arot, brot, crot);
+}
+
 // Source: https://gist.github.com/jflipts/fc68d4eeacfcc04fbdb2bf38e0911850
 static void findMinMax(float x0, float x1, float x2, float &min, float &max)
 {
