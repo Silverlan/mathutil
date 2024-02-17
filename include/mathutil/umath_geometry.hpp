@@ -45,10 +45,16 @@ namespace umath::intersection {
 	DLLMUTIL bool line_sphere(const Vector3 &lineOrigin, const Vector3 &lineDir, const Vector3 &sphereOrigin, float sphereRadius, float &outT, Vector3 &outP);
 	DLLMUTIL bool sphere_sphere(const Vector3 &originA, float rA, const Vector3 &originB, float rB);
 	DLLMUTIL bool aabb_sphere(const Vector3 &min, const Vector3 &max, const Vector3 &origin, float r);
-	DLLMUTIL bool point_in_plane_mesh(const Vector3 &vec, const std::vector<Plane> &planes);
-	DLLMUTIL Intersect sphere_in_plane_mesh(const Vector3 &vec, float radius, const std::vector<Plane> &planes, bool skipInsideTest = false);
-	DLLMUTIL Intersect aabb_in_plane_mesh(const Vector3 &min, const Vector3 &max, const std::vector<Plane> &planes);
-	DLLMUTIL Intersect triangle_in_plane_mesh(const Vector3 &a, const Vector3 &b, const Vector3 &c, const std::vector<Plane> &planes);
+
+	template<typename Iterator>
+	bool point_in_plane_mesh(const Vector3 &vec, Iterator beginPlanes, Iterator endPlanes);
+	template<typename Iterator>
+	Intersect sphere_in_plane_mesh(const Vector3 &vec, float radius, Iterator beginPlanes, Iterator endPlanes, bool skipInsideTest = false);
+	template<typename Iterator>
+	Intersect aabb_in_plane_mesh(const Vector3 &min, const Vector3 &max, Iterator beginPlanes, Iterator endPlanes);
+	template<typename Iterator>
+	Intersect triangle_in_plane_mesh(const Vector3 &a, const Vector3 &b, const Vector3 &c, Iterator beginPlanes, Iterator endPlanes);
+
 	DLLMUTIL bool sphere_cone(const Vector3 &sphereOrigin, float radius, const Vector3 &coneOrigin, const Vector3 &coneDir, float coneAngle);
 	DLLMUTIL bool sphere_cone(const Vector3 &sphereOrigin, float radius, const Vector3 &coneOrigin, const Vector3 &coneDir, float coneAngle, float coneSize);
 	DLLMUTIL bool line_triangle(const Vector3 &lineOrigin, const Vector3 &lineDir, const Vector3 &v0, const Vector3 &v1, const Vector3 &v2, double &t, double &u, double &v, bool bCull = false);
@@ -103,5 +109,118 @@ namespace umath::sweep {
 	DLLMUTIL bool aabb_with_aabb(const Vector3 &aa, const Vector3 &ab, const Vector3 &extA, const Vector3 &ba, const Vector3 &bb, const Vector3 &extB, float *entryTime, float *exitTime, Vector3 *normal);
 	DLLMUTIL bool aabb_with_plane(const Vector3 &origin, const Vector3 &dir, const Vector3 &ext, const Vector3 &planeNormal, float planeDistance, float *t);
 };
+
+template<typename Iterator>
+bool umath::intersection::point_in_plane_mesh(const Vector3 &vec, Iterator beginPlanes, Iterator endPlanes)
+{
+	for(auto it = beginPlanes; it != endPlanes; ++it) {
+		if(it->GetDistance(vec) > 0.f)
+			return false;
+	}
+	return true;
+}
+
+template<typename Iterator>
+umath::intersection::Intersect umath::intersection::sphere_in_plane_mesh(const Vector3 &vec, float radius, Iterator beginPlanes, Iterator endPlanes, bool skipInsideTest)
+{
+	if(point_in_plane_mesh(vec, beginPlanes, endPlanes) == false) {
+		for(auto it = beginPlanes; it != endPlanes; ++it) {
+			auto &plane = const_cast<Plane &>(*it);
+			if(plane.GetDistance(vec) > radius)
+				return Intersect::Outside;
+		}
+		return Intersect::Overlap;
+	}
+	if(skipInsideTest == true)
+		return Intersect::Overlap;
+	auto radiusSqr = umath::pow(radius, 2.f);
+	for(auto it = beginPlanes; it != endPlanes; ++it) {
+		auto &plane = const_cast<Plane &>(*it);
+		Vector3 r;
+		umath::geometry::closest_point_on_plane_to_point(plane.GetNormal(), CFloat(plane.GetDistance()), vec, &r);
+		if(uvec::length_sqr(r - vec) < radiusSqr)
+			return Intersect::Overlap;
+	}
+	return Intersect::Inside;
+}
+
+template<typename Iterator>
+umath::intersection::Intersect umath::intersection::triangle_in_plane_mesh(const Vector3 &a, const Vector3 &b, const Vector3 &c, Iterator beginPlanes, Iterator endPlanes)
+{
+	throw std::runtime_error {"Not yet implemented!"};
+	return Intersect::Outside;
+}
+
+template<typename Iterator>
+umath::intersection::Intersect umath::intersection::aabb_in_plane_mesh(const Vector3 &min, const Vector3 &max, Iterator beginPlanes, Iterator endPlanes)
+{
+	// Note: If the current method causes problems, try switching to the other one.
+	// The second method is faster for most cases.
+#define AABB_PLANE_MESH_INTERSECTION_METHOD 1
+#if AABB_PLANE_MESH_INTERSECTION_METHOD == 0
+	// Source: https://www.gamedev.net/forums/topic/672043-perfect-aabb-frustum-intersection-test/?do=findComment&comment=5254253
+	UInt result = INTERSECT_INSIDE;
+
+	for(auto it = beginPlanes; it != endPlanes; ++it) {
+		auto &plane = *it;
+		// planes have unit-length normal, offset = -dot(normal, point on plane)
+		const auto &n = plane.GetNormal();
+		auto d = plane.GetDistance();
+		auto nx = n.x > double(0);
+		auto ny = n.y > double(0);
+		auto nz = n.z > double(0);
+
+		// getMinMax(): 0 = return min coordinate. 1 = return max.
+		auto getMinMax = [&min, &max](bool v) -> Vector3 { return v ? max : min; };
+		auto dot = (n.x * getMinMax(nx).x) + (n.y * getMinMax(ny).y) + (n.z * getMinMax(nz).z);
+
+		if(dot < -d)
+			return INTERSECT_OUTSIDE;
+
+		auto dot2 = (n.x * getMinMax(1 - nx).x) + (n.y * getMinMax(1 - ny).y) + (n.z * getMinMax(1 - nz).z);
+
+		if(dot2 <= -d)
+			result = INTERSECT_OVERLAP;
+	}
+
+	return result;
+#else
+	Vector3 vMin, vMax;
+	auto r = Intersect::Inside;
+	for(auto it = beginPlanes; it != endPlanes; ++it) {
+		auto &plane = *it;
+		auto &n = plane.GetNormal();
+		if(n.x < 0) {
+			vMin.x = min.x;
+			vMax.x = max.x;
+		}
+		else {
+			vMin.x = max.x;
+			vMax.x = min.x;
+		}
+		if(n.y < 0) {
+			vMin.y = min.y;
+			vMax.y = max.y;
+		}
+		else {
+			vMin.y = max.y;
+			vMax.y = min.y;
+		}
+		if(n.z < 0) {
+			vMin.z = min.z;
+			vMax.z = max.z;
+		}
+		else {
+			vMin.z = max.z;
+			vMax.z = min.z;
+		}
+		if(plane.GetDistance(vMax) > 0)
+			return Intersect::Outside;
+		else if(plane.GetDistance(vMin) > 0)
+			r = Intersect::Overlap;
+	}
+	return r;
+#endif
+}
 
 #endif // __VECTOR3_H__
