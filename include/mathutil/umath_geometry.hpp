@@ -92,6 +92,11 @@ namespace umath::geometry {
 
 	DLLMUTIL float calc_triangle_area(const Vector3 &p0, const Vector3 &p1, const Vector3 &p2);
 	DLLMUTIL float calc_triangle_area(const Vector2 &p0, const Vector2 &p1, const Vector2 &p2, bool keepSign = false);
+
+	DLLMUTIL void get_aabb_planes(const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes);
+	DLLMUTIL std::array<umath::Plane, 6> get_aabb_planes(const Vector3 &min, const Vector3 &max);
+	DLLMUTIL void get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes);
+	DLLMUTIL std::array<umath::Plane, 6> get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max);
 };
 
 namespace umath::sweep {

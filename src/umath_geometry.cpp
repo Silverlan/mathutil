@@ -492,3 +492,36 @@ std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const
 	outlineList.erase(outlineList.end() - 1);
 	return outlineList;
 }
+
+void umath::geometry::get_aabb_planes(const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes)
+{
+	uint8_t idx = 0;
+	outPlanes[idx++] = umath::Plane {uvec::UP, max.y};
+	outPlanes[idx++] = umath::Plane {-uvec::UP, min.y};
+	outPlanes[idx++] = umath::Plane {uvec::FORWARD, max.z};
+	outPlanes[idx++] = umath::Plane {-uvec::FORWARD, min.z};
+	outPlanes[idx++] = umath::Plane {-uvec::RIGHT, max.x};
+	outPlanes[idx++] = umath::Plane {uvec::RIGHT, min.x};
+}
+std::array<umath::Plane, 6> umath::geometry::get_aabb_planes(const Vector3 &min, const Vector3 &max)
+{
+	std::array<umath::Plane, 6> planes;
+	get_aabb_planes(min, max, planes);
+	return planes;
+}
+void umath::geometry::get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes)
+{
+	uint8_t idx = 0;
+	outPlanes[idx++] = umath::Plane {uquat::up(rot), origin + uquat::up(rot) * max.y};
+	outPlanes[idx++] = umath::Plane {-uquat::up(rot), origin + uquat::up(rot) * min.y};
+	outPlanes[idx++] = umath::Plane {uquat::forward(rot), origin + uquat::forward(rot) * max.z};
+	outPlanes[idx++] = umath::Plane {-uquat::forward(rot), origin + uquat::forward(rot) * min.z};
+	outPlanes[idx++] = umath::Plane {-uquat::right(rot), origin - uquat::right(rot) * max.x};
+	outPlanes[idx++] = umath::Plane {uquat::right(rot), origin - uquat::right(rot) * min.x};
+}
+std::array<umath::Plane, 6> umath::geometry::get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max)
+{
+	std::array<umath::Plane, 6> planes;
+	get_obb_planes(origin, rot, min, max, planes);
+	return planes;
+}
