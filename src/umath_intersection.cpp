@@ -113,6 +113,19 @@ bool umath::intersection::obb_plane(const Vector3 &min, const Vector3 &max, cons
 	}
 	return false;
 }
+
+umath::intersection::Intersect umath::intersection::obb_obb(const umath::ScaledTransform &obbPoseA, const Vector3 &obbMinA, const Vector3 &obbMaxA, const umath::ScaledTransform &obbPoseB, const Vector3 &obbMinB, const Vector3 &obbMaxB)
+{
+	auto obbPoseBRelToA = obbPoseA.GetInverse() * obbPoseB;
+	return aabb_obb(obbMinA, obbMaxA, obbPoseBRelToA.GetOrigin(), obbPoseBRelToA.GetRotation(), obbMinB, obbMaxB);
+}
+
+umath::intersection::Intersect umath::intersection::aabb_obb(const Vector3 &aabbMin, const Vector3 &aabbMax, const Vector3 &obbOrigin, const Quat &obbRot, const Vector3 &obbMin, const Vector3 &obbMax)
+{
+	auto planes = geometry::get_obb_planes(obbOrigin, obbRot, obbMin, obbMax);
+	return aabb_in_plane_mesh(aabbMin, aabbMax, planes.begin(), planes.end());
+}
+
 bool umath::intersection::aabb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &n, double d) { return obb_plane(min, max, {}, {}, n, d); }
 bool umath::intersection::sphere_plane(const Vector3 &sphereOrigin, float sphereRadius, const Vector3 &n, double d)
 {

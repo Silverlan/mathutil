@@ -33,10 +33,12 @@ namespace umath::intersection {
 	DLLMUTIL Intersect aabb_aabb(const Vector3 &minA, const Vector3 &maxA, const Vector3 &minB, const Vector3 &maxB);
 	DLLMUTIL bool aabb_aabb(const bounding_volume::AABB &a, const bounding_volume::AABB &b);
 	DLLMUTIL bool aabb_triangle(const Vector3 &min, const Vector3 &max, const Vector3 &a, const Vector3 &b, const Vector3 &c);
+	DLLMUTIL Intersect aabb_obb(const Vector3 &aabbMin, const Vector3 &aabbMax, const Vector3 &obbOrigin, const Quat &obbRot, const Vector3 &obbMin, const Vector3 &obbMax);
 	DLLMUTIL bool obb_triangle(const Vector3 &min, const Vector3 &max, const ScaledTransform &transform, const Vector3 &a, const Vector3 &b, const Vector3 &c);
 	DLLMUTIL bool obb_triangle(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &a, const Vector3 &b, const Vector3 &c);
 	DLLMUTIL bool aabb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &n, double d);
 	DLLMUTIL bool obb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &n, double d);
+	DLLMUTIL Intersect obb_obb(const umath::ScaledTransform &obbPoseA, const Vector3 &obbMinA, const Vector3 &obbMaxA, const umath::ScaledTransform &obbPoseB, const Vector3 &obbMinB, const Vector3 &obbMaxB);
 	DLLMUTIL bool sphere_plane(const Vector3 &sphereOrigin, float sphereRadius, const Vector3 &n, double d);
 	DLLMUTIL Result line_aabb(const Vector3 &o, const Vector3 &d, const Vector3 &min, const Vector3 &max, float *tMinRes, float *tMaxRes = NULL);
 	DLLMUTIL Result line_plane(const Vector3 &o, const Vector3 &d, const Vector3 &nPlane, float distPlane, float *t = NULL);
