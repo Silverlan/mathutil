@@ -525,3 +525,34 @@ std::array<umath::Plane, 6> umath::geometry::get_obb_planes(const Vector3 &origi
 	get_obb_planes(origin, rot, min, max, planes);
 	return planes;
 }
+std::pair<Vector3, Vector3> umath::geometry::calc_aabb_around_obb(const umath::ScaledTransform &pose, const Vector3 &obbPosition, const Vector3 &obbHalfExtents)
+{
+	auto rotationMatrix = glm::mat3_cast(pose.GetRotation());
+	auto worldX = rotationMatrix * Vector3(1.0f, 0.0f, 0.0f);
+	auto worldY = rotationMatrix * Vector3(0.0f, 1.0f, 0.0f);
+	auto worldZ = rotationMatrix * Vector3(0.0f, 0.0f, 1.0f);
+
+	auto xAxisExtents = glm::abs(worldX * obbHalfExtents.x);
+	auto yAxisExtents = glm::abs(worldY * obbHalfExtents.y);
+	auto zAxisExtents = glm::abs(worldZ * obbHalfExtents.z);
+
+	auto posRot = obbPosition;
+	uvec::rotate(&posRot, pose.GetRotation());
+
+	auto origin = pose.GetOrigin() + posRot;
+
+	auto aabbMin = origin - xAxisExtents - yAxisExtents - zAxisExtents;
+	auto aabbMax = origin + xAxisExtents + yAxisExtents + zAxisExtents;
+	return {aabbMin, aabbMax};
+}
+void umath::geometry::calc_aabb_extents(const Vector3 &min, const Vector3 &max, Vector3 &outPos, Vector3 &outHalfExtents)
+{
+	outPos = (max + min) / 2.f;
+	outHalfExtents = (max - min) / 2.f;
+}
+std::pair<Vector3, Vector3> umath::geometry::calc_aabb_around_obb_bounds(const umath::ScaledTransform &pose, const Vector3 &min, const Vector3 &max)
+{
+	Vector3 pos, halfExtents;
+	calc_aabb_extents(min, max, pos, halfExtents);
+	return calc_aabb_around_obb(pose, pos, halfExtents);
+}

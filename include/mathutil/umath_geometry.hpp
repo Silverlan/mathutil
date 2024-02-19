@@ -105,6 +105,10 @@ namespace umath::geometry {
 	DLLMUTIL std::array<umath::Plane, 6> get_aabb_planes(const Vector3 &min, const Vector3 &max);
 	DLLMUTIL void get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes);
 	DLLMUTIL std::array<umath::Plane, 6> get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max);
+
+	DLLMUTIL void calc_aabb_extents(const Vector3 &min, const Vector3 &max, Vector3 &outPos, Vector3 &outHalfExtents);
+	DLLMUTIL std::pair<Vector3, Vector3> calc_aabb_around_obb(const umath::ScaledTransform &pose, const Vector3 &obbPosition, const Vector3 &obbHalfExtents);
+	DLLMUTIL std::pair<Vector3, Vector3> calc_aabb_around_obb_bounds(const umath::ScaledTransform &pose, const Vector3 &min, const Vector3 &max);
 };
 
 namespace umath::sweep {
