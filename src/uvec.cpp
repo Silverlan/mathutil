@@ -209,9 +209,24 @@ void uvec::normalize(Vector3 *x)
 	*x = glm::normalize(*x);
 }
 
+void uvec::normalize(Vector3 &vec, const Vector3 &defaultDir)
+{
+	float mag = glm::length(vec);
+	if(mag > 0.0001f)
+		vec /= mag;
+	else
+		vec = defaultDir;
+}
+
 Vector3 uvec::get_normal(Vector3 vec)
 {
 	uvec::normalize(&vec);
+	return vec;
+}
+
+Vector3 uvec::get_normal(Vector3 vec, const Vector3 &defaultDir)
+{
+	uvec::normalize(vec, defaultDir);
 	return vec;
 }
 

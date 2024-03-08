@@ -70,7 +70,9 @@ namespace uvec {
 	DLLMUTIL Float dot(const Vector3 &a, const Vector3 &b);
 
 	DLLMUTIL void normalize(Vector3 *vec);
+	DLLMUTIL void normalize(Vector3 &vec, const Vector3 &defaultDir);
 	DLLMUTIL Vector3 get_normal(Vector3 vec);
+	DLLMUTIL Vector3 get_normal(Vector3 vec, const Vector3 &defaultDir);
 
 	DLLMUTIL void rotate(Vector3 *vec, const EulerAngles &ang);
 	DLLMUTIL void rotate(Vector3 *vec, const Quat &rot);
