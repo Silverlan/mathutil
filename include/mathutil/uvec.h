@@ -108,12 +108,13 @@ namespace uvec {
 	DLLMUTIL float calc_screenspace_distance_to_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, float nearZ, float farZ);
 	DLLMUTIL float depth_to_distance(double depth, float nearZ, float farZ);
 
-	static const auto FORWARD = Vector3(0, 0, 1);
-	static const auto UP = Vector3(0, 1, 0);
-	static const auto RIGHT = Vector3(-1, 0, 0);
-	static const auto ORIGIN = Vector3(0.f, 0.f, 0.f);
-	static const auto MIN = Vector3(std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest());
-	static const auto MAX = Vector3(std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max());
+	static constexpr auto FORWARD = Vector3 {0, 0, 1};
+	static constexpr auto UP = Vector3 {0, 1, 0};
+	static constexpr auto RIGHT = Vector3 {-1, 0, 0};
+	static constexpr auto ORIGIN = Vector3 {0.f, 0.f, 0.f};
+	static constexpr auto IDENTITY_SCALE = Vector3 {1.f, 1.f, 1.f};
+	static constexpr auto MIN = Vector3 {std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest()};
+	static constexpr auto MAX = Vector3 {std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max()};
 
 	DLLMUTIL Vector3 get_perpendicular(const Vector3 &v);
 
