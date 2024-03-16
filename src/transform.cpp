@@ -193,7 +193,8 @@ umath::ScaledTransform &umath::ScaledTransform::operator*=(const Transform &tOth
 	Transform::operator*=(tOther);
 	return *this;
 }
-Vector3 umath::ScaledTransform::operator*(const Vector3 &translation) const { 
+Vector3 umath::ScaledTransform::operator*(const Vector3 &translation) const
+{
 	Vector3 v = translation * GetScale();
 	return Transform::operator*(v);
 }
@@ -236,3 +237,12 @@ Vector3 &operator*=(Vector3 &v, const umath::ScaledTransform &t) { return operat
 Quat operator*(const Quat &v, const umath::ScaledTransform &t) { return operator*(v, static_cast<const umath::Transform &>(t)); }
 Quat &operator*=(Quat &v, const umath::ScaledTransform &t) { return operator*=(v, static_cast<const umath::Transform &>(t)); }
 umath::ScaledTransform operator*(float weight, const umath::ScaledTransform &t) { return t * weight; }
+
+void umath::transform(const Vector3 &parentPos, const Quat &parentRot, const Vector3 *optParentScale, Vector3 &pos, Quat &rot, Vector3 *optScale)
+{
+	uvec::rotate(&pos, parentRot);
+	rot = parentRot * rot;
+	pos += parentPos;
+	if(optParentScale && optScale)
+		*optScale *= *optParentScale;
+}

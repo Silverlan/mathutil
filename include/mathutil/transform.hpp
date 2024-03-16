@@ -122,6 +122,8 @@ namespace umath {
 	  public:
 		Vector3 scale = {1.f, 1.f, 1.f};
 	};
+
+	void transform(const Vector3 &parentPos, const Quat &parentRot, const Vector3 *optParentScale, Vector3 &pos, Quat &rot, Vector3 *optScale);
 };
 DLLMUTIL Vector3 operator*(const Vector3 &v, const umath::Transform &t);
 DLLMUTIL Vector3 &operator*=(Vector3 &v, const umath::Transform &t);
