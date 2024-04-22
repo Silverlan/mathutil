@@ -319,6 +319,20 @@ void uquat::mirror_on_axis(Quat &q, uint8_t axis)
 	}
 }
 
+Quat uquat::get_rotation_to_axis(const Vector3 &sourceAxis, const Vector3 &targetAxis)
+{
+	// Source: https://gamedev.stackexchange.com/q/61672
+	auto a = uvec::cross(sourceAxis, targetAxis);
+	Quat rot {umath::sqrt(uvec::length_sqr(sourceAxis) * uvec::length_sqr(targetAxis)) + uvec::dot(sourceAxis, targetAxis), a.x, a.y, a.z};
+	rot = glm::normalize(rot);
+	return rot;
+}
+void uquat::align_rotation_to_axis(Quat &rot, const Vector3 &sourceAxis, const Vector3 &targetAxis)
+{
+	// Source: https://gamedev.stackexchange.com/q/61672
+	rot = get_rotation_to_axis(sourceAxis, targetAxis) * rot;
+}
+
 std::ostream &operator<<(std::ostream &out, const Quat &o)
 {
 	out << o.w << " " << o.x << " " << o.y << " " << o.z;

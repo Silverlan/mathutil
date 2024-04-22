@@ -47,6 +47,8 @@ namespace uquat {
 	DLLMUTIL float distance(const Quat &q0, const Quat &q1);
 	DLLMUTIL std::string to_string(const Quat &q, char sep = ',');
 	DLLMUTIL void mirror_on_axis(Quat &q, uint8_t axis);
+	DLLMUTIL Quat get_rotation_to_axis(const Vector3 &sourceAxis, const Vector3 &targetAxis);
+	DLLMUTIL void align_rotation_to_axis(Quat &rot, const Vector3 &sourceAxis, const Vector3 &targetAxis);
 };
 
 DLLMUTIL std::ostream &operator<<(std::ostream &out, const Quat &o);
