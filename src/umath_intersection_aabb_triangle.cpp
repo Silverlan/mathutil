@@ -1,4 +1,5 @@
 #include "mathutil/umath_geometry.hpp"
+#include "mathutil/transform.hpp"
 
 static bool triBoxOverlap(glm::vec3 boxcenter, glm::vec3 boxhalfsize, glm::vec3 tv0, glm::vec3 tv1, glm::vec3 tv2);
 

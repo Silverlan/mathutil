@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "mathutil/umath_geometry.hpp"
+#include "mathutil/transform.hpp"
 #include <unordered_map>
 
 // Source: http://stackoverflow.com/a/1568551/2482983

@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "mathutil/umath_geometry.hpp"
+#include "mathutil/transform.hpp"
 
 const float EPSILON = 1.19209e-005f;
 
