@@ -121,6 +121,36 @@ namespace uvec {
 	template<class T>
 	bool cmp(const T &a, const T &b, const T &epsilon = T {0.0001});
 
+	template<typename T>
+	bool is_equal(const T &v0, const T v1, float epsilon = 0.0001f)
+	{
+		if constexpr(umath::is_floating_point_vector_type<T> || std::is_same_v<T, Quat>)
+			return glm::all(glm::epsilonEqual(v0, v1, epsilon));
+		else if constexpr(umath::is_matrix_type<T>) {
+			constexpr auto len = T::length();
+			for(auto i = decltype(len) {0u}; i < len; ++i) {
+				if(!glm::all(glm::epsilonEqual(v0[i], v1[i], epsilon)))
+					return false;
+			}
+			return true;
+		}
+		else if constexpr(std::is_same_v<T, EulerAngles>)
+			return abs(v1.p - v0.p) < epsilon && abs(v1.y - v0.y) < epsilon && abs(v1.r - v0.r) < epsilon;
+		else if constexpr(umath::is_integral_vector_type<T>) {
+			constexpr auto len = T::length();
+			for(auto i = decltype(len) {0u}; i < len; ++i) {
+				if(v0[i] != v1[i])
+					return false;
+			}
+			return true;
+		}
+		else if constexpr(std::is_integral_v<T>)
+			return v1 == v0;
+		else
+			return abs(v1 - v0) < epsilon;
+		return false;
+	}
+
 	DLLMUTIL Vector3 project(const Vector3 &p, const Vector3 &n);
 	DLLMUTIL Vector3 project_to_plane(const Vector3 &p, const Vector3 &n, float d);
 	DLLMUTIL Mat3 calc_outer_product(const Vector3 &v0, const Vector3 &v1);
