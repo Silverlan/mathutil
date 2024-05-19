@@ -87,7 +87,7 @@ namespace umath {
 
 	class DLLMUTIL ScaledTransform : public Transform {
 	  public:
-		using Transform::Transform;
+		constexpr ScaledTransform() : Transform {}, scale {uvec::IDENTITY_SCALE} {}
 		ScaledTransform(const Transform &t, const Vector3 &scale);
 		ScaledTransform(const Transform &t);
 		ScaledTransform(const Vector3 &pos, const Quat &rot, const Vector3 &scale);
@@ -120,7 +120,7 @@ namespace umath {
 		// Note: Getter/Setter methods should be preferred, these are public primarily to allow
 		// the class to be used as a literal non-type template parameter
 	  public:
-		Vector3 scale = {1.f, 1.f, 1.f};
+		Vector3 scale = uvec::IDENTITY_SCALE;
 	};
 
 	void transform(const Vector3 &parentPos, const Quat &parentRot, const Vector3 *optParentScale, Vector3 &pos, Quat &rot, Vector3 *optScale);
