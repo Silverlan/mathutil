@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.28)
 
 set(PROJ_NAME mathutil)
 project(${PROJ_NAME} CXX)
@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(DEPENDENCY_GLM_INCLUDE "" CACHE PATH "Path to GLM include directory.")
+set(DEPENDENCY_GLM_LIBRARY "" CACHE FILEPATH "Path to glm library.")
 set(DEPENDENCY_SHAREDUTILS_INCLUDE "" CACHE PATH "Path to sharedutils include directory.")
 set(DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE "" CACHE PATH "Path to geometric tools include directory. Only required if mesh functions are enabled.")
 set(DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC "" CACHE FILEPATH "Path to static sharedutils library.")
@@ -31,6 +32,8 @@ endif()
 add_definitions(-DSHUTIL_STATIC)
 add_definitions(-DMUTIL_DLL)
 add_definitions(-DGLM_FORCE_DEPTH_ZERO_TO_ONE)
+add_definitions(-DGLM_ENABLE_EXPERIMENTAL)
+add_definitions(-DGLM_FORCE_CTOR_INIT)
 
 if(MATHUTIL_ENABLE_MESH_FUNCTIONS)
 	add_definitions(-DENABLE_MESH_FUNCTIONS)
@@ -64,6 +67,8 @@ endif()
 def_vs_filters("${SRC_FILES}")
 
 target_link_libraries(${PROJ_NAME} ${DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC})
+target_link_libraries(${PROJ_NAME} ${DEPENDENCY_GLM_LIBRARY})
+target_link_libraries(${PROJ_NAME} glm)
 
 target_precompile_headers(
 	${PROJ_NAME} PRIVATE

@@ -7,23 +7,8 @@
 
 #include "mathutildefinitions.h"
 
-#ifndef GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#endif
-
-#ifndef GLM_ENABLE_EXPERIMENTAL
-#define GLM_ENABLE_EXPERIMENTAL
-#endif
-
-#ifndef GLM_FORCE_CTOR_INIT
-#define GLM_FORCE_CTOR_INIT
-#endif
-
 #pragma warning(disable : 4201)
-#include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/gtx/rotate_vector.hpp>
+import glm;
 #pragma warning(default : 4201)
 
 using Mat2 = glm::mat2x2;
