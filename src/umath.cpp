@@ -6,8 +6,6 @@
 #include "mathutil/umath_float16_compressor.h"
 #include "mathutil/umath_random.hpp"
 #include <string>
-#include <glm/glm.hpp>
-#include <glm/detail/type_half.hpp>
 
 #define SMODF(a, n) fmod((fmod(a, n) + n), n)
 

@@ -23,7 +23,7 @@ AABB AABB::Transform(const umath::ScaledTransform &pose)
 	srcBounds.min *= scale;
 	srcBounds.max *= scale;
 
-	auto rotMat = glm::mat3_cast(pose.GetRotation());
+	auto rotMat = glm::gtc::mat3_cast(pose.GetRotation());
 	auto &translation = pose.GetOrigin();
 
 	AABB newBounds {translation, translation};

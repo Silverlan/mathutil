@@ -426,7 +426,7 @@ std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const
 		auto &v0 = verts.at(i);
 		for(auto j = i + 1; j < verts.size(); ++j) {
 			auto &v1 = verts.at(j);
-			auto dSqr = glm::distance2(v0, v1);
+			auto dSqr = glm::gtx::distance2(v0, v1);
 			if(dSqr < 0.01) {
 				// Duplicate vertex
 				vertexStates.at(j) = false;
@@ -466,8 +466,8 @@ std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const
 					auto &vSrc = verts.at(iSrc);
 					auto &vDst = verts.at(iDst);
 					auto &vDstOld = verts.at(it->second);
-					auto l = glm::distance2(vSrc, vDst);
-					auto lOld = glm::distance2(vSrc, vDstOld);
+					auto l = glm::gtx::distance2(vSrc, vDst);
+					auto lOld = glm::gtx::distance2(vSrc, vDstOld);
 					if(l > lOld)
 						it->second = iDst;
 				}
@@ -528,7 +528,7 @@ std::array<umath::Plane, 6> umath::geometry::get_obb_planes(const Vector3 &origi
 }
 std::pair<Vector3, Vector3> umath::geometry::calc_aabb_around_obb(const umath::ScaledTransform &pose, const Vector3 &obbPosition, const Vector3 &obbHalfExtents)
 {
-	auto rotationMatrix = glm::mat3_cast(pose.GetRotation());
+	auto rotationMatrix = glm::gtc::mat3_cast(pose.GetRotation());
 	auto worldX = rotationMatrix * Vector3(1.0f, 0.0f, 0.0f);
 	auto worldY = rotationMatrix * Vector3(0.0f, 1.0f, 0.0f);
 	auto worldZ = rotationMatrix * Vector3(0.0f, 0.0f, 1.0f);

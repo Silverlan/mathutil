@@ -21,4 +21,7 @@
 #endif
 #endif
 
+// This doesn't really belong here, but prevents msvc compiler errors
+#include <memory>
+
 #endif

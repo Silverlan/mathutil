@@ -8,7 +8,7 @@
 using namespace umath;
 
 Mat4 umat::identity() { return glm::mat4(1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f); }
-Mat4 umat::create(const Quat &q) { return glm::toMat4(q); }
+Mat4 umat::create(const Quat &q) { return glm::gtc::mat4_cast(q); }
 
 Mat4 umat::create_from_axis_angle(const Vector3 &v, Float ang)
 {

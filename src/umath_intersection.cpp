@@ -43,7 +43,7 @@ bool umath::intersection::aabb_sphere(const Vector3 &min, const Vector3 &max, co
 {
 	Vector3 pClosest;
 	umath::geometry::closest_point_on_aabb_to_point(min, max, origin, &pClosest);
-	float d = glm::distance2(pClosest, origin);
+	float d = glm::gtx::distance2(pClosest, origin);
 	return d <= r * r;
 }
 
@@ -199,7 +199,7 @@ bool umath::intersection::line_obb(const Vector3 &rayStart, const Vector3 &rayDi
 		*dist = 0.f;
 
 	auto t = umat::identity();
-	t = glm::translate(t, origin);
+	t = glm::gtc::translate(t, origin);
 	t *= umat::create(rot);
 
 	auto obbPos = Vector3 {t[3].x, t[3].y, t[3].z};
