@@ -14,16 +14,16 @@ endif()
 set(PROJ_NAME mathutil)
 pr_add_library(${PROJ_NAME} ${LIB_TYPE})
 
-pr_add_dependency(${PROJ_NAME} glm MODULE)
-pr_add_dependency(${PROJ_NAME} mathutil LIBRARY)
-pr_add_dependency(${PROJ_NAME} geometric_tools HEADER_ONLY)
+add_subdirectory("third_party_libs/glm_cxxmodule")
+
+pr_add_dependency(${PROJ_NAME} glm_module TARGET PUBLIC)
+pr_add_dependency(${PROJ_NAME} sharedutils-static TARGET)
+pr_reference_module(${PROJ_NAME} glm "${CMAKE_CURRENT_BINARY_DIR}/third_party_libs/glm_cxxmodule/" TARGET_NAME glm_module PUBLIC)
+pr_add_external_dependency(${PROJ_NAME} geometric_tools HEADER_ONLY)
 
 if(${MATHUTIL_BUILD_TESTS})
-	pr_add_dependency(${PROJ_NAME} google_tests HEADER_ONLY)
+	pr_add_external_dependency(${PROJ_NAME} google_tests HEADER_ONLY)
 endif()
-
-pr_add_include_dir(${PROJ_NAME} sharedutils)
-pr_link_library(${PROJ_NAME} sharedutils-static)
 
 pr_add_headers(${PROJ_NAME} "include/")
 pr_add_sources(${PROJ_NAME} "src/")
@@ -48,13 +48,6 @@ endif()
 if(${LINK_COMMON_LIBS_STATIC})
 	pr_add_compile_definitions(${PROJ_NAME} -DVFILESYSTEM_STATIC -DSHUTIL_STATIC)
 endif()
-
-pr_add_compile_definitions(
-	${PROJ_NAME}
-		-DSHUTIL_DLL
-		-DGLM_FORCE_DEPTH_ZERO_TO_ONE
-		-URI_STATIC_BUILD
-)
 
 #if(${MATHUTIL_BUILD_TESTS})
 #    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
