@@ -1,0 +1,3 @@
+[submodule "third_party_libs/glm_cxxmodule"]
+	path = third_party_libs/glm_cxxmodule
+	url = https://github.com/Silverlan/glm_cxxmodule.git
