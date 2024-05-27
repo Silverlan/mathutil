@@ -42,7 +42,7 @@ if(${MATHUTIL_STATIC})
 endif()
 
 if(${MATHUTIL_ENABLE_MESH_FUNCTIONS})
-	pr_add_compile_definitions(${PROJ_NAME} -DENABLE_MESH_FUNCTIONS)
+	pr_add_compile_definitions(${PROJ_NAME} -DENABLE_MESH_FUNCTIONS PUBLIC)
 endif()
 
 if(${LINK_COMMON_LIBS_STATIC})
