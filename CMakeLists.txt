@@ -1,105 +1,83 @@
-cmake_minimum_required(VERSION 3.12)
+include(${CMAKE_SOURCE_DIR}/cmake/pr_common.cmake)
 
-set(PROJ_NAME mathutil)
-project(${PROJ_NAME} CXX)
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
-set(DEPENDENCY_GLM_INCLUDE "" CACHE PATH "Path to GLM include directory.")
-set(DEPENDENCY_SHAREDUTILS_INCLUDE "" CACHE PATH "Path to sharedutils include directory.")
-set(DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE "" CACHE PATH "Path to geometric tools include directory. Only required if mesh functions are enabled.")
-set(DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC "" CACHE FILEPATH "Path to static sharedutils library.")
 option(MATHUTIL_ENABLE_MESH_FUNCTIONS "Enable mesh functions, requires geometric tools library." ON)
 option(MATHUTIL_STATIC "Build as static library?" OFF)
 option(MATHUTIL_BUILD_TESTS "Build tests of library?" OFF)
-set(DEPENDENCY_GOOGLE_TESTS_DIR "" CACHE PATH "Path to google tests directory.")
 option(LINK_COMMON_LIBS_STATIC "Link to common Pragma libraries statically?" OFF)
 
 if(${MATHUTIL_STATIC})
 	set(LIB_TYPE STATIC)
-	add_definitions(-DMUTIL_STATIC)
 else()
 	set(LIB_TYPE SHARED)
 endif()
 
+set(PROJ_NAME mathutil)
+pr_add_library(${PROJ_NAME} ${LIB_TYPE})
+set(IMPORT_GLM_AS_MODULE FALSE)
+if(IMPORT_GLM_AS_MODULE)
+	add_subdirectory("third_party_libs/glm_cxxmodule")
+else()
+	set(DEPENDENCY_GLM_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/third_party_libs/glm_cxxmodule/third_party_libs/glm/" CACHE PATH "Path to glm include directory." FORCE)
+endif()
+
+if(IMPORT_GLM_AS_MODULE)
+	pr_add_dependency(${PROJ_NAME} glm_module TARGET PUBLIC)
+endif()
+pr_add_dependency(${PROJ_NAME} sharedutils-static TARGET)
+if(IMPORT_GLM_AS_MODULE)
+	pr_reference_module(${PROJ_NAME} glm "${CMAKE_CURRENT_BINARY_DIR}/third_party_libs/glm_cxxmodule/" TARGET_NAME glm_module PUBLIC)
+else()
+	pr_add_external_dependency(${PROJ_NAME} glm HEADER_ONLY PUBLIC)
+endif()
+pr_add_external_dependency(${PROJ_NAME} geometric_tools HEADER_ONLY)
+
+if(${MATHUTIL_BUILD_TESTS})
+	pr_add_external_dependency(${PROJ_NAME} google_tests HEADER_ONLY)
+endif()
+
+pr_add_headers(${PROJ_NAME} "include/")
+pr_add_sources(${PROJ_NAME} "src/")
+
+pr_add_compile_definitions(
+	${PROJ_NAME}
+		-DSHUTIL_STATIC
+		-DMUTIL_DLL
+		-DGLM_FORCE_DEPTH_ZERO_TO_ONE
+		-DGLM_ENABLE_EXPERIMENTAL
+		-DGLM_FORCE_CTOR_INIT
+)
+
+if(${MATHUTIL_STATIC})
+	pr_add_compile_definitions(${PROJ_NAME} -DMUTIL_STATIC)
+endif()
+
+if(${MATHUTIL_ENABLE_MESH_FUNCTIONS})
+	pr_add_compile_definitions(${PROJ_NAME} -DENABLE_MESH_FUNCTIONS PUBLIC)
+endif()
+
 if(${LINK_COMMON_LIBS_STATIC})
-	add_definitions(-DVFILESYSTEM_STATIC)
-	add_definitions(-DSHUTIL_STATIC)
+	pr_add_compile_definitions(${PROJ_NAME} -DVFILESYSTEM_STATIC -DSHUTIL_STATIC)
 endif()
 
-add_definitions(-DSHUTIL_STATIC)
-add_definitions(-DMUTIL_DLL)
-add_definitions(-DGLM_FORCE_DEPTH_ZERO_TO_ONE)
+#if(${MATHUTIL_BUILD_TESTS})
+#    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+#    set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+#	
+#    set(TESTS_BINARY_NAME ${PROJ_NAME}_tests)
+#	enable_testing()
+#	
+#	add_subdirectory(${DEPENDENCY_GOOGLE_TESTS_DIR})
+#	file(GLOB_RECURSE TESTS_SRC_FILES
+#       "${CMAKE_CURRENT_LIST_DIR}/tests/*.cpp"
+#    )
+#	add_executable(${TESTS_BINARY_NAME} ${TESTS_SRC_FILES})
+#	target_link_libraries(${TESTS_BINARY_NAME} PUBLIC ${PROJ_NAME} gtest)
+#	target_include_directories(${TESTS_BINARY_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+#	target_include_directories(${TESTS_BINARY_NAME} PRIVATE ${DEPENDENCY_GLM_INCLUDE})
+#	target_include_directories(${TESTS_BINARY_NAME} PRIVATE ${DEPENDENCY_SHAREDUTILS_INCLUDE})
+#	target_include_directories(${TESTS_BINARY_NAME} PRIVATE ${DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE})
+#	
+#	add_test(NAME ${TESTS_BINARY_NAME} COMMAND ${TESTS_BINARY_NAME})
+#endif()
 
-if(MATHUTIL_ENABLE_MESH_FUNCTIONS)
-	add_definitions(-DENABLE_MESH_FUNCTIONS)
-endif()
-
-function(def_vs_filters FILE_LIST)
-	foreach(source IN LISTS FILE_LIST)
-	    get_filename_component(source_path "${source}" PATH)
-	    string(REPLACE "${CMAKE_CURRENT_LIST_DIR}" "" source_path_relative "${source_path}")
-	    string(REPLACE "/" "\\" source_path_msvc "${source_path_relative}")
-	    source_group("${source_path_msvc}" FILES "${source}")
-	endforeach()
-endfunction(def_vs_filters)
-
-file(GLOB_RECURSE SRC_FILES
-    "${CMAKE_CURRENT_LIST_DIR}/src/*.h"
-    "${CMAKE_CURRENT_LIST_DIR}/src/*.hpp"
-    "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/include/*.h"
-    "${CMAKE_CURRENT_LIST_DIR}/include/*.hpp"
-)
-add_library(${PROJ_NAME} ${LIB_TYPE} ${SRC_FILES})
-if(WIN32)
-	target_compile_options(${PROJ_NAME} PRIVATE /wd4251)
-	target_compile_options(${PROJ_NAME} PRIVATE /wd4996)
-endif()
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(${PROJ_NAME} PRIVATE -Wno-c++11-narrowing)
-endif()
-def_vs_filters("${SRC_FILES}")
-
-target_link_libraries(${PROJ_NAME} ${DEPENDENCY_SHAREDUTILS_LIBRARY_STATIC})
-
-target_precompile_headers(
-	${PROJ_NAME} PRIVATE
-	include/mathutil/glmutil.h
-	include/mathutil/transform.hpp
-	include/mathutil/umath.h
-	include/mathutil/uquat.h
-	include/mathutil/uvec.h
-	include/mathutil/mathutildefinitions.h
-	include/mathutil/color.h
-	include/mathutil/umat.h
-)
-
-set_target_properties(${PROJ_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-target_include_directories(${PROJ_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_include_directories(${PROJ_NAME} PRIVATE ${DEPENDENCY_GLM_INCLUDE})
-target_include_directories(${PROJ_NAME} PRIVATE ${DEPENDENCY_SHAREDUTILS_INCLUDE})
-target_include_directories(${PROJ_NAME} PRIVATE ${DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE})
-
-if(MATHUTIL_BUILD_TESTS)
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-    set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
-	
-    set(TESTS_BINARY_NAME ${PROJ_NAME}_tests)
-	enable_testing()
-	
-	add_subdirectory(${DEPENDENCY_GOOGLE_TESTS_DIR})
-	file(GLOB_RECURSE TESTS_SRC_FILES
-       "${CMAKE_CURRENT_LIST_DIR}/tests/*.cpp"
-    )
-	add_executable(${TESTS_BINARY_NAME} ${TESTS_SRC_FILES})
-	target_link_libraries(${TESTS_BINARY_NAME} PUBLIC ${PROJ_NAME} gtest)
-	target_include_directories(${TESTS_BINARY_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-	target_include_directories(${TESTS_BINARY_NAME} PRIVATE ${DEPENDENCY_GLM_INCLUDE})
-	target_include_directories(${TESTS_BINARY_NAME} PRIVATE ${DEPENDENCY_SHAREDUTILS_INCLUDE})
-	target_include_directories(${TESTS_BINARY_NAME} PRIVATE ${DEPENDENCY_GEOMETRIC_TOOLS_INCLUDE})
-	
-	add_test(NAME ${TESTS_BINARY_NAME} COMMAND ${TESTS_BINARY_NAME})
-endif()
+pr_finalize(${PROJ_NAME})
