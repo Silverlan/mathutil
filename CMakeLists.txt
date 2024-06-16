@@ -42,9 +42,13 @@ pr_add_compile_definitions(
 	${PROJ_NAME}
 		-DSHUTIL_STATIC
 		-DMUTIL_DLL
+)
+pr_add_compile_definitions(
+	${PROJ_NAME}
 		-DGLM_FORCE_DEPTH_ZERO_TO_ONE
 		-DGLM_ENABLE_EXPERIMENTAL
 		-DGLM_FORCE_CTOR_INIT
+		PUBLIC
 )
 
 if(${MATHUTIL_STATIC})
