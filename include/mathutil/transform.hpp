@@ -88,7 +88,7 @@ namespace umath {
 	class DLLMUTIL ScaledTransform : public Transform {
 	  public:
 		constexpr ScaledTransform() : Transform {}, scale {uvec::IDENTITY_SCALE} {}
-		ScaledTransform(const Mat4 &t) : Transform {t} {}
+		ScaledTransform(const Mat4 &t);
 		ScaledTransform(const Vector3 &translation, const Quat &rotation) : Transform {translation, rotation} {}
 		ScaledTransform(const Vector3 &translation) : Transform {translation} {}
 		ScaledTransform(const Quat &rotation) : Transform {rotation} {}

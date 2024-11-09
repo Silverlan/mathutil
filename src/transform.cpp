@@ -143,6 +143,8 @@ umath::Transform &umath::Transform::operator*=(float weight)
 
 /////////////
 
+umath::ScaledTransform::ScaledTransform(const Mat4 &t) { umat::decompose(t, translation, rotation, &scale); }
+
 umath::ScaledTransform::ScaledTransform(const Transform &t, const Vector3 &scale) : Transform {t}, scale {scale} {}
 umath::ScaledTransform::ScaledTransform(const Transform &t) : Transform {t} {}
 umath::ScaledTransform::ScaledTransform(const Vector3 &pos, const Quat &rot, const Vector3 &scale) : Transform {pos, rot}, scale {scale} {}
