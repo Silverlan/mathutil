@@ -44,9 +44,50 @@ void umat::decompose(const Mat4 &t, Vector3 &outTranslation, Mat3 &outRotation, 
 }
 void umat::decompose(const Mat4 &t, Vector3 &outTranslation, Quat &outRotation, Vector3 *outScale)
 {
-	Mat3 mRot;
-	decompose(t, outTranslation, mRot, outScale);
-	outRotation = uquat::create(mRot);
+	outTranslation = {t[3][0], t[3][1], t[3][2]};
+	if(outScale)
+		*outScale = {uvec::length(Vector3 {t[0][0], t[0][1], t[0][2]}), uvec::length(Vector3 {t[1][0], t[1][1], t[1][2]}), uvec::length(Vector3 {t[2][0], t[2][1], t[2][2]})};
+	outRotation = get_rotation(t);
+}
+Quat umat::get_rotation(const Mat4 &m)
+{
+	Quat rot;
+	float tr = m[0].x + m[1].y + m[2].z;
+
+	if(tr > 0) {
+		float t = tr + 1.0f;
+		float s = 1 / sqrtf(t) * 0.5f;
+
+		rot.w = s * t;
+		rot.z = (m[0].y - m[1].x) * s;
+		rot.y = (m[2].x - m[0].z) * s;
+		rot.x = (m[1].z - m[2].y) * s;
+	}
+	else if((m[0].x > m[1].y) && (m[0].x > m[2].z)) {
+		float t = 1.0f + m[0].x - m[1].y - m[2].z;
+		float s = 1 / sqrtf(t) * 0.5f;
+		rot.x = s * t;
+		rot.y = (m[0].y + m[1].x) * s;
+		rot.z = (m[0].z + m[2].x) * s;
+		rot.w = (m[1].z - m[2].y) * s;
+	}
+	else if(m[1].y > m[2].z) {
+		float t = 1.0f + m[1].y - m[0].x - m[2].z;
+		float s = 1 / sqrtf(t) * 0.5f;
+		rot.w = (m[2].x - m[0].z) * s;
+		rot.x = (m[0].y + m[1].x) * s;
+		rot.y = s * t;
+		rot.z = (m[1].z + m[2].y) * s;
+	}
+	else {
+		float t = 1.0f + m[2].z - m[0].x - m[1].y;
+		float s = 1 / sqrtf(t) * 0.5f;
+		rot.w = (m[0].y - m[1].x) * s;
+		rot.x = (m[2].x + m[0].z) * s;
+		rot.y = (m[2].y + m[1].z) * s;
+		rot.z = s * t;
+	}
+	return rot;
 }
 
 Mat4 umat::look_at(const Vector3 &eye, const Vector3 &center, const Vector3 &up)
