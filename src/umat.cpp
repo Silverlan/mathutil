@@ -4,6 +4,7 @@
 
 #include "mathutil/umat.h"
 #include "mathutil/uvec.h"
+#include <glm/gtx/matrix_decompose.hpp>
 
 using namespace umath;
 
@@ -44,10 +45,18 @@ void umat::decompose(const Mat4 &t, Vector3 &outTranslation, Mat3 &outRotation, 
 }
 void umat::decompose(const Mat4 &t, Vector3 &outTranslation, Quat &outRotation, Vector3 *outScale)
 {
-	outTranslation = {t[3][0], t[3][1], t[3][2]};
+	Vector3 skew;
+	Vector4 perspective;
+	Vector3 scale;
+	if(!glm::decompose(t, scale, outRotation, outTranslation, skew, perspective)) {
+		outTranslation = {};
+		outRotation = uquat::identity();
+		skew = {};
+		perspective = {};
+		scale = {};
+	}
 	if(outScale)
-		*outScale = {uvec::length(Vector3 {t[0][0], t[0][1], t[0][2]}), uvec::length(Vector3 {t[1][0], t[1][1], t[1][2]}), uvec::length(Vector3 {t[2][0], t[2][1], t[2][2]})};
-	outRotation = get_rotation(t);
+		*outScale = scale;
 }
 Quat umat::get_rotation(const Mat4 &m)
 {
