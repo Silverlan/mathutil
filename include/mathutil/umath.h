@@ -177,6 +177,12 @@ namespace umath {
 	template<typename T>
 	T smoother_step(T edge0, T edge1, T x);
 
+	template<typename T>
+	constexpr bool equals(T a, T b, T epsilon = 0.0001)
+	{
+		return std::abs(a - b) <= epsilon;
+	}
+
 	const auto pi = ::acos(-1);
 	DLLMUTIL bool is_zero(double x);
 
