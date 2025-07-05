@@ -1,6 +1,5 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+// SPDX-FileCopyrightText: (c) 2020 Silverlan <opensource@pragma-engine.com>
+// SPDX-License-Identifier: MIT
 
 #include "mathutil/umath_geometry.hpp"
 #include "mathutil/transform.hpp"
@@ -58,7 +57,7 @@ bool umath::intersection::line_sphere(const Vector3 &lineOrigin, const Vector3 &
 	float b = uvec::dot(m, lineDir);
 	float c = uvec::dot(m, m) - umath::pow2(sphereRadius);
 
-	// Exit if r’s origin outside s (c > 0) and r pointing away from s (b > 0)
+	// Exit if r's origin outside s (c > 0) and r pointing away from s (b > 0)
 	if(c > 0.0f && b > 0.0f)
 		return false;
 	float discr = b * b - c;
