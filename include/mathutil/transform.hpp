@@ -11,7 +11,6 @@
 #include "mathutil/uquat.h"
 #include "mathutil/plane.hpp"
 #include <memory>
-#include <sharedutils/def_handle.h>
 #include <vector>
 
 namespace umath {
