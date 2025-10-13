@@ -23,7 +23,7 @@ endif()
 if(IMPORT_GLM_AS_MODULE)
 	pr_add_dependency(${PROJ_NAME} glm_module TARGET PUBLIC)
 endif()
-pr_add_dependency(${PROJ_NAME} sharedutils-static TARGET)
+pr_add_dependency(${PROJ_NAME} util_string TARGET)
 if(IMPORT_GLM_AS_MODULE)
 	pr_reference_module(${PROJ_NAME} glm "${CMAKE_CURRENT_BINARY_DIR}/third_party_libs/glm_cxxmodule/" TARGET_NAME glm_module PUBLIC)
 else()
@@ -35,8 +35,8 @@ if(${MATHUTIL_BUILD_TESTS})
 	pr_add_external_dependency(${PROJ_NAME} google_tests HEADER_ONLY)
 endif()
 
+pr_init_module(${PROJ_NAME})
 pr_add_headers(${PROJ_NAME} "include/")
-pr_add_sources(${PROJ_NAME} "src/")
 
 pr_add_compile_definitions(
 	${PROJ_NAME}
