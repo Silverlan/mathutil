@@ -4,8 +4,8 @@
 module;
 
 #include <cmath>
-#include <glm/gtx/euler_angles.hpp>
 #include <iostream>
+#include <cassert>
 
 module pragma.math;
 
@@ -270,9 +270,9 @@ void EulerAngles::GetOrientation(Vector3 *forward, Vector3 *right, Vector3 *up) 
 Mat4 EulerAngles::ToMatrix() const
 {
 	Mat4 mat(1.0f);
-	mat = glm::rotate(mat, static_cast<float>(umath::deg_to_rad(y)), uvec::UP);
-	mat = glm::rotate(mat, static_cast<float>(umath::deg_to_rad(p)), uvec::FORWARD);
-	mat = glm::rotate(mat, static_cast<float>(umath::deg_to_rad(r)), uvec::RIGHT);
+	mat = glm::gtc::rotate(mat, static_cast<float>(umath::deg_to_rad(y)), uvec::UP);
+	mat = glm::gtc::rotate(mat, static_cast<float>(umath::deg_to_rad(p)), uvec::FORWARD);
+	mat = glm::gtc::rotate(mat, static_cast<float>(umath::deg_to_rad(r)), uvec::RIGHT);
 	return mat;
 }
 

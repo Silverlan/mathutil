@@ -162,6 +162,8 @@ export {
 		}
 
 		const auto pi = ::acos(-1);
+		const auto pi_2 = ::acos(-1) /2.0;
+		const auto pi_4 = ::acos(-1) /4.0;
 		DLLMUTIL bool is_zero(double x);
 
 		DLLMUTIL float sqrt(float v);
@@ -218,7 +220,7 @@ export {
 		template<typename T>
 		T swap_endian(T u);
 
-		constexpr float calc_solid_angle(Radian apexAngleCos) { return 2 * M_PI * (1.0 - apexAngleCos); }
+		constexpr float calc_solid_angle(Radian apexAngleCos) { return 2 * pi * (1.0 - apexAngleCos); }
 
 		template<typename T>
 		std::string to_hex_string(const T &o)

@@ -4,7 +4,7 @@
 module;
 
 #include "mathutil/glmutil.h"
-#include <glm/gtx/matrix_decompose.hpp>
+#include <cmath>
 
 module pragma.math;
 
@@ -13,7 +13,7 @@ import :matrix;
 using namespace umath;
 
 Mat4 umat::identity() { return glm::mat4(1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f); }
-Mat4 umat::create(const Quat &q) { return glm::toMat4(q); }
+Mat4 umat::create(const Quat &q) { return glm::gtx::toMat4(q); }
 
 Mat4 umat::create_from_axis_angle(const Vector3 &v, Float ang)
 {
@@ -52,7 +52,7 @@ void umat::decompose(const Mat4 &t, Vector3 &outTranslation, Quat &outRotation, 
 	Vector3 skew;
 	Vector4 perspective;
 	Vector3 scale;
-	if(!glm::decompose(t, scale, outRotation, outTranslation, skew, perspective)) {
+	if(!glm::gtx::decompose(t, scale, outRotation, outTranslation, skew, perspective)) {
 		outTranslation = {};
 		outRotation = uquat::identity();
 		skew = {};

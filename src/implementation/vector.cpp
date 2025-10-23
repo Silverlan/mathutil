@@ -4,8 +4,9 @@
 module;
 
 #include "mathutil/glmutil.h"
-#include <glm/gtx/projection.hpp>
 #include <string>
+#include <cmath>
+#include <cassert>
 #include <math.h>
 
 module pragma.math;
@@ -241,15 +242,15 @@ static const Vector3 vYaw(0, 1, 0);
 static const Vector3 vRoll(0, 0, 1);
 void uvec::rotate(Vector3 *vec, const EulerAngles &ang)
 {
-	Vector3 rotated = glm::rotate(*vec, static_cast<float>(umath::deg_to_rad(ang.r)), vRoll);
-	rotated = glm::rotate(rotated, static_cast<float>(umath::deg_to_rad(ang.p)), vPitch);
-	rotated = glm::rotate(rotated, static_cast<float>(umath::deg_to_rad(ang.y)), vYaw);
+	Vector3 rotated = glm::gtx::rotate(*vec, static_cast<float>(umath::deg_to_rad(ang.r)), vRoll);
+	rotated = glm::gtx::rotate(rotated, static_cast<float>(umath::deg_to_rad(ang.p)), vPitch);
+	rotated = glm::gtx::rotate(rotated, static_cast<float>(umath::deg_to_rad(ang.y)), vYaw);
 	vec->x = rotated.x;
 	vec->y = rotated.y;
 	vec->z = rotated.z;
 }
 
-void uvec::rotate(Vector3 *vec, const Quat &rot) { *vec = glm::rotate(rot, *vec); }
+void uvec::rotate(Vector3 *vec, const Quat &rot) { *vec = glm::gtx::rotate(rot, *vec); }
 
 Vector3 uvec::cross(const Vector3 &vecA, const Vector3 &vecB) { return glm::cross(vecA, vecB); }
 
@@ -449,7 +450,7 @@ Vector3 uvec::get_perpendicular(const Vector3 &v)
 	return r;
 }
 
-Vector3 uvec::project(const Vector3 &p, const Vector3 &n) { return glm::proj(p, n); }
+Vector3 uvec::project(const Vector3 &p, const Vector3 &n) { return glm::gtx::proj(p, n); }
 Vector3 uvec::project_to_plane(const Vector3 &p, const Vector3 &n, float d) { return p - (dot(p, n) - d) * n; }
 Mat3 uvec::calc_outer_product(const Vector3 &v0, const Vector3 &v1) { return Mat3(v0.x * v1.x, v0.x * v1.y, v0.x * v1.z, v0.y * v1.x, v0.y * v1.y, v0.y * v1.z, v0.z * v1.x, v0.z * v1.y, v0.z * v1.z); }
 Vector3 uvec::calc_average(const std::vector<Vector3> &points)

@@ -5,8 +5,12 @@ module;
 
 #include "mathutil/mathutildefinitions.h"
 #include "mathutil/glmutil.h"
+#include <cinttypes>
+#include <type_traits>
 
 export module pragma.math:types;
+
+export import glm;
 
 export {
 	using Mat2 = glm::mat2x2;
@@ -97,4 +101,35 @@ export {
 	using umath::UInt32;
 	using umath::UInt64;
 	using umath::UInt8;
+
+	template<typename T>
+	constexpr Bool CBool(T value) { return static_cast<Bool>(value); }
+	template<typename T>
+	constexpr Char CChar(T value) { return static_cast<Char>(value); }
+	template<typename T>
+	constexpr UChar CUChar(T value) { return static_cast<UChar>(value); }
+	template<typename T>
+	constexpr Int8 CInt8(T value) { return static_cast<Int8>(value); }
+	template<typename T>
+	constexpr UInt8 CUInt8(T value) { return static_cast<UInt8>(value); }
+	template<typename T>
+	constexpr Int16 CInt16(T value) { return static_cast<Int16>(value); }
+	template<typename T>
+	constexpr UInt16 CUInt16(T value) { return static_cast<UInt16>(value); }
+	template<typename T>
+	constexpr Int32 CInt32(T value) { return static_cast<Int32>(value); }
+	template<typename T>
+	constexpr UInt32 CUInt32(T value) { return static_cast<UInt32>(value); }
+	template<typename T>
+	constexpr Int64 CInt64(T value) { return static_cast<Int64>(value); }
+	template<typename T>
+	constexpr UInt64 CUInt64(T value) { return static_cast<UInt64>(value); }
+	template<typename T>
+	constexpr Float CFloat(T value) { return static_cast<Float>(value); }
+	template<typename T>
+	constexpr Double CDouble(T value) { return static_cast<Double>(value); }
+	template<typename T>
+	constexpr LDouble CLDouble(T value) { return static_cast<LDouble>(value); }
+	template<typename T>
+	constexpr UInt CUInt(T value) { return static_cast<UInt>(value); }
 }

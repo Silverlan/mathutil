@@ -3,7 +3,6 @@
 
 module;
 
-#include <glm/gtx/euler_angles.hpp>
 #include <string>
 
 module pragma.math;
@@ -76,7 +75,7 @@ Quat uquat::create(const Mat3 &rot)
 
 Quat uquat::create(const Vector3 &v, Float ang)
 {
-	return glm::angleAxis(ang, v);
+	return glm::gtx::angleAxis(ang, v);
 	/*Float sAng;
 	ang *= 0.5f;
 	Vector3 vn = uvec::get_normal(v);
@@ -92,7 +91,7 @@ Quat uquat::create(const Vector3 &v, Float ang)
 
 Quat uquat::create(const EulerAngles &ang)
 {
-	return glm::quat_cast(glm::eulerAngleYXZ(umath::deg_to_rad(ang.y), umath::deg_to_rad(ang.p), umath::deg_to_rad(ang.r)));
+	return glm::quat_cast(glm::gtx::eulerAngleYXZ(umath::deg_to_rad(ang.y), umath::deg_to_rad(ang.p), umath::deg_to_rad(ang.r)));
 
 	// Obsolete
 	/*Float pitch = static_cast<Float>(umath::deg_to_rad(ang.p));
@@ -165,8 +164,8 @@ Vector3 uquat::forward(const Quat &q) { return Vector3(2 * (q.x * q.z + q.w * q.
 Vector3 uquat::right(const Quat &q) { return -Vector3(1 - 2 * (q.y * q.y + q.z * q.z), 2 * (q.x * q.y + q.w * q.z), 2 * (q.x * q.z - q.w * q.y)); }
 Vector3 uquat::up(const Quat &q) { return Vector3(2 * (q.x * q.y - q.w * q.z), 1 - 2 * (q.x * q.x + q.z * q.z), 2 * (q.y * q.z + q.w * q.x)); }
 
-Quat uquat::slerp(const Quat &q1, const Quat &q2, Float factor) { return glm::slerp(q1, q2, factor); }
-Quat uquat::lerp(const Quat &q1, const Quat &q2, Float factor) { return glm::lerp(q1, q2, factor); }
+Quat uquat::slerp(const Quat &q1, const Quat &q2, Float factor) { return glm::gtx::slerp(q1, q2, factor); }
+Quat uquat::lerp(const Quat &q1, const Quat &q2, Float factor) { return glm::gtx::lerp(q1, q2, factor); }
 void uquat::get_orientation(const Quat &q, Vector3 *forward, Vector3 *right, Vector3 *up)
 {
 	if(forward != nullptr)
@@ -179,9 +178,9 @@ void uquat::get_orientation(const Quat &q, Vector3 *forward, Vector3 *right, Vec
 Float uquat::dot_product(const Quat &q1, const Quat &q2) { return glm::dot(q1, q2); }
 void uquat::rotate(Quat &q, const EulerAngles &ang)
 {
-	q = glm::rotate(q, ang.r, uvec::RIGHT);
-	q = glm::rotate(q, ang.p, uvec::FORWARD);
-	q = glm::rotate(q, ang.y, uvec::UP);
+	q = glm::gtx::rotate(q, ang.r, uvec::RIGHT);
+	q = glm::gtx::rotate(q, ang.p, uvec::FORWARD);
+	q = glm::gtx::rotate(q, ang.y, uvec::UP);
 }
 Float uquat::length(const Quat &q) { return umath::sqrt(pow(q.w, 2) + pow(q.x, 2) + pow(q.y, 2) + pow(q.z, 2)); }
 void uquat::normalize(Quat &q)

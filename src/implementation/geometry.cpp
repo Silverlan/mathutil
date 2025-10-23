@@ -431,7 +431,7 @@ std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const
 		auto &v0 = verts.at(i);
 		for(auto j = i + 1; j < verts.size(); ++j) {
 			auto &v1 = verts.at(j);
-			auto dSqr = glm::distance2(v0, v1);
+			auto dSqr = glm::gtx::distance2(v0, v1);
 			if(dSqr < 0.01) {
 				// Duplicate vertex
 				vertexStates.at(j) = false;
@@ -471,8 +471,8 @@ std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const
 					auto &vSrc = verts.at(iSrc);
 					auto &vDst = verts.at(iDst);
 					auto &vDstOld = verts.at(it->second);
-					auto l = glm::distance2(vSrc, vDst);
-					auto lOld = glm::distance2(vSrc, vDstOld);
+					auto l = glm::gtx::distance2(vSrc, vDst);
+					auto lOld = glm::gtx::distance2(vSrc, vDstOld);
 					if(l > lOld)
 						it->second = iDst;
 				}

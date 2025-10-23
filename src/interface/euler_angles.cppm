@@ -18,8 +18,8 @@ export {
 		constexpr EulerAngles() : EulerAngles {0.f, 0.f, 0.f} {}
 		constexpr EulerAngles(Float p, Float y, Float r) : p {p}, y {y}, r {r} {}
 		constexpr EulerAngles(const EulerAngles &ang) : EulerAngles {ang.p, ang.y, ang.r} {}
-		explicit EulerAngles(const Mat4 &mat);
-		explicit EulerAngles(const Quat &rot);
+		EulerAngles(const Mat4 &mat);
+		EulerAngles(const Quat &rot);
 		explicit EulerAngles(const Vector3 &forward);
 		EulerAngles(const Vector3 &forward, const Vector3 &up);
 		EulerAngles(const std::string &str);

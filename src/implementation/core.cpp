@@ -4,8 +4,6 @@
 module;
 
 #include <string>
-#include <glm/glm.hpp>
-#include <glm/detail/type_half.hpp>
 #include <random>
 
 module pragma.math;
@@ -279,8 +277,8 @@ long double umath::sqrt(long double v) { return sqrtl(v); }
 uint16_t umath::float32_to_float16(float f) { return Float16Compressor::compress(f); }
 float umath::float16_to_float32(uint16_t v) { return Float16Compressor::decompress(v); }
 
-int16_t umath::float32_to_float16_glm(float f) { return glm::detail::toFloat16(f); }
-float umath::float16_to_float32_glm(int16_t v) { return glm::detail::toFloat32(v); }
+int16_t umath::float32_to_float16_glm(float f) { return glm::toFloat16(f); }
+float umath::float16_to_float32_glm(int16_t v) { return glm::toFloat32(v); }
 
 umath::Radian umath::calc_horizontal_fov(float focalLengthImMM, float width, float height) { return 2.f * atan2(width / 2.f, focalLengthImMM); }
 umath::Radian umath::calc_vertical_fov(float focalLengthImMM, float width, float height) { return 2.f * atan2(height / 2.f, focalLengthImMM); }

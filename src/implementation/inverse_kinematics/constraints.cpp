@@ -4,6 +4,7 @@
 module;
 
 #include "mathutil/glmutil.h"
+#include <cmath>
 
 module pragma.math;
 
@@ -71,7 +72,7 @@ void IkBallSocketConstraint::Apply(int i)
 	if(angle > m_limit * QUAT_DEG2RAD) {
 		auto correction = uvec::cross(parentDir, thisDir);
 		uvec::normalize(&correction);
-		auto worldSpaceRotation = angleAxis(m_limit * QUAT_DEG2RAD, correction) * parentRot;
+		auto worldSpaceRotation = glm::gtc::angleAxis(m_limit * QUAT_DEG2RAD, correction) * parentRot;
 		m_joint.GetIkSolver().GetJointPose(i).SetRotation(inverse(parentRot) * worldSpaceRotation);
 	}
 }

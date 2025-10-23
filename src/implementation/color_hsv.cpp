@@ -5,6 +5,7 @@ module;
 
 #include "mathutil/glmutil.h"
 #include <math.h>
+#include <cmath>
 
 module pragma.math;
 

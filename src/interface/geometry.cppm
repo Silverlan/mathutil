@@ -148,7 +148,7 @@ export {
 		for(auto it = beginPlanes; it != endPlanes; ++it) {
 			auto &plane = const_cast<Plane &>(*it);
 			Vector3 r;
-			umath::geometry::closest_point_on_plane_to_point(plane.GetNormal(), CFloat(plane.GetDistance()), vec, &r);
+			umath::geometry::closest_point_on_plane_to_point(plane.GetNormal(), static_cast<float>(plane.GetDistance()), vec, &r);
 			if(uvec::length_sqr(r - vec) < radiusSqr)
 				return Intersect::Overlap;
 		}

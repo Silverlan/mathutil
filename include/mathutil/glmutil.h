@@ -5,7 +5,7 @@
 #define __UMATH_GLMUTIL_H__
 
 #include "mathutil/mathutildefinitions.h"
-
+/*
 #ifndef GLM_FORCE_DEPTH_ZERO_TO_ONE
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #endif
@@ -24,5 +24,5 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #pragma warning(default : 4201)
-
+*/
 #endif

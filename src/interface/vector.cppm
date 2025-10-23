@@ -129,11 +129,11 @@ export {
 		bool is_equal(const T &v0, const T v1, float epsilon = 0.0001f)
 		{
 			if constexpr(umath::is_floating_point_vector_type<T> || std::is_same_v<T, Quat>)
-				return glm::all(glm::epsilonEqual(v0, v1, epsilon));
+				return glm::all(glm::gtc::epsilonEqual(v0, v1, epsilon));
 			else if constexpr(umath::is_matrix_type<T>) {
 				constexpr auto len = T::length();
 				for(auto i = decltype(len) {0u}; i < len; ++i) {
-					if(!glm::all(glm::epsilonEqual(v0[i], v1[i], epsilon)))
+					if(!glm::all(glm::gtc::epsilonEqual(v0[i], v1[i], epsilon)))
 						return false;
 				}
 				return true;

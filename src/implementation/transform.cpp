@@ -3,9 +3,6 @@
 
 module;
 
-#include <glm/gtx/matrix_decompose.hpp>
-#include <glm/gtx/quaternion.hpp>
-
 module pragma.math;
 
 import :transform;
@@ -48,7 +45,7 @@ Quat &umath::Transform::GetRotation() { return rotation; }
 
 Mat4 umath::Transform::ToMatrix() const
 {
-	auto m = glm::translate(Mat4 {1.f}, translation);
+	auto m = glm::gtx::translate(Mat4 {1.f}, translation);
 	m *= umat::create(rotation);
 	return m;
 }
@@ -204,7 +201,7 @@ Vector3 umath::ScaledTransform::operator*(const Vector3 &translation) const
 Quat umath::ScaledTransform::operator*(const Quat &rot) const { return Transform::operator*(rot); }
 umath::Plane umath::ScaledTransform::operator*(const Plane &plane) const { return Transform::operator*(plane); }
 
-Mat4 umath::ScaledTransform::ToMatrix() const { return Transform::ToMatrix() * glm::scale(glm::mat4 {1.f}, scale); }
+Mat4 umath::ScaledTransform::ToMatrix() const { return Transform::ToMatrix() * glm::gtx::scale(glm::mat4 {1.f}, scale); }
 
 umath::ScaledTransform umath::ScaledTransform::operator*(float weight) const
 {

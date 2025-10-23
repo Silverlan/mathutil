@@ -13,7 +13,7 @@ endif()
 
 set(PROJ_NAME mathutil)
 pr_add_library(${PROJ_NAME} ${LIB_TYPE})
-set(IMPORT_GLM_AS_MODULE FALSE)
+set(IMPORT_GLM_AS_MODULE TRUE)
 if(IMPORT_GLM_AS_MODULE)
 	add_subdirectory("third_party_libs/glm_cxxmodule")
 else()
