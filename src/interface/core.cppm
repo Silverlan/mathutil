@@ -19,6 +19,7 @@ module;
 #include <vector>
 #include <string>
 #include <sstream>
+#include <numbers>
 #ifdef _WIN32
 #include <Windows.h>
 #else
@@ -161,9 +162,9 @@ export {
 			return std::abs(a - b) <= epsilon;
 		}
 
-		const auto pi = ::acos(-1);
-		const auto pi_2 = ::acos(-1) /2.0;
-		const auto pi_4 = ::acos(-1) /4.0;
+		constexpr auto pi = std::numbers::pi_v<double>;
+		constexpr auto pi_2 = pi /2.0;
+		constexpr auto pi_4 = pi /4.0;
 		DLLMUTIL bool is_zero(double x);
 
 		DLLMUTIL float sqrt(float v);
