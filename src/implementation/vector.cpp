@@ -8,6 +8,7 @@ module;
 #include <cmath>
 #include <cassert>
 #include <math.h>
+#include <vector>
 
 module pragma.math;
 

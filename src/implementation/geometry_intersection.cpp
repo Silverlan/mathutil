@@ -7,6 +7,7 @@ module;
 #include <limits>
 #include <cmath>
 #include <algorithm>
+#include <optional>
 
 module pragma.math;
 

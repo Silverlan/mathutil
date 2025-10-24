@@ -4,6 +4,9 @@
 module;
 
 #include <string>
+#include <cinttypes>
+#include <cmath>
+#include <vector>
 
 module pragma.math;
 

@@ -9,6 +9,7 @@ module;
 #include <optional>
 #include <string>
 #include <stdexcept>
+#include <cinttypes>
 
 export module pragma.math:geometry;
 
