@@ -3,6 +3,8 @@
 
 module;
 
+#include <array>
+
 #include "mathutil/glmutil.h"
 #include <cmath>
 

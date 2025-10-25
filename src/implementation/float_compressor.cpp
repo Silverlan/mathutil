@@ -3,6 +3,8 @@
 
 module;
 
+#include <cinttypes>
+
 module pragma.math;
 
 import :float_compressor;
