@@ -6,8 +6,6 @@ module;
 #ifdef ENABLE_MESH_FUNCTIONS
 #include "mathutil/mathutildefinitions.h"
 #endif
-#include <vector>
-#include <cinttypes>
 
 export module pragma.math:mesh;
 

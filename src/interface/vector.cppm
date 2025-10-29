@@ -4,11 +4,8 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <string>
 
 #include "mathutil/glmutil.h"
-#include <vector>
-#include <iostream>
 
 export module pragma.math:vector;
 

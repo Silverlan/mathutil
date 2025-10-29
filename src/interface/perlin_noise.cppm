@@ -5,7 +5,6 @@ module;
 
 #include "mathutil/mathutildefinitions.h"
 #include <mathutil/glmutil.h>
-#include <vector>
 
 export module pragma.math:perlin_noise;
 

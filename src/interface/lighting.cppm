@@ -4,9 +4,6 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <cinttypes>
-#include <type_traits>
-#include <utility>
 
 export module pragma.math:lighting;
 

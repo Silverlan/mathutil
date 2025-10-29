@@ -5,8 +5,6 @@ module;
 
 #include "mathutil/mathutildefinitions.h"
 #include "mathutil/glmutil.h"
-#include <memory>
-#include <vector>
 
 export module pragma.math:transform;
 

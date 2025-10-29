@@ -3,15 +3,9 @@
 
 module;
 
-#include <cinttypes>
 
-#include <array>
 
 #include "mathutil/glmutil.h"
-#include <limits>
-#include <cmath>
-#include <algorithm>
-#include <optional>
 
 module pragma.math;
 

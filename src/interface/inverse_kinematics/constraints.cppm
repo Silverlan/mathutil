@@ -4,7 +4,6 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <optional>
 
 export module pragma.math:ik.constraints;
 

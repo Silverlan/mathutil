@@ -17,7 +17,6 @@
 module;
 
 #include "mathutil/glmutil.h"
-#include <array>
 
 module pragma.math;
 

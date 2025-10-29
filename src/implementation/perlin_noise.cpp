@@ -3,9 +3,6 @@
 
 module;
 
-#include <numeric>
-#include <random>
-#include <algorithm>
 
 module pragma.math;
 

@@ -4,7 +4,6 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <iostream>
 
 export module pragma.math:vertex;
 

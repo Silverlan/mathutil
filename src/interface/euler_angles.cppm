@@ -5,9 +5,6 @@ module;
 
 #include "mathutil/mathutildefinitions.h"
 #include "mathutil/glmutil.h"
-#include <string>
-#include <array>
-#include <cinttypes>
 
 export module pragma.math:euler_angles;
 

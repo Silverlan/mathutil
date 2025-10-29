@@ -3,7 +3,6 @@
 
 module;
 
-#include <type_traits>
 
 export module pragma.math:bitmask_ops;
 

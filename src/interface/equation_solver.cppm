@@ -4,8 +4,6 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <cinttypes>
-#include <array>
 
 export module pragma.math:equation_solver;
 

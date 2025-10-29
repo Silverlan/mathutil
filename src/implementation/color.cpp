@@ -4,7 +4,6 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <sstream>
 
 module pragma.math;
 

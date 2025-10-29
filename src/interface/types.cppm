@@ -5,9 +5,6 @@ module;
 
 #include "mathutil/mathutildefinitions.h"
 #include "mathutil/glmutil.h"
-#include <stddef.h>
-#include <cinttypes>
-#include <type_traits>
 
 export module pragma.math:types;
 

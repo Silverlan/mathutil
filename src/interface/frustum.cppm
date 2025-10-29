@@ -4,7 +4,6 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <array>
 
 export module pragma.math:frustum;
 

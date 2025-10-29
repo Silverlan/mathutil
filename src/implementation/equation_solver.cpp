@@ -3,9 +3,6 @@
 
 module;
 
-#include <array>
-
-#include <cmath>
 
 module pragma.math;
 

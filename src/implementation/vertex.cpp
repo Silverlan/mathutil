@@ -6,7 +6,6 @@ module;
 #include <cinttypes>
 
 #include "mathutil/glmutil.h"
-#include <iostream>
 
 module pragma.math;
 

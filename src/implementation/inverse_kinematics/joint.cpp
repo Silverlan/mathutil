@@ -3,7 +3,6 @@
 
 module;
 
-#include <memory>
 
 module pragma.math;
 

@@ -4,11 +4,6 @@
 module;
 
 #include "mathutil/glmutil.h"
-#include <optional>
-#include <unordered_map>
-#include <cinttypes>
-#include <vector>
-#include <functional>
 
 module pragma.math;
 

@@ -16,7 +16,6 @@
 
 module;
 
-#include <cmath>
 
 module pragma.math;
 

@@ -4,8 +4,6 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <memory>
-#include <vector>
 
 export module pragma.math:ik.core;
 

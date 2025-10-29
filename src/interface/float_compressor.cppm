@@ -4,7 +4,6 @@
 module;
 
 #include "mathutil/mathutildefinitions.h"
-#include <cinttypes>
 
 export module pragma.math:float_compressor;
 

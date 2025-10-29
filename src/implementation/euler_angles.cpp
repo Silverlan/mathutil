@@ -3,11 +3,6 @@
 
 module;
 
-#include <cinttypes>
-
-#include <cmath>
-#include <iostream>
-#include <cassert>
 
 module pragma.math;
 

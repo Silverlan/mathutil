@@ -3,14 +3,8 @@
 
 module;
 
-#include <cinttypes>
 
 #include "mathutil/glmutil.h"
-#include <string>
-#include <cmath>
-#include <cassert>
-#include <math.h>
-#include <vector>
 
 module pragma.math;
 

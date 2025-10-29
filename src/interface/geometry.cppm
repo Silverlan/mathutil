@@ -5,11 +5,6 @@ module;
 
 #include "mathutil/mathutildefinitions.h"
 #include "mathutil/glmutil.h"
-#include <functional>
-#include <optional>
-#include <string>
-#include <stdexcept>
-#include <cinttypes>
 
 export module pragma.math:geometry;
 
