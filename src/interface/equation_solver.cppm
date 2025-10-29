@@ -7,6 +7,8 @@ module;
 
 export module pragma.math:equation_solver;
 
+export import std.compat;
+
 export namespace umath {
 	DLLMUTIL int32_t solve_quadric(const std::array<double, 3> &c, std::array<double, 2> &s);
 	DLLMUTIL int32_t solve_cubic(const std::array<double, 4> &c, std::array<double, 3> &s);

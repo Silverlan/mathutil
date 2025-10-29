@@ -7,6 +7,8 @@ module;
 
 export module pragma.math:random;
 
+export import std.compat;
+
 export {
 	namespace umath {
 		DLLMUTIL std::mt19937 &get_default_random_generator();

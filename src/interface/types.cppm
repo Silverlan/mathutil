@@ -9,6 +9,7 @@ module;
 export module pragma.math:types;
 
 export import glm;
+export import std.compat;
 
 export {
 	using Mat2 = glm::mat2x2;

@@ -166,7 +166,7 @@ umath::intersection::Result umath::intersection::line_aabb(const Vector3 &o, con
 		tMax = tzMax;
 	if(tMinRes != nullptr)
 		*tMinRes = tMin;
-	if(tMaxRes != NULL)
+	if(tMaxRes != nullptr)
 		*tMaxRes = tMax;
 	return Result::Intersect;
 }
@@ -177,7 +177,7 @@ umath::intersection::Result umath::intersection::line_plane(const Vector3 &o, co
 	if(f == 0.f)
 		return Result::NoIntersection;
 	float hit = (glm::dot(nPlane, (nPlane * distPlane) - o)) / f;
-	if(t != NULL)
+	if(t != nullptr)
 		*t = hit;
 	return (hit >= 0.f && hit <= 1.f) ? Result::Intersect : Result::OutOfRange;
 }
@@ -567,7 +567,7 @@ bool umath::sweep::aabb_with_aabb(Vector3 aa, const Vector3 &ab, const Vector3 &
 	bounding_volume::AABB b(ba, extB);
 	*entryTime = 0;
 	*exitTime = 0;
-	if(normal != NULL) {
+	if(normal != nullptr) {
 		normal->x = 0;
 		normal->y = 0;
 		normal->z = 0;

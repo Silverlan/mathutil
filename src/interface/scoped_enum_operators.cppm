@@ -6,6 +6,8 @@ module;
 
 export module pragma.math:bitmask_ops;
 
+export import std.compat;
+
 export namespace umath::scoped_enum {
 	template<typename E>
 		concept ScopedEnum = std::is_enum_v<E>;

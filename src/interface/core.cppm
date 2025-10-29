@@ -456,7 +456,7 @@ export {
 	T umath::swap_endian(T u)
 	{
 		// Source: https://stackoverflow.com/a/4956493
-		static_assert(CHAR_BIT == 8, "CHAR_BIT != 8");
+		static_assert(std::numeric_limits<unsigned char>::digits == 8, "CHAR_BIT != 8");
 
 		union {
 			T u;

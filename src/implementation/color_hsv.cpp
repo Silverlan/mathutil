@@ -29,7 +29,7 @@ void util::rgb_to_hsv(const Vector3 &rgb, double &hDeg, double &s, double &v)
 		s = delta / max;
 	else {
 		s = 0.0;
-		hDeg = NAN;
+		hDeg = std::numeric_limits<double>::quiet_NaN();
 		return;
 	}
 	if(rgb.x >= max)

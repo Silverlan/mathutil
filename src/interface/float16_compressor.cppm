@@ -7,6 +7,8 @@ module;
 
 export module pragma.math:float16_compressor;
 
+export import std.compat;
+
 export {
 	// Source: Unknown
 	class DLLMUTIL Float16Compressor {

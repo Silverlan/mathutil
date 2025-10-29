@@ -41,8 +41,8 @@ export {
 		DLLMUTIL bool obb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &n, double d);
 		DLLMUTIL Intersect obb_obb(const umath::ScaledTransform &obbPoseA, const Vector3 &obbMinA, const Vector3 &obbMaxA, const umath::ScaledTransform &obbPoseB, const Vector3 &obbMinB, const Vector3 &obbMaxB);
 		DLLMUTIL bool sphere_plane(const Vector3 &sphereOrigin, float sphereRadius, const Vector3 &n, double d);
-		DLLMUTIL Result line_aabb(const Vector3 &o, const Vector3 &d, const Vector3 &min, const Vector3 &max, float *tMinRes, float *tMaxRes = NULL);
-		DLLMUTIL Result line_plane(const Vector3 &o, const Vector3 &d, const Vector3 &nPlane, float distPlane, float *t = NULL);
+		DLLMUTIL Result line_aabb(const Vector3 &o, const Vector3 &d, const Vector3 &min, const Vector3 &max, float *tMinRes, float *tMaxRes = nullptr);
+		DLLMUTIL Result line_plane(const Vector3 &o, const Vector3 &d, const Vector3 &nPlane, float distPlane, float *t = nullptr);
 		DLLMUTIL bool line_obb(const Vector3 &rayStart, const Vector3 &rayDir, const Vector3 &min, const Vector3 &max, float *dist = nullptr, const Vector3 &origin = {}, const Quat &rot = uquat::identity());
 
 		DLLMUTIL bool line_sphere(const Vector3 &lineOrigin, const Vector3 &lineDir, const Vector3 &sphereOrigin, float sphereRadius, float &outT, Vector3 &outP);
