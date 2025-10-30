@@ -3,7 +3,6 @@
 
 module;
 
-#include <cinttypes>
 
 module pragma.math;
 

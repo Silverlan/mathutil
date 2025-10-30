@@ -3,7 +3,6 @@
 
 module;
 
-#include <array>
 
 #include "mathutil/glmutil.h"
 
@@ -44,9 +43,9 @@ std::array<Vector3, 4> umath::frustum::get_plane_boundaries(const Vector3 &pos, 
 	  Vector3(fc - uFar + rFar)  // Bottom right of far plane
 	};
 
-	if(outFarW != NULL)
+	if(outFarW != nullptr)
 		*outFarW = w;
-	if(outFarH != NULL)
+	if(outFarH != nullptr)
 		*outFarH = h;
 	return bounds;
 }

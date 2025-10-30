@@ -3,7 +3,6 @@
 
 module;
 
-#include <optional>
 
 #include "mathutil/glmutil.h"
 
