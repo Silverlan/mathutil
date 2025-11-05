@@ -3,7 +3,6 @@
 
 module;
 
-#include "mathutil/glmutil.h"
 #include <cassert>
 
 module pragma.math;

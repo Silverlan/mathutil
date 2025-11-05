@@ -1,8 +1,7 @@
 // SPDX-FileCopyrightText: (c) 2019 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-#ifndef __MATHUTILDEFINITIONS_H__
-#define __MATHUTILDEFINITIONS_H__
+#pragma once
 
 #ifdef MUTIL_STATIC
 #define DLLMUTIL
@@ -18,6 +17,4 @@
 #else
 #define DLLMUTIL __declspec(dllimport)
 #endif
-#endif
-
 #endif

@@ -3,7 +3,7 @@
 
 module;
 
-#include "mathutil/mathutildefinitions.h"
+#include "definitions.hpp"
 
 export module pragma.math:ik.core;
 

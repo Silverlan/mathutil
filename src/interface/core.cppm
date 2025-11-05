@@ -6,7 +6,7 @@ module;
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
-#include "mathutil/mathutildefinitions.h"
+#include "definitions.hpp"
 #include <time.h>
 #ifdef _WIN32
 #include <Windows.h>

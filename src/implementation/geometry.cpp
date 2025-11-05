@@ -3,8 +3,6 @@
 
 module;
 
-#include "mathutil/glmutil.h"
-
 module pragma.math;
 
 import :geometry;

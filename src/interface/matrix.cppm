@@ -3,8 +3,7 @@
 
 module;
 
-#include "mathutil/mathutildefinitions.h"
-#include "mathutil/glmutil.h"
+#include "definitions.hpp"
 
 export module pragma.math:matrix;
 

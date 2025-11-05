@@ -4,7 +4,7 @@
 module;
 
 #ifdef ENABLE_MESH_FUNCTIONS
-#include "mathutil/mathutildefinitions.h"
+#include "definitions.hpp"
 #endif
 
 export module pragma.math:mesh;

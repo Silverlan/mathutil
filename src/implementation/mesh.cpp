@@ -3,7 +3,6 @@
 
 module;
 
-#include "mathutil/glmutil.h"
 #ifdef ENABLE_MESH_FUNCTIONS
 #include <Mathematics/MinimumVolumeBox3.h>
 #endif

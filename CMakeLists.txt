@@ -36,7 +36,6 @@ if(${MATHUTIL_BUILD_TESTS})
 endif()
 
 pr_init_module(${PROJ_NAME})
-pr_add_headers(${PROJ_NAME} "include/")
 
 pr_add_compile_definitions(
 	${PROJ_NAME}
