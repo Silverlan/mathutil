@@ -70,7 +70,7 @@ export {
 		using Meter = float;
 		using Millimeter = float;
 		using Kilometer = float;
-		
+
 		template<typename T>
 		concept is_matrix_type = std::is_same_v<T, Mat2> || std::is_same_v<T, Mat2x3> || std::is_same_v<T, Mat2x4> || std::is_same_v<T, Mat3x2> || std::is_same_v<T, Mat3> || std::is_same_v<T, Mat3x4> || std::is_same_v<T, Mat4x2> || std::is_same_v<T, Mat4x3> || std::is_same_v<T, Mat4>;
 
@@ -101,33 +101,78 @@ export {
 	using umath::UInt8;
 
 	template<typename T>
-	constexpr Bool CBool(T value) { return static_cast<Bool>(value); }
+	constexpr Bool CBool(T value)
+	{
+		return static_cast<Bool>(value);
+	}
 	template<typename T>
-	constexpr Char CChar(T value) { return static_cast<Char>(value); }
+	constexpr Char CChar(T value)
+	{
+		return static_cast<Char>(value);
+	}
 	template<typename T>
-	constexpr UChar CUChar(T value) { return static_cast<UChar>(value); }
+	constexpr UChar CUChar(T value)
+	{
+		return static_cast<UChar>(value);
+	}
 	template<typename T>
-	constexpr Int8 CInt8(T value) { return static_cast<Int8>(value); }
+	constexpr Int8 CInt8(T value)
+	{
+		return static_cast<Int8>(value);
+	}
 	template<typename T>
-	constexpr UInt8 CUInt8(T value) { return static_cast<UInt8>(value); }
+	constexpr UInt8 CUInt8(T value)
+	{
+		return static_cast<UInt8>(value);
+	}
 	template<typename T>
-	constexpr Int16 CInt16(T value) { return static_cast<Int16>(value); }
+	constexpr Int16 CInt16(T value)
+	{
+		return static_cast<Int16>(value);
+	}
 	template<typename T>
-	constexpr UInt16 CUInt16(T value) { return static_cast<UInt16>(value); }
+	constexpr UInt16 CUInt16(T value)
+	{
+		return static_cast<UInt16>(value);
+	}
 	template<typename T>
-	constexpr Int32 CInt32(T value) { return static_cast<Int32>(value); }
+	constexpr Int32 CInt32(T value)
+	{
+		return static_cast<Int32>(value);
+	}
 	template<typename T>
-	constexpr UInt32 CUInt32(T value) { return static_cast<UInt32>(value); }
+	constexpr UInt32 CUInt32(T value)
+	{
+		return static_cast<UInt32>(value);
+	}
 	template<typename T>
-	constexpr Int64 CInt64(T value) { return static_cast<Int64>(value); }
+	constexpr Int64 CInt64(T value)
+	{
+		return static_cast<Int64>(value);
+	}
 	template<typename T>
-	constexpr UInt64 CUInt64(T value) { return static_cast<UInt64>(value); }
+	constexpr UInt64 CUInt64(T value)
+	{
+		return static_cast<UInt64>(value);
+	}
 	template<typename T>
-	constexpr Float CFloat(T value) { return static_cast<Float>(value); }
+	constexpr Float CFloat(T value)
+	{
+		return static_cast<Float>(value);
+	}
 	template<typename T>
-	constexpr Double CDouble(T value) { return static_cast<Double>(value); }
+	constexpr Double CDouble(T value)
+	{
+		return static_cast<Double>(value);
+	}
 	template<typename T>
-	constexpr LDouble CLDouble(T value) { return static_cast<LDouble>(value); }
+	constexpr LDouble CLDouble(T value)
+	{
+		return static_cast<LDouble>(value);
+	}
 	template<typename T>
-	constexpr UInt CUInt(T value) { return static_cast<UInt>(value); }
+	constexpr UInt CUInt(T value)
+	{
+		return static_cast<UInt>(value);
+	}
 }

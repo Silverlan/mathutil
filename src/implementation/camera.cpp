@@ -16,7 +16,6 @@
 
 module;
 
-
 module pragma.math;
 
 import :camera;

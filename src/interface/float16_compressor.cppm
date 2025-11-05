@@ -39,7 +39,7 @@ export {
 
 		static int32_t const maxD = infC - maxC - 1;
 		static int32_t const minD = minC - subC - 1;
-	public:
+	  public:
 		static uint16_t compress(float value);
 		static float decompress(uint16_t value);
 	};

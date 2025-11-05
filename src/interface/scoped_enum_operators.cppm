@@ -3,32 +3,31 @@
 
 module;
 
-
 export module pragma.math:bitmask_ops;
 
 export import std.compat;
 
 export namespace umath::scoped_enum {
 	template<typename E>
-		concept ScopedEnum = std::is_enum_v<E>;
+	concept ScopedEnum = std::is_enum_v<E>;
 	namespace bitwise {
 		template<typename E>
-			struct enable_bitwise_operators : std::false_type {};
+		struct enable_bitwise_operators : std::false_type {};
 
 		template<typename E>
-			inline constexpr bool enable_bitwise_operators_v = enable_bitwise_operators<E>::value;
+		inline constexpr bool enable_bitwise_operators_v = enable_bitwise_operators<E>::value;
 
 		template<typename E>
-			concept BitwiseEnum = (std::is_enum_v<E> && enable_bitwise_operators_v<E>) || (!std::is_enum_v<E> && std::is_integral_v<E>);
+		concept BitwiseEnum = (std::is_enum_v<E> && enable_bitwise_operators_v<E>) || (!std::is_enum_v<E> && std::is_integral_v<E>);
 
 		template<typename T>
-			requires(std::is_enum_v<T>)
+		    requires(std::is_enum_v<T>)
 		inline constexpr std::underlying_type_t<T> to_base_type(T v)
 		{
 			return static_cast<std::underlying_type_t<T>>(v);
 		}
 		template<typename T>
-			requires(!std::is_enum_v<T>)
+		    requires(!std::is_enum_v<T>)
 		inline constexpr T to_base_type(T v)
 		{
 			return v;
@@ -88,13 +87,13 @@ export namespace umath::scoped_enum {
 
 	namespace arithmetic {
 		template<typename E>
-			struct enable_arithmetic_operators : std::false_type {};
+		struct enable_arithmetic_operators : std::false_type {};
 
 		template<typename E>
-			inline constexpr bool enable_arithmetic_operators_v = enable_arithmetic_operators<E>::value;
+		inline constexpr bool enable_arithmetic_operators_v = enable_arithmetic_operators<E>::value;
 
 		template<typename E>
-			concept ArtihmeticEnum = (std::is_enum_v<E> && enable_arithmetic_operators_v<E>) || (!std::is_enum_v<E> && std::is_integral_v<E>);
+		concept ArtihmeticEnum = (std::is_enum_v<E> && enable_arithmetic_operators_v<E>) || (!std::is_enum_v<E> && std::is_integral_v<E>);
 
 		template<ArtihmeticEnum T0, ArtihmeticEnum T1, ScopedEnum TScopedEnum = T0>
 		inline constexpr TScopedEnum operator+(const T0 &a, const T1 &b)
@@ -117,7 +116,7 @@ export namespace umath::scoped_enum {
 		template<ArtihmeticEnum TScopedEnum, ArtihmeticEnum T1>
 		inline TScopedEnum &operator+=(TScopedEnum &a, const T1 &b)
 		{
-			a = operator+<TScopedEnum, T1, TScopedEnum>(a, b);
+			a = operator+ <TScopedEnum, T1, TScopedEnum>(a, b);
 			return a;
 		}
 		template<ArtihmeticEnum T0, ArtihmeticEnum T1, ScopedEnum TScopedEnum = T0>
@@ -141,7 +140,7 @@ export namespace umath::scoped_enum {
 		template<ArtihmeticEnum TScopedEnum, ArtihmeticEnum T1>
 		inline TScopedEnum &operator-=(TScopedEnum &a, const T1 &b)
 		{
-			a = operator-<TScopedEnum, T1, TScopedEnum>(a, b);
+			a = operator- <TScopedEnum, T1, TScopedEnum>(a, b);
 			return a;
 		}
 	};

@@ -73,9 +73,9 @@ export {
 		DLLMUTIL Vector3 closest_point_on_sphere_to_line(const Vector3 &origin, float radius, const Vector3 &start, const Vector3 &end, bool bClampResultToSegment = true);
 
 		DLLMUTIL void generate_truncated_cone_mesh(const Vector3 &origin, float startRadius, const Vector3 &dir, float dist, float endRadius, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles = nullptr, std::vector<Vector3> *normals = nullptr, uint32_t segmentCount = 12,
-		bool bAddCaps = true);
+		  bool bAddCaps = true);
 		DLLMUTIL void generate_truncated_elliptic_cone_mesh(const Vector3 &origin, float startRadiusX, float startRadiusY, const Vector3 &dir, float dist, float endRadiusX, float endRadiusY, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles = nullptr,
-		std::vector<Vector3> *normals = nullptr, uint32_t segmentCount = 12, bool bAddCaps = true);
+		  std::vector<Vector3> *normals = nullptr, uint32_t segmentCount = 12, bool bAddCaps = true);
 
 		DLLMUTIL double calc_volume_of_triangle(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2);
 		DLLMUTIL double calc_volume_of_polyhedron(const std::function<bool(const Vector3 **, const Vector3 **, const Vector3 **)> &fGetNextTriangle, Vector3 *centerOfMass = nullptr);
@@ -162,8 +162,8 @@ export {
 	{
 		// Note: If the current method causes problems, try switching to the other one.
 		// The second method is faster for most cases.
-	#define AABB_PLANE_MESH_INTERSECTION_METHOD 1
-	#if AABB_PLANE_MESH_INTERSECTION_METHOD == 0
+#define AABB_PLANE_MESH_INTERSECTION_METHOD 1
+#if AABB_PLANE_MESH_INTERSECTION_METHOD == 0
 		// Source: https://www.gamedev.net/forums/topic/672043-perfect-aabb-frustum-intersection-test/?do=findComment&comment=5254253
 		UInt result = INTERSECT_INSIDE;
 
@@ -190,7 +190,7 @@ export {
 		}
 
 		return result;
-	#else
+#else
 		Vector3 vMin, vMax;
 		auto r = Intersect::Inside;
 		for(auto it = beginPlanes; it != endPlanes; ++it) {
@@ -226,6 +226,6 @@ export {
 				r = Intersect::Overlap;
 		}
 		return r;
-	#endif
+#endif
 	}
 }

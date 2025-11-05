@@ -111,12 +111,12 @@ export {
 			// See https://github.com/stevengj/nlopt/blob/master/src/util/sobolseq.c#L87
 			const uint32_t a = 0x05f66a47; /* magic number, found by brute force */
 			const unsigned decode[32] = {0, 1, 2, 26, 23, 3, 15, 27, 24, 21, 19, 4, 12, 16, 28, 6, 31, 25, 22, 14, 20, 18, 11, 5, 30, 13, 17, 10, 29, 9, 8, 7};
-	#ifdef _MSC_VER
-	#pragma warning(suppress : 4146)
+#ifdef _MSC_VER
+#pragma warning(suppress : 4146)
 			n = a * (n & (-n)); /* same as below, but suppress spurious warning/error with MS compiler about negating unsigned int */
-	#else
+#else
 			n = a * (n & (-n)); /* store in n to make sure mult. is 32 bits */
-	#endif
+#endif
 			return decode[n >> 27];
 		}
 		template<class T>
@@ -150,8 +150,8 @@ export {
 		}
 
 		constexpr auto pi = std::numbers::pi_v<double>;
-		constexpr auto pi_2 = pi /2.0;
-		constexpr auto pi_4 = pi /4.0;
+		constexpr auto pi_2 = pi / 2.0;
+		constexpr auto pi_4 = pi / 4.0;
 		DLLMUTIL bool is_zero(double x);
 
 		DLLMUTIL float sqrt(float v);

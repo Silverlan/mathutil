@@ -26,7 +26,7 @@ export {
 
 		class ScaledTransform;
 		class DLLMUTIL Transform {
-		public:
+		  public:
 			constexpr Transform() : translation {}, rotation {uquat::identity()} {}
 			Transform(const Mat4 &t);
 			Transform(const Vector3 &translation, const Quat &rotation);
@@ -75,13 +75,13 @@ export {
 
 			// Note: Getter/Setter methods should be preferred, these are public primarily to allow
 			// the class to be used as a literal non-type template parameter
-		public:
+		  public:
 			Vector3 translation = {};
 			Quat rotation = uquat::identity();
 		};
 
 		class DLLMUTIL ScaledTransform : public Transform {
-		public:
+		  public:
 			constexpr ScaledTransform() : Transform {}, scale {uvec::IDENTITY_SCALE} {}
 			ScaledTransform(const Mat4 &t);
 			ScaledTransform(const Vector3 &translation, const Quat &rotation) : Transform {translation, rotation} {}
@@ -118,7 +118,7 @@ export {
 
 			// Note: Getter/Setter methods should be preferred, these are public primarily to allow
 			// the class to be used as a literal non-type template parameter
-		public:
+		  public:
 			Vector3 scale = uvec::IDENTITY_SCALE;
 		};
 

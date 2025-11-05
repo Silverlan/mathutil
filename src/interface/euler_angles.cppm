@@ -11,7 +11,7 @@ export import :types;
 
 export {
 	class DLLMUTIL EulerAngles {
-	public:
+	  public:
 		constexpr EulerAngles() : EulerAngles {0.f, 0.f, 0.f} {}
 		constexpr EulerAngles(Float p, Float y, Float r) : p {p}, y {y}, r {r} {}
 		constexpr EulerAngles(const EulerAngles &ang) : EulerAngles {ang.p, ang.y, ang.r} {}
@@ -23,9 +23,9 @@ export {
 
 		friend bool operator==(const EulerAngles &a, const EulerAngles &b);
 		friend bool operator!=(const EulerAngles &a, const EulerAngles &b);
-	private:
+	  private:
 		void Initialize(const Mat4 &mat);
-	public:
+	  public:
 		Float p = 0.f;
 		Float y = 0.f;
 		Float r = 0.f;

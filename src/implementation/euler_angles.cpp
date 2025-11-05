@@ -142,9 +142,7 @@ EulerAngles::EulerAngles(const Vector3 &forward, const Vector3 &up) : EulerAngle
 	}*/
 	//fix_inverted_pole(*this);
 }
-EulerAngles::EulerAngles(const std::string &str) : EulerAngles() {
-    ustring::string_to_array<Float, Double>(str, &p, atof, 3);
-}
+EulerAngles::EulerAngles(const std::string &str) : EulerAngles() { ustring::string_to_array<Float, Double>(str, &p, atof, 3); }
 
 void EulerAngles::Initialize(const Mat4 &mat)
 {

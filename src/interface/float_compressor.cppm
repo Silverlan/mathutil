@@ -30,7 +30,7 @@ export {
 
 		static int32_t const signF = 0x80000000;
 		static int32_t const absF = ~signF;
-	public:
+	  public:
 		FloatCompressor(float min, float epsilon, float max, int precision);
 		float clamp(float value);
 		uint32_t compress(float value);

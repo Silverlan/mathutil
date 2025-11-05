@@ -10,8 +10,8 @@ export module pragma.math:vertex;
 export import :types;
 
 export {
-	#pragma warning(push)
-	#pragma warning(disable : 4251)
+#pragma warning(push)
+#pragma warning(disable : 4251)
 	namespace umath {
 		constexpr double VERTEX_EPSILON = 0.001;
 
@@ -39,7 +39,7 @@ export {
 			Vector4 weights = {};
 		};
 	};
-	#pragma warning(pop)
+#pragma warning(pop)
 
 	DLLMUTIL std::ostream &operator<<(std::ostream &out, const umath::Vertex &v);
 	DLLMUTIL std::ostream &operator<<(std::ostream &out, const umath::VertexWeight &v);

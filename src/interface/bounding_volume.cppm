@@ -14,20 +14,20 @@ export import :vector;
 #undef max
 
 export {
-	#pragma warning(disable : 4251)
+#pragma warning(disable : 4251)
 	namespace umath {
 		class ScaledTransform;
 	};
 	namespace bounding_volume {
 		class DLLMUTIL Sphere {
-		public:
+		  public:
 			Sphere(const Vector3 &origin, float radius);
 			Sphere();
 			Vector3 origin;
 			float radius;
 		};
 		class DLLMUTIL AABB {
-		public:
+		  public:
 			AABB(const Vector3 &min, const Vector3 &max);
 			AABB();
 			Vector3 min;
@@ -58,12 +58,12 @@ export {
 			}
 		};
 		class DLLMUTIL OBB : public AABB {
-		public:
+		  public:
 			OBB(const Vector3 &min, const Vector3 &max, const Quat &rot);
 			OBB(const Vector3 &min, const Vector3 &max);
 			OBB();
 			Quat rotation;
 		};
 	};
-	#pragma warning(default : 4251)
+#pragma warning(default : 4251)
 }

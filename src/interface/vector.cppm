@@ -176,7 +176,7 @@ export {
 		DLLMUTIL constexpr Vector3 vec3(float v) { return {v, v, v}; }
 
 		template<typename T>
-			requires(umath::is_vector_type<T>)
+		    requires(umath::is_vector_type<T>)
 		std::string to_string(const T &v, char sep = ',')
 		{
 			std::string s;

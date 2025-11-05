@@ -3,7 +3,6 @@
 
 module;
 
-
 module pragma.math;
 
 import :float16_compressor;

@@ -11,7 +11,7 @@ export import :types;
 
 export {
 	struct DLLMUTIL Color {
-	public:
+	  public:
 		static Color CreateFromHexColor(const std::string &hexColor);
 		constexpr Color() : r(255), g(255), b(255), a(255) {}
 		constexpr Color(Int16 r, Int16 g, Int16 b, Int16 a = 255)
