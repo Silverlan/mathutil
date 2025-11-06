@@ -12,7 +12,7 @@ export import :types;
 export {
 	class EulerAngles;
 	namespace uquat {
-		CONSTEXPR_COMPAT auto UNIT = Quat {};
+		CONSTEXPR_DLL_COMPAT auto UNIT = Quat {};
 		DLLMUTIL Quat create(const Vector3 &v, Float ang);
 		DLLMUTIL Quat create(const EulerAngles &ang);
 		DLLMUTIL Quat create(const Vector3 &forward, const Vector3 &right, const Vector3 &up);
