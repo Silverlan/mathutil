@@ -1,0 +1,21 @@
+// SPDX-FileCopyrightText: (c) 2019 Silverlan <opensource@pragma-engine.com>
+// SPDX-License-Identifier: MIT
+
+module;
+
+#ifdef ENABLE_MESH_FUNCTIONS
+#include "definitions.hpp"
+#endif
+
+export module pragma.math:mesh;
+
+#ifdef ENABLE_MESH_FUNCTIONS
+
+export import :quaternion;
+
+export namespace umesh {
+	DLLMUTIL bool generate_convex_hull(const std::vector<Vector3> &pointCloud, std::vector<uint32_t> &convexHull);
+	DLLMUTIL std::vector<uint32_t> generate_convex_hull(const std::vector<Vector3> &pointCloud);
+	DLLMUTIL void calc_smallest_enclosing_bbox(const std::vector<Vector3> &pointCloud, Vector3 &center, Vector3 &extents, Quat &rot);
+};
+#endif
