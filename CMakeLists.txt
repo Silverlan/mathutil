@@ -35,7 +35,12 @@ if(${MATHUTIL_BUILD_TESTS})
 	pr_add_external_dependency(${PROJ_NAME} google_tests HEADER_ONLY)
 endif()
 
+pr_add_headers(${PROJ_NAME} "include/")
 pr_init_module(${PROJ_NAME})
+
+# magic_enum
+target_include_directories(${PROJ_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/third_party_libs/magic_enum/include/")
+pr_add_module_list(${PROJ_NAME} cxx_modules_impl PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/third_party_libs/magic_enum/module/magic_enum.cppm")
 
 pr_add_compile_definitions(
 	${PROJ_NAME}

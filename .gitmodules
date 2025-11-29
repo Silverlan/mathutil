@@ -1,3 +1,6 @@
 [submodule "third_party_libs/glm_cxxmodule"]
 	path = third_party_libs/glm_cxxmodule
 	url = https://github.com/Silverlan/glm_cxxmodule.git
+[submodule "third_party_libs/magic_enum"]
+	path = third_party_libs/magic_enum
+	url = https://github.com/Silverlan/magic_enum.git

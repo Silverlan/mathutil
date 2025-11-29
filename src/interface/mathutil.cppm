@@ -26,3 +26,5 @@ export import :transform;
 export import :types;
 export import :vector;
 export import :vertex;
+
+export import magic_enum;
