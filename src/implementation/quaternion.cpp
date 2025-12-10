@@ -152,7 +152,7 @@ Quat uquat::create(const Mat4 &m)
 Quat uquat::create(const std::string &s)
 {
 	Quat r {};
-	ustring::string_to_array<Float, Double>(s, &r.x, atof, 4);
+	ustring::string_to_array<Float>(s, &r.x, ustring::cstring_to_number<float>, 4);
 	return Quat {r.x, r.y, r.z, r.w};
 }
 

@@ -19,14 +19,14 @@ static Vector3 VECTOR_AXIS_Z(0.f, 0.f, 1.f);
 Vector3 uvec::create(const std::string &str)
 {
 	Vector3 r;
-	ustring::string_to_array<glm::vec3::value_type, Double>(str, &r[0], atof, 3);
+	ustring::string_to_array<glm::vec3::value_type>(str, &r[0], ustring::cstring_to_number<float>, 3);
 	return r;
 }
 
 Vector4 uvec::create_v4(const std::string &str)
 {
 	Vector4 r;
-	ustring::string_to_array<glm::vec4::value_type, Double>(str, &r[0], atof, 4);
+	ustring::string_to_array<glm::vec4::value_type>(str, &r[0], ustring::cstring_to_number<float>, 4);
 	return r;
 }
 

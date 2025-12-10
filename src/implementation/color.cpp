@@ -19,7 +19,7 @@ Color Color::CreateFromHexColor(const std::string &hexColor)
 	auto a = ustring::substr(hexColor, 6, 2);
 	return Color {static_cast<int16_t>(umath::to_hex_number(r)), static_cast<int16_t>(umath::to_hex_number(g)), static_cast<int16_t>(umath::to_hex_number(b)), (a.empty() == false) ? static_cast<int16_t>(umath::to_hex_number(a)) : static_cast<int16_t>(255)};
 }
-Color::Color(const std::string &str) : Color {0, 0, 0, 255} { ustring::string_to_array<Int16, Int32>(str, &r, atoi, 4); }
+Color::Color(const std::string &str) : Color {0, 0, 0, 255} { ustring::string_to_array<Int16>(str, &r, ustring::cstring_to_number<int16_t>, 4); }
 Color::Color(const Vector3 &v) : r(static_cast<Int16>(umath::round(v.x * 255.f))), g(static_cast<Int16>(umath::round(v.y * 255.f))), b(static_cast<Int16>(umath::round(v.z * 255.f))), a(255) {}
 Color::Color(const Vector4 &v) : r(static_cast<Int16>(umath::round(v.x * 255.f))), g(static_cast<Int16>(umath::round(v.y * 255.f))), b(static_cast<Int16>(umath::round(v.z * 255.f))), a(static_cast<Int16>(umath::round(v.w * 255.f))) {}
 Color Color::GetComplementaryColor() const { return {static_cast<int16_t>(255 - r), static_cast<int16_t>(255 - g), static_cast<int16_t>(255 - b), static_cast<int16_t>(a)}; }
