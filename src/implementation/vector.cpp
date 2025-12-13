@@ -10,7 +10,7 @@ module pragma.math;
 import :vector;
 import pragma.string;
 
-using namespace umath;
+using namespace pragma::math;
 
 static Vector3 VECTOR_AXIS_X(1.f, 0.f, 0.f);
 static Vector3 VERTOR_AXIS_Y(0.f, 1.f, 0.f);
@@ -19,29 +19,29 @@ static Vector3 VECTOR_AXIS_Z(0.f, 0.f, 1.f);
 Vector3 uvec::create(const std::string &str)
 {
 	Vector3 r;
-	ustring::string_to_array<glm::vec3::value_type>(str, &r[0], ustring::cstring_to_number<float>, 3);
+	pragma::string::string_to_array<glm::vec3::value_type>(str, &r[0], pragma::string::cstring_to_number<float>, 3);
 	return r;
 }
 
 Vector4 uvec::create_v4(const std::string &str)
 {
 	Vector4 r;
-	ustring::string_to_array<glm::vec4::value_type>(str, &r[0], ustring::cstring_to_number<float>, 4);
+	pragma::string::string_to_array<glm::vec4::value_type>(str, &r[0], pragma::string::cstring_to_number<float>, 4);
 	return r;
 }
 
 Vector2 uvec::create_random_unit_vector2()
 {
-	Float azimuth = umath::random(0.f, 2.f) * Float(umath::pi);
+	Float azimuth = pragma::math::random(0.f, 2.f) * Float(pi);
 	return Vector2(std::cos(azimuth), std::sin(azimuth));
 }
 
 Vector3 uvec::create_random_unit_vector()
 {
-	Float azimuth = umath::random(0.f, 2.f) * Float(umath::pi);
+	Float azimuth = pragma::math::random(0.f, 2.f) * Float(pi);
 	Vector2 planar(std::cos(azimuth), std::sin(azimuth));
 
-	Float z = umath::random(-1.f, 1.f);
+	Float z = pragma::math::random(-1.f, 1.f);
 	planar *= std::sqrt(1.f - z * z);
 	return Vector3(planar.x, planar.y, z);
 }
@@ -50,15 +50,15 @@ Vector3 uvec::get_random_spread(const Vector3 &a, const Vector3 &b, Float)
 {
 	Vector3 c = (a + b) / 2.f;
 	Float r = sqrtf(powf(glm::distance(a, b) / 2.f, 2));
-	Float x = umath::random(-r, r);
+	Float x = pragma::math::random(-r, r);
 	Float rSq = powf(r, 2);
 	Float xSq = powf(x, 2);
 	Float t = rSq - xSq;
 	Float limY = (t > 0 ? sqrtf(t) : t);
-	Float y = umath::random(-limY, limY);
+	Float y = pragma::math::random(-limY, limY);
 	t -= powf(y, 2);
 	Float limZ = (t > 0 ? sqrtf(t) : t);
-	Float z = umath::random(-limZ, limZ);
+	Float z = pragma::math::random(-limZ, limZ);
 	return c + Vector3(x, y, z);
 }
 
@@ -177,7 +177,7 @@ EulerAngles uvec::to_angle(const Vector3 &vec)
 {
 	auto ang = EulerAngles(vec);
 	ang.r = 0.f;
-	if(umath::abs(ang.p) > 90.f) // Assume that yaw is the most important axis, so make sure yaw rotation
+	if(pragma::math::abs(ang.p) > 90.f) // Assume that yaw is the most important axis, so make sure yaw rotation
 		ang.Flip();
 	return ang;
 }
@@ -186,21 +186,21 @@ EulerAngles uvec::to_angle(const Vector3 &vec, const Vector3 &up)
 {
 	auto ang = EulerAngles(vec, up);
 	ang.r = 0.f;
-	if(umath::abs(ang.p) > 90.f)
+	if(pragma::math::abs(ang.p) > 90.f)
 		ang.Flip();
 	return ang;
 }
 
 Quat uvec::to_quaternion(const Vector3 &axis, Float angle)
 {
-	angle = static_cast<Float>(umath::deg_to_rad(angle)) * 0.5f;
+	angle = static_cast<Float>(deg_to_rad(angle)) * 0.5f;
 	Float sa = sinf(angle);
 	Float ca = cosf(angle);
 	return Quat(axis.x * sa, axis.y * sa, axis.z * sa, ca);
 }
 
-Float uvec::get_yaw(const Vector3 &v) { return static_cast<Float>(umath::rad_to_deg(atan2f(v.x, v.z))); }
-Float uvec::get_pitch(const Vector3 &v) { return 360.f - static_cast<Float>(umath::rad_to_deg(atan2f(v.y, sqrtf((v.x * v.x) + (v.z * v.z))))); }
+Float uvec::get_yaw(const Vector3 &v) { return static_cast<Float>(pragma::math::rad_to_deg(atan2f(v.x, v.z))); }
+Float uvec::get_pitch(const Vector3 &v) { return 360.f - static_cast<Float>(pragma::math::rad_to_deg(atan2f(v.y, sqrtf((v.x * v.x) + (v.z * v.z))))); }
 Float uvec::dot(const Vector3 &a, const Vector3 &b) { return glm::dot(a, b); }
 
 void uvec::normalize(Vector3 *x)
@@ -238,9 +238,9 @@ static const Vector3 vYaw(0, 1, 0);
 static const Vector3 vRoll(0, 0, 1);
 void uvec::rotate(Vector3 *vec, const EulerAngles &ang)
 {
-	Vector3 rotated = glm::gtx::rotate(*vec, static_cast<float>(umath::deg_to_rad(ang.r)), vRoll);
-	rotated = glm::gtx::rotate(rotated, static_cast<float>(umath::deg_to_rad(ang.p)), vPitch);
-	rotated = glm::gtx::rotate(rotated, static_cast<float>(umath::deg_to_rad(ang.y)), vYaw);
+	Vector3 rotated = glm::gtx::rotate(*vec, static_cast<float>(deg_to_rad(ang.r)), vRoll);
+	rotated = glm::gtx::rotate(rotated, static_cast<float>(deg_to_rad(ang.p)), vPitch);
+	rotated = glm::gtx::rotate(rotated, static_cast<float>(deg_to_rad(ang.y)), vYaw);
 	vec->x = rotated.x;
 	vec->y = rotated.y;
 	vec->z = rotated.z;
@@ -262,9 +262,9 @@ void uvec::rotate_around(Vector3 *vec, const EulerAngles &ang, const Vector3 &ce
 	vec->z = rot.z;
 }
 
-Float uvec::length(const Vector3 &vec) { return umath::sqrt(length_sqr(vec)); }
+Float uvec::length(const Vector3 &vec) { return pragma::math::sqrt(length_sqr(vec)); }
 
-Float uvec::length_sqr(const Vector3 &vec) { return umath::pow2(vec.x) + umath::pow2(vec.y) + umath::pow2(vec.z); }
+Float uvec::length_sqr(const Vector3 &vec) { return pragma::math::pow2(vec.x) + pragma::math::pow2(vec.y) + pragma::math::pow2(vec.z); }
 
 std::string uvec::to_string(Vector3 *vec)
 {
@@ -278,12 +278,12 @@ std::string uvec::to_string(Vector3 *vec)
 	return r;
 }
 
-umath::Degree uvec::get_angle(const Vector3 &a, const Vector3 &b)
+Degree uvec::get_angle(const Vector3 &a, const Vector3 &b)
 {
 	auto dot = uvec::dot(a, b);
 	auto la = uvec::length(a);
 	auto lb = uvec::length(b);
-	return umath::rad_to_deg(umath::acos(dot / (la * lb)));
+	return pragma::math::rad_to_deg(pragma::math::acos(dot / (la * lb)));
 }
 
 Quat uvec::get_rotation(const Vector3 &a, const Vector3 &b)
@@ -306,7 +306,7 @@ Quat uvec::get_rotation(const Vector3 &a, const Vector3 &b)
 		if(uvec::length(r) < 0.000001f)
 			r = uvec::cross(VECTOR_AXIS_Z,v1);
 		uvec::normalize(&r);
-		return uquat::create(r,Float(umath::pi));
+		return uquat::create(r,Float(pragma::math::pi));
 	}
 #pragma message("TODO: Why do we have to negate the 'w'-component?")
 	return Quat(-w,cross.x,cross.y,cross.z);
@@ -331,7 +331,7 @@ Quat uvec::get_rotation(const Vector3 &a, const Vector3 &b)
 	if(d < (1e-6f - 1.0f)) {
 		if(fallbackAxis != zeroVector) {
 			// rotate 180 degrees about the fallback axis
-			q = uquat::create(fallbackAxis, umath::pi);
+			q = uquat::create(fallbackAxis, pi);
 		}
 		else {
 			// Generate an axis
@@ -339,11 +339,11 @@ Quat uvec::get_rotation(const Vector3 &a, const Vector3 &b)
 			if(uvec::length_sqr(axis) < 1e-06 * 1e-06) // pick another if colinear
 				axis = uvec::cross(Vector3 {0.f, 1.f, 0.f}, a);
 			uvec::normalize(&axis);
-			q = uquat::create(axis, umath::pi);
+			q = uquat::create(axis, pi);
 		}
 	}
 	else {
-		auto s = umath::sqrt((1 + d) * 2);
+		auto s = pragma::math::sqrt((1 + d) * 2);
 		auto invs = 1 / s;
 
 		Vector3 c = uvec::cross(v0, v1);
@@ -385,15 +385,15 @@ void uvec::world_to_local(const Quat &localRot, Quat &ioRot) { ioRot = uquat::ge
 
 void uvec::snap_to_grid(Vector3 &v, UInt32 gridSize)
 {
-	v.x = static_cast<float>(umath::snap_to_grid(v.x, gridSize));
-	v.y = static_cast<float>(umath::snap_to_grid(v.y, gridSize));
-	v.z = static_cast<float>(umath::snap_to_grid(v.z, gridSize));
+	v.x = static_cast<float>(pragma::math::snap_to_grid(v.x, gridSize));
+	v.y = static_cast<float>(pragma::math::snap_to_grid(v.y, gridSize));
+	v.z = static_cast<float>(pragma::math::snap_to_grid(v.z, gridSize));
 }
 
 Vector3 uvec::calc_world_direction_from_2d_coordinates(const Vector3 &forward, const Vector3 &right, const Vector3 &up, Float fovRad, Float nearZ, Float farZ, Float aspectRatio, Float width, Float height, const Vector2 &uv)
 {
-	auto pos0 = umath::frustum::get_plane_point({}, forward, right, up, fovRad, nearZ, aspectRatio, uv);
-	auto pos1 = umath::frustum::get_plane_point({}, forward, right, up, fovRad, farZ, aspectRatio, uv);
+	auto pos0 = frustum::get_plane_point({}, forward, right, up, fovRad, nearZ, aspectRatio, uv);
+	auto pos1 = frustum::get_plane_point({}, forward, right, up, fovRad, farZ, aspectRatio, uv);
 	auto dir = pos1 - pos0;
 	normalize(&dir);
 	return dir;
@@ -436,7 +436,7 @@ Vector3 uvec::get_perpendicular(const Vector3 &v)
 	for(uint8_t i = 0; i < 3; ++i) {
 		if(dirPerp[i] != 0.f) {
 			dirPerp[i] = -dirPerp[i];
-			if(umath::abs(umath::abs(dirPerp[i]) - 1.f) <= 0.0001f)
+			if(pragma::math::abs(pragma::math::abs(dirPerp[i]) - 1.f) <= 0.0001f)
 				dirPerp[(i + 1) % 3] = 1.f;
 			break;
 		}
@@ -476,12 +476,12 @@ double uvec::calc_area_of_triangle(const Vector3 &a, const Vector3 &b, const Vec
 	return 0.5 * uvec::length(cross);
 }
 
-Vector3 uvec::calc_point_on_triangle(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2, float a, float b) { return (1.f - umath::sqrt(a)) * v0 + (umath::sqrt(a) * (1.f - b)) * v1 + (umath::sqrt(a) * b) * v2; }
+Vector3 uvec::calc_point_on_triangle(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2, float a, float b) { return (1.f - pragma::math::sqrt(a)) * v0 + (pragma::math::sqrt(a) * (1.f - b)) * v1 + (pragma::math::sqrt(a) * b) * v2; }
 
 Vector3 uvec::calc_face_normal(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2)
 {
 	if(uvec::distance_sqr(v1 - v0, v2 - v0) < 0.001)
-		return uvec::FORWARD;
+		return FORWARD;
 	auto n = uvec::cross(v1 - v0, v2 - v0);
 	uvec::normalize(&n);
 	return n;
@@ -496,7 +496,7 @@ void uvec::reflect(Vector3 &p, const Vector3 &n, float d)
 	p.z = 2.f * v.z - p.z;
 }
 
-void uvec::calc_spherical_stereo_transform(Vector3 &p, Vector3 &d, umath::Meter interocularDistance, umath::Meter convergenceDistance)
+void uvec::calc_spherical_stereo_transform(Vector3 &p, Vector3 &d, Meter interocularDistance, Meter convergenceDistance)
 {
 	float interocularOffset = interocularDistance * 0.5f;
 

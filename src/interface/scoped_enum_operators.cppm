@@ -7,7 +7,7 @@ export module pragma.math:bitmask_ops;
 
 export import std.compat;
 
-export namespace umath::scoped_enum {
+export namespace pragma::math::scoped_enum {
 	template<typename E>
 	concept ScopedEnum = std::is_enum_v<E>;
 	namespace bitwise {
@@ -147,7 +147,7 @@ export namespace umath::scoped_enum {
 };
 
 export {
-	using namespace umath::scoped_enum;
-	using namespace umath::scoped_enum::arithmetic;
-	using namespace umath::scoped_enum::bitwise;
+	using namespace pragma::math::scoped_enum;
+	using namespace pragma::math::scoped_enum::arithmetic;
+	using namespace pragma::math::scoped_enum::bitwise;
 }

@@ -43,7 +43,7 @@ export {
 	using Kelvin = uint32_t;
 	using Wavelength = uint32_t;
 
-	namespace umath {
+	namespace pragma::math {
 		using Bool = bool;
 
 		using UInt = size_t;
@@ -84,21 +84,21 @@ export {
 		concept is_vector_type = is_integral_vector_type<T> || is_floating_point_vector_type<T>;
 	};
 
-	using umath::Bool;
-	using umath::Char;
-	using umath::Double;
-	using umath::Float;
-	using umath::Int16;
-	using umath::Int32;
-	using umath::Int64;
-	using umath::Int8;
-	using umath::LDouble;
-	using umath::UChar;
-	using umath::UInt;
-	using umath::UInt16;
-	using umath::UInt32;
-	using umath::UInt64;
-	using umath::UInt8;
+	using pragma::math::Bool;
+	using pragma::math::Char;
+	using pragma::math::Double;
+	using pragma::math::Float;
+	using pragma::math::Int16;
+	using pragma::math::Int32;
+	using pragma::math::Int64;
+	using pragma::math::Int8;
+	using pragma::math::LDouble;
+	using pragma::math::UChar;
+	using pragma::math::UInt;
+	using pragma::math::UInt16;
+	using pragma::math::UInt32;
+	using pragma::math::UInt64;
+	using pragma::math::UInt8;
 
 	template<typename T>
 	constexpr Bool CBool(T value)

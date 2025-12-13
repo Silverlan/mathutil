@@ -50,7 +50,7 @@ float CCDSolver::GetThreshold() { return mThreshold; }
 
 void CCDSolver::SetThreshold(float value) { mThreshold = value; }
 
-bool CCDSolver::Solve(const umath::ScaledTransform &target)
+bool CCDSolver::Solve(const pragma::math::ScaledTransform &target)
 {
 	unsigned int size = Size();
 	if(size == 0) {
@@ -184,7 +184,7 @@ void FABRIKSolver::IterateForward(const Vector3 &base)
 	}
 }
 
-bool FABRIKSolver::Solve(const umath::ScaledTransform &target)
+bool FABRIKSolver::Solve(const pragma::math::ScaledTransform &target)
 {
 	unsigned int size = Size();
 	if(size == 0) {
@@ -223,8 +223,8 @@ bool FABRIKSolver::Solve(const umath::ScaledTransform &target)
 
 /////
 
-umath::ScaledTransform IkSolver::GetLocalTransform(unsigned int index) { return mIKChain[index].GetPose(); }
-void IkSolver::SetLocalTransform(unsigned int index, const umath::ScaledTransform &t) { mIKChain[index].GetPose() = t; }
+pragma::math::ScaledTransform IkSolver::GetLocalTransform(unsigned int index) { return mIKChain[index].GetPose(); }
+void IkSolver::SetLocalTransform(unsigned int index, const pragma::math::ScaledTransform &t) { mIKChain[index].GetPose() = t; }
 
 void IkSolver::Resize(unsigned int newSize)
 {
@@ -247,7 +247,7 @@ void IkSolver::ApplyConstraints(uint32_t iConstraint)
 		c->Apply(iConstraint);
 }
 
-umath::ScaledTransform IkSolver::GetGlobalTransform(unsigned int index) const
+pragma::math::ScaledTransform IkSolver::GetGlobalTransform(unsigned int index) const
 {
 	unsigned int size = (unsigned int)mIKChain.size();
 	auto world = mIKChain[index].GetPose();

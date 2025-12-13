@@ -8,7 +8,7 @@ module pragma.math;
 import :equation_solver;
 
 // Source: https://github.com/erich666/GraphicsGems/blob/240a34f2ad3fa577ef57be74920db6c4b00605e4/gems/Roots3And4.c
-int32_t umath::solve_quadric(const std::array<double, 3> &c, std::array<double, 2> &s)
+int32_t pragma::math::solve_quadric(const std::array<double, 3> &c, std::array<double, 2> &s)
 {
 	/* normal form: x^2 + px + q = 0 */
 	auto p = c[1] / (2 * c[2]);
@@ -31,7 +31,7 @@ int32_t umath::solve_quadric(const std::array<double, 3> &c, std::array<double, 
 	}
 }
 
-int32_t umath::solve_cubic(const std::array<double, 4> &c, std::array<double, 3> &s)
+int32_t pragma::math::solve_cubic(const std::array<double, 4> &c, std::array<double, 3> &s)
 {
 	/* normal form: x^3 + Ax^2 + Bx + C = 0 */
 	auto A = c[2] / c[3];
@@ -69,8 +69,8 @@ int32_t umath::solve_cubic(const std::array<double, 4> &c, std::array<double, 3>
 		auto t = 2 * sqrt(-p);
 
 		s[0] = t * cos(phi);
-		s[1] = -t * cos(phi + umath::pi / 3);
-		s[2] = -t * cos(phi - umath::pi / 3);
+		s[1] = -t * cos(phi + pi / 3);
+		s[2] = -t * cos(phi - pi / 3);
 		num = 3;
 	}
 	else /* one real solution */
@@ -91,7 +91,7 @@ int32_t umath::solve_cubic(const std::array<double, 4> &c, std::array<double, 3>
 	return num;
 }
 
-int32_t umath::solve_quartic(const std::array<double, 5> &c, std::array<double, 4> &s)
+int32_t pragma::math::solve_quartic(const std::array<double, 5> &c, std::array<double, 4> &s)
 {
 	/* normal form: x^4 + Ax^3 + Bx^2 + Cx + D = 0 */
 	auto A = c[3] / c[4];

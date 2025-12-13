@@ -37,7 +37,7 @@ export module pragma.math:core;
 export import :types;
 
 export {
-	namespace umath {
+	namespace pragma::math {
 		DLLMUTIL Int32 random(Int32 min, Int32 max);
 		DLLMUTIL Float random(Float min, Float max);
 		DLLMUTIL Double deg_to_rad(Double deg);
@@ -230,12 +230,12 @@ export {
 	}
 
 	template<class T>
-	T umath::abs(T v)
+	T pragma::math::abs(T v)
 	{
 		return (v < T(0)) ? -v : v;
 	}
 	template<class T>
-	T umath::approach(T val, T tgt, T inc)
+	T pragma::math::approach(T val, T tgt, T inc)
 	{
 		inc = abs(inc);
 		if(val < tgt)
@@ -246,7 +246,7 @@ export {
 	}
 
 	template<class T>
-	T umath::get_aligned_offset(T baseOffset, T alignment)
+	T pragma::math::get_aligned_offset(T baseOffset, T alignment)
 	{
 		static_assert(std::is_integral<T>::value, "Only integral types are allowed!");
 		auto r = baseOffset % alignment;
@@ -256,7 +256,7 @@ export {
 	}
 
 	template<typename T>
-	constexpr T umath::clamp(T val, T min, T max)
+	constexpr T pragma::math::clamp(T val, T min, T max)
 	{
 		if(val < min)
 			return min;
@@ -266,73 +266,73 @@ export {
 	}
 
 	template<typename T>
-	T umath::min(T a, T b)
+	T pragma::math::min(T a, T b)
 	{
 		return (a < b) ? a : b;
 	}
 
 	template<typename T, typename... Args>
-	T umath::min(T a, Args... args)
+	T pragma::math::min(T a, Args... args)
 	{
 		return min(a, min(args...));
 	}
 
 	template<typename T>
-	T umath::max(T a, T b)
+	T pragma::math::max(T a, T b)
 	{
 		return (a > b) ? a : b;
 	}
 
 	template<typename T, typename... Args>
-	T umath::max(T a, Args... args)
+	T pragma::math::max(T a, Args... args)
 	{
 		return max(a, max(args...));
 	}
 
 	template<typename T>
-	T umath::abs_max(T a, T b)
+	T pragma::math::abs_max(T a, T b)
 	{
 		return (abs(a) > abs(b)) ? a : b;
 	}
 
 	template<typename T, typename... Args>
-	T umath::abs_max(T a, Args... args)
+	T pragma::math::abs_max(T a, Args... args)
 	{
 		return max(a, max(args...));
 	}
 
 	template<class T>
-	T umath::pow(T base, T exp)
+	T pragma::math::pow(T base, T exp)
 	{
 		return ::pow(base, exp);
 	}
 
 	template<class T>
-	constexpr T umath::pow2(T base)
+	constexpr T pragma::math::pow2(T base)
 	{
 		return base * base;
 	}
 
 	template<class T>
-	constexpr T umath::pow3(T base)
+	constexpr T pragma::math::pow3(T base)
 	{
 		return pow2(base) * base;
 	}
 
 	template<class T>
-	constexpr T umath::pow4(T base)
+	constexpr T pragma::math::pow4(T base)
 	{
 		return pow3(base) * base;
 	}
 
 	template<typename E>
-	constexpr typename std::underlying_type<E>::type umath::to_integral(E e)
+	constexpr typename std::underlying_type<E>::type pragma::math::to_integral(E e)
 	{
 		return static_cast<typename std::underlying_type<E>::type>(e);
 	}
 
 	template<class V, class U, typename T>
-	typename std::enable_if<(std::is_integral<T>::value || std::is_floating_point<T>::value) && (std::is_integral<U>::value || std::is_floating_point<U>::value), U>::type umath::limit(T in)
+	typename std::enable_if<(std::is_integral<T>::value || std::is_floating_point<T>::value) && (std::is_integral<U>::value || std::is_floating_point<U>::value), U>::type pragma::math::limit(T in)
 	{
 		auto lIn = static_cast<V>(in);
 		auto max = static_cast<V>(std::numeric_limits<U>::max());
@@ -345,7 +345,7 @@ export {
 	}
 
 	template<class U, typename T>
-	typename std::enable_if<std::is_integral<T>::value && std::is_integral<U>::value, U>::type umath::limit(T in)
+	typename std::enable_if<std::is_integral<T>::value && std::is_integral<U>::value, U>::type pragma::math::limit(T in)
 	{
 		static_assert(!std::is_same<T, long long>::value, "Type not allowed: 'long long'!");
 		static_assert(!std::is_same<T, signed long long>::value, "Type not allowed: 'signed long long'!");
@@ -353,20 +353,20 @@ export {
 
 		static_assert(!std::is_same<U, unsigned long long>::value, "Type not allowed: 'unsigned long long'!");
 
-		return umath::limit<long long, U, T>(in);
+		return math::limit<long long, U, T>(in);
 	}
 
 	template<class U, typename T>
-	typename std::enable_if<std::is_floating_point<T>::value && std::is_floating_point<U>::value, U>::type umath::limit(T in)
+	typename std::enable_if<std::is_floating_point<T>::value && std::is_floating_point<U>::value, U>::type pragma::math::limit(T in)
 	{
 		static_assert(!std::is_same<T, long double>::value, "Type not allowed: 'long double'!");
 		static_assert(!std::is_same<U, long double>::value || !std::is_unsigned<U>::value, "Type not allowed: 'unsigned long double'!");
 
-		return umath::limit<long double, U, T>(in);
+		return math::limit<long double, U, T>(in);
 	}
 
 	template<typename A, typename B>
-	void umath::swap(A &a, B &b)
+	void pragma::math::swap(A &a, B &b)
 	{
 		auto tmp = a;
 		a = b;
@@ -374,13 +374,13 @@ export {
 	}
 
 	template<typename T>
-	void umath::negate(T &t)
+	void pragma::math::negate(T &t)
 	{
 		t = -t;
 	}
 
 	template<typename T>
-	T umath::smooth_step(T edge0, T edge1, T x)
+	T pragma::math::smooth_step(T edge0, T edge1, T x)
 	{
 		// Scale, bias and saturate x to 0..1 range
 		x = clamp((x - edge0) / (edge1 - edge0), T(0), T(1));
@@ -388,7 +388,7 @@ export {
 		return x * x * (3 - 2 * x);
 	}
 	template<typename T>
-	T umath::smoother_step(T edge0, T edge1, T x)
+	T pragma::math::smoother_step(T edge0, T edge1, T x)
 	{
 		// Scale, and clamp x to 0..1 range
 		x = clamp((x - edge0) / (edge1 - edge0), T(0), T(1));
@@ -397,13 +397,13 @@ export {
 	}
 
 	template<typename T>
-	constexpr T umath::get_number_of_times_dividable_by_x(T v, uint32_t x)
+	constexpr T pragma::math::get_number_of_times_dividable_by_x(T v, uint32_t x)
 	{
 		return ::floor(::log(v) / ::log(x));
 	}
 
 	template<typename T>
-	T umath::get_greatest_common_divisor(T a, T b)
+	T pragma::math::get_greatest_common_divisor(T a, T b)
 	{
 		for(;;) {
 			if(a == 0)
@@ -415,14 +415,14 @@ export {
 		}
 	}
 	template<typename T>
-	T umath::get_least_common_multiple(T a, T b)
+	T pragma::math::get_least_common_multiple(T a, T b)
 	{
 		auto temp = get_greatest_common_divisor(a, b);
 		return temp ? (a / temp * b) : 0;
 	}
 
 	template<typename T>
-	constexpr void umath::set_flag(T &baseFlags, T flag, bool set)
+	constexpr void pragma::math::set_flag(T &baseFlags, T flag, bool set)
 	{
 		if(set)
 			add_flag(baseFlags, flag);
@@ -430,14 +430,14 @@ export {
 			remove_flag(baseFlags, flag);
 	}
 	template<typename T>
-	constexpr void umath::add_flag(T &baseFlags, T flag)
+	constexpr void pragma::math::add_flag(T &baseFlags, T flag)
 	{
 		// Messy msvc c++20 compiler bug fix
 		reinterpret_cast<std::underlying_type_t<T> &>(baseFlags) |= static_cast<std::underlying_type_t<T>>(flag);
 		// baseFlags |= flag;
 	}
 	template<typename T>
-	constexpr void umath::remove_flag(T &baseFlags, T flag)
+	constexpr void pragma::math::remove_flag(T &baseFlags, T flag)
 	{
 		// Messy msvc c++20 compiler bug fix
 		reinterpret_cast<std::underlying_type_t<T> &>(baseFlags) &= ~static_cast<std::underlying_type_t<T>>(flag);
@@ -445,7 +445,7 @@ export {
 	}
 
 	template<typename T>
-	constexpr bool umath::is_flag_set(T baseFlags, T flag)
+	constexpr bool pragma::math::is_flag_set(T baseFlags, T flag)
 	{
 		// Messy msvc c++20 compiler bug fix
 		return (static_cast<std::underlying_type_t<T>>(baseFlags) & static_cast<std::underlying_type_t<T>>(flag)) != static_cast<std::underlying_type_t<T>>(0);
@@ -453,7 +453,7 @@ export {
 	}
 
 	template<typename T>
-	T umath::swap_endian(T u)
+	T pragma::math::swap_endian(T u)
 	{
 		// Source: https://stackoverflow.com/a/4956493
 		static_assert(std::numeric_limits<unsigned char>::digits == 8, "CHAR_BIT != 8");
@@ -472,7 +472,7 @@ export {
 	}
 
 	template<typename T>
-	bool umath::between(T value, T min, T max)
+	bool pragma::math::between(T value, T min, T max)
 	{
 		return value >= min && value <= max;
 	}

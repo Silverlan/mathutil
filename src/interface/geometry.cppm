@@ -13,11 +13,11 @@ import :plane;
 import :vector;
 
 export {
-	namespace umath {
+	namespace pragma::math {
 		class ScaledTransform;
 	};
 
-	namespace umath::intersection {
+	namespace pragma::math::intersection {
 		enum class Result : uint32_t {
 			NoIntersection = 0,
 			Intersect,
@@ -38,7 +38,7 @@ export {
 		DLLMUTIL bool obb_triangle(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &a, const Vector3 &b, const Vector3 &c);
 		DLLMUTIL bool aabb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &n, double d);
 		DLLMUTIL bool obb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &n, double d);
-		DLLMUTIL Intersect obb_obb(const umath::ScaledTransform &obbPoseA, const Vector3 &obbMinA, const Vector3 &obbMaxA, const umath::ScaledTransform &obbPoseB, const Vector3 &obbMinB, const Vector3 &obbMaxB);
+		DLLMUTIL Intersect obb_obb(const ScaledTransform &obbPoseA, const Vector3 &obbMinA, const Vector3 &obbMaxA, const ScaledTransform &obbPoseB, const Vector3 &obbMinB, const Vector3 &obbMaxB);
 		DLLMUTIL bool sphere_plane(const Vector3 &sphereOrigin, float sphereRadius, const Vector3 &n, double d);
 		DLLMUTIL Result line_aabb(const Vector3 &o, const Vector3 &d, const Vector3 &min, const Vector3 &max, float *tMinRes, float *tMaxRes = nullptr);
 		DLLMUTIL Result line_plane(const Vector3 &o, const Vector3 &d, const Vector3 &nPlane, float distPlane, float *t = nullptr);
@@ -63,7 +63,7 @@ export {
 		DLLMUTIL std::optional<Vector2> line_line(const Vector2 &start0, const Vector2 &end0, const Vector2 &start1, const Vector2 &end1);
 	};
 
-	namespace umath::geometry {
+	namespace pragma::math::geometry {
 		enum class WindingOrder : uint8_t { Clockwise = 0u, CounterClockwise };
 		DLLMUTIL void closest_point_on_aabb_to_point(const Vector3 &min, const Vector3 &max, const Vector3 &point, Vector3 *res);
 		DLLMUTIL void closest_point_on_plane_to_point(const Vector3 &n, float d, const Vector3 &p, Vector3 *res);
@@ -101,23 +101,23 @@ export {
 		DLLMUTIL float calc_triangle_area(const Vector3 &p0, const Vector3 &p1, const Vector3 &p2);
 		DLLMUTIL float calc_triangle_area(const Vector2 &p0, const Vector2 &p1, const Vector2 &p2, bool keepSign = false);
 
-		DLLMUTIL void get_aabb_planes(const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes);
-		DLLMUTIL std::array<umath::Plane, 6> get_aabb_planes(const Vector3 &min, const Vector3 &max);
-		DLLMUTIL void get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes);
-		DLLMUTIL std::array<umath::Plane, 6> get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max);
+		DLLMUTIL void get_aabb_planes(const Vector3 &min, const Vector3 &max, std::array<Plane, 6> &outPlanes);
+		DLLMUTIL std::array<Plane, 6> get_aabb_planes(const Vector3 &min, const Vector3 &max);
+		DLLMUTIL void get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max, std::array<Plane, 6> &outPlanes);
+		DLLMUTIL std::array<Plane, 6> get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max);
 
 		DLLMUTIL void calc_aabb_extents(const Vector3 &min, const Vector3 &max, Vector3 &outPos, Vector3 &outHalfExtents);
-		DLLMUTIL std::pair<Vector3, Vector3> calc_aabb_around_obb(const umath::ScaledTransform &pose, const Vector3 &obbPosition, const Vector3 &obbHalfExtents);
-		DLLMUTIL std::pair<Vector3, Vector3> calc_aabb_around_obb_bounds(const umath::ScaledTransform &pose, const Vector3 &min, const Vector3 &max);
+		DLLMUTIL std::pair<Vector3, Vector3> calc_aabb_around_obb(const ScaledTransform &pose, const Vector3 &obbPosition, const Vector3 &obbHalfExtents);
+		DLLMUTIL std::pair<Vector3, Vector3> calc_aabb_around_obb_bounds(const ScaledTransform &pose, const Vector3 &min, const Vector3 &max);
 	};
 
-	namespace umath::sweep {
+	namespace pragma::math::sweep {
 		DLLMUTIL bool aabb_with_aabb(Vector3 aa, const Vector3 &ab, const Vector3 &extA, Vector3 ba, const Vector3 &bb, const Vector3 &extB, float *entryTime, float *exitTime, Vector3 *normal);
 		DLLMUTIL bool aabb_with_plane(const Vector3 &origin, const Vector3 &dir, const Vector3 &ext, const Vector3 &planeNormal, float planeDistance, float *t);
 	};
 
 	template<typename Iterator>
-	bool umath::intersection::point_in_plane_mesh(const Vector3 &vec, Iterator beginPlanes, Iterator endPlanes)
+	bool pragma::math::intersection::point_in_plane_mesh(const Vector3 &vec, Iterator beginPlanes, Iterator endPlanes)
 	{
 		for(auto it = beginPlanes; it != endPlanes; ++it) {
 			if(it->GetDistance(vec) > 0.f)
@@ -127,7 +127,7 @@ export {
 	}
 
 	template<typename Iterator>
-	umath::intersection::Intersect umath::intersection::sphere_in_plane_mesh(const Vector3 &vec, float radius, Iterator beginPlanes, Iterator endPlanes, bool skipInsideTest)
+	pragma::math::intersection::Intersect pragma::math::intersection::sphere_in_plane_mesh(const Vector3 &vec, float radius, Iterator beginPlanes, Iterator endPlanes, bool skipInsideTest)
 	{
 		if(point_in_plane_mesh(vec, beginPlanes, endPlanes) == false) {
 			for(auto it = beginPlanes; it != endPlanes; ++it) {
@@ -139,11 +139,11 @@ export {
 		}
 		if(skipInsideTest == true)
 			return Intersect::Overlap;
-		auto radiusSqr = umath::pow(radius, 2.f);
+		auto radiusSqr = pow(radius, 2.f);
 		for(auto it = beginPlanes; it != endPlanes; ++it) {
 			auto &plane = const_cast<Plane &>(*it);
 			Vector3 r;
-			umath::geometry::closest_point_on_plane_to_point(plane.GetNormal(), static_cast<float>(plane.GetDistance()), vec, &r);
+			geometry::closest_point_on_plane_to_point(plane.GetNormal(), static_cast<float>(plane.GetDistance()), vec, &r);
 			if(uvec::length_sqr(r - vec) < radiusSqr)
 				return Intersect::Overlap;
 		}
@@ -151,14 +151,14 @@ export {
 	}
 
 	template<typename Iterator>
-	umath::intersection::Intersect umath::intersection::triangle_in_plane_mesh(const Vector3 &a, const Vector3 &b, const Vector3 &c, Iterator beginPlanes, Iterator endPlanes)
+	pragma::math::intersection::Intersect pragma::math::intersection::triangle_in_plane_mesh(const Vector3 &a, const Vector3 &b, const Vector3 &c, Iterator beginPlanes, Iterator endPlanes)
 	{
 		throw std::runtime_error {"Not yet implemented!"};
 		return Intersect::Outside;
 	}
 
 	template<typename Iterator>
-	umath::intersection::Intersect umath::intersection::aabb_in_plane_mesh(const Vector3 &min, const Vector3 &max, Iterator beginPlanes, Iterator endPlanes)
+	pragma::math::intersection::Intersect pragma::math::intersection::aabb_in_plane_mesh(const Vector3 &min, const Vector3 &max, Iterator beginPlanes, Iterator endPlanes)
 	{
 		// Note: If the current method causes problems, try switching to the other one.
 		// The second method is faster for most cases.

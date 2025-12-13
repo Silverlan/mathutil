@@ -11,54 +11,54 @@ const float EPSILON = 1.19209e-005f;
 
 static bool is_better_t(float tOld, float tNew) { return tOld == std::numeric_limits<float>::max() || (tNew < 0.f && tNew > tOld) || (tNew >= 0.f && tNew < tOld); }
 
-static bool operator>(umath::intersection::Result a, umath::intersection::Result b)
+static bool operator>(pragma::math::intersection::Result a, pragma::math::intersection::Result b)
 {
 	switch(a) {
-	case umath::intersection::Result::NoIntersection:
-		return b == umath::intersection::Result::Intersect || b == umath::intersection::Result::OutOfRange;
-	case umath::intersection::Result::OutOfRange:
-		return b == umath::intersection::Result::Intersect;
-	case umath::intersection::Result::Intersect:
-		return b != umath::intersection::Result::Intersect;
+	case pragma::math::intersection::Result::NoIntersection:
+		return b == pragma::math::intersection::Result::Intersect || b == pragma::math::intersection::Result::OutOfRange;
+	case pragma::math::intersection::Result::OutOfRange:
+		return b == pragma::math::intersection::Result::Intersect;
+	case pragma::math::intersection::Result::Intersect:
+		return b != pragma::math::intersection::Result::Intersect;
 	}
 	return false;
 }
 
-static bool operator>=(umath::intersection::Result a, umath::intersection::Result b) { return a > b || a == b; }
-static bool operator<(umath::intersection::Result a, umath::intersection::Result b) { return !operator>=(a, b); }
-static bool operator<=(umath::intersection::Result a, umath::intersection::Result b) { return a < b || a == b; }
+static bool operator>=(pragma::math::intersection::Result a, pragma::math::intersection::Result b) { return a > b || a == b; }
+static bool operator<(pragma::math::intersection::Result a, pragma::math::intersection::Result b) { return !operator>=(a, b); }
+static bool operator<=(pragma::math::intersection::Result a, pragma::math::intersection::Result b) { return a < b || a == b; }
 
-bool umath::intersection::vector_in_bounds(const Vector3 &vec, const Vector3 &min, const Vector3 &max, float EPSILON)
+bool pragma::math::intersection::vector_in_bounds(const Vector3 &vec, const Vector3 &min, const Vector3 &max, float EPSILON)
 {
 	if(EPSILON == 0.f)
 		return vec.x >= min.x && vec.y >= min.y && vec.z >= min.z && vec.x <= max.x && vec.y <= max.y && vec.z <= max.z;
 	return vec.x >= min.x - EPSILON && vec.y >= min.y - EPSILON && vec.z >= min.z - EPSILON && vec.x <= max.x + EPSILON && vec.y <= max.y + EPSILON && vec.z <= max.z + EPSILON;
 }
 
-bool umath::intersection::sphere_sphere(const Vector3 &originA, float rA, const Vector3 &originB, float rB)
+bool pragma::math::intersection::sphere_sphere(const Vector3 &originA, float rA, const Vector3 &originB, float rB)
 {
 	float dist = glm::distance(originA, originB);
 	return dist - (rA + rB) <= 0;
 }
 
-bool umath::intersection::aabb_sphere(const Vector3 &min, const Vector3 &max, const Vector3 &origin, float r)
+bool pragma::math::intersection::aabb_sphere(const Vector3 &min, const Vector3 &max, const Vector3 &origin, float r)
 {
 	Vector3 pClosest;
-	umath::geometry::closest_point_on_aabb_to_point(min, max, origin, &pClosest);
+	geometry::closest_point_on_aabb_to_point(min, max, origin, &pClosest);
 	float d = glm::gtx::distance2(pClosest, origin);
 	return d <= r * r;
 }
 
-bool umath::intersection::aabb_in_aabb(const Vector3 &minA, const Vector3 &maxA, const Vector3 &minB, const Vector3 &maxB) { return (((minA.x >= minB.x && minA.y >= minB.y && minA.z >= minB.z) && (maxA.x <= maxB.x && maxA.y <= maxB.y && maxA.z <= maxB.z))) ? true : false; }
+bool pragma::math::intersection::aabb_in_aabb(const Vector3 &minA, const Vector3 &maxA, const Vector3 &minB, const Vector3 &maxB) { return (((minA.x >= minB.x && minA.y >= minB.y && minA.z >= minB.z) && (maxA.x <= maxB.x && maxA.y <= maxB.y && maxA.z <= maxB.z))) ? true : false; }
 
-bool umath::intersection::point_in_aabb(const Vector3 &p, const Vector3 &min, const Vector3 &max) { return p.x > min.x && p.x < max.x && p.y > min.y && p.y < max.y && p.z > min.z && p.z < max.z; }
+bool pragma::math::intersection::point_in_aabb(const Vector3 &p, const Vector3 &min, const Vector3 &max) { return p.x > min.x && p.x < max.x && p.y > min.y && p.y < max.y && p.z > min.z && p.z < max.z; }
 
-bool umath::intersection::line_sphere(const Vector3 &lineOrigin, const Vector3 &lineDir, const Vector3 &sphereOrigin, float sphereRadius, float &outT, Vector3 &outP)
+bool pragma::math::intersection::line_sphere(const Vector3 &lineOrigin, const Vector3 &lineDir, const Vector3 &sphereOrigin, float sphereRadius, float &outT, Vector3 &outP)
 {
 	// Source: https://gamedev.stackexchange.com/a/96487/49279
 	auto m = lineOrigin - sphereOrigin;
 	float b = uvec::dot(m, lineDir);
-	float c = uvec::dot(m, m) - umath::pow2(sphereRadius);
+	float c = uvec::dot(m, m) - pow2(sphereRadius);
 
 	// Exit if r's origin outside s (c > 0) and r pointing away from s (b > 0)
 	if(c > 0.0f && b > 0.0f)
@@ -70,7 +70,7 @@ bool umath::intersection::line_sphere(const Vector3 &lineOrigin, const Vector3 &
 		return 0;
 
 	// Ray now found to intersect sphere, compute smallest t value of intersection
-	outT = -b - umath::sqrt(discr);
+	outT = -b - math::sqrt(discr);
 
 	// If t is negative, ray started inside sphere so clamp t to zero
 	if(outT < 0.0f)
@@ -79,7 +79,7 @@ bool umath::intersection::line_sphere(const Vector3 &lineOrigin, const Vector3 &
 	return true;
 }
 
-umath::intersection::Intersect umath::intersection::aabb_aabb(const Vector3 &minA, const Vector3 &maxA, const Vector3 &minB, const Vector3 &maxB)
+pragma::math::intersection::Intersect pragma::math::intersection::aabb_aabb(const Vector3 &minA, const Vector3 &maxA, const Vector3 &minB, const Vector3 &maxB)
 {
 	if((maxA.x < minB.x) || (minA.x > maxB.x) || (maxA.y < minB.y) || (minA.y > maxB.y) || (maxA.z < minB.z) || (minA.z > maxB.z))
 		return Intersect::Outside;
@@ -88,7 +88,7 @@ umath::intersection::Intersect umath::intersection::aabb_aabb(const Vector3 &min
 	return Intersect::Overlap;
 }
 
-bool umath::intersection::aabb_aabb(const bounding_volume::AABB &a, const bounding_volume::AABB &b)
+bool pragma::math::intersection::aabb_aabb(const bounding_volume::AABB &a, const bounding_volume::AABB &b)
 {
 	Vector3 t = b.GetCenter() - a.GetCenter();
 	auto extentsA = a.GetExtents();
@@ -96,7 +96,7 @@ bool umath::intersection::aabb_aabb(const bounding_volume::AABB &a, const boundi
 	return fabs(t.x) <= (extentsA.x + extentsB.x) && fabs(t.y) <= (extentsA.y + extentsB.y) && fabs(t.z) <= (extentsA.z + extentsB.z);
 }
 
-bool umath::intersection::obb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &n, double d)
+bool pragma::math::intersection::obb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &n, double d)
 {
 	const std::array<Vector3, 8> points = {min, {max.x, min.y, min.z}, {min.x, max.y, min.z}, {min.x, min.y, max.z}, {max.x, max.y, min.z}, {min.x, max.y, max.z}, {max.x, min.y, max.z}, max};
 	uint8_t hitFlags = 0;
@@ -117,27 +117,27 @@ bool umath::intersection::obb_plane(const Vector3 &min, const Vector3 &max, cons
 	return false;
 }
 
-umath::intersection::Intersect umath::intersection::obb_obb(const umath::ScaledTransform &obbPoseA, const Vector3 &obbMinA, const Vector3 &obbMaxA, const umath::ScaledTransform &obbPoseB, const Vector3 &obbMinB, const Vector3 &obbMaxB)
+pragma::math::intersection::Intersect pragma::math::intersection::obb_obb(const ScaledTransform &obbPoseA, const Vector3 &obbMinA, const Vector3 &obbMaxA, const ScaledTransform &obbPoseB, const Vector3 &obbMinB, const Vector3 &obbMaxB)
 {
 	auto obbPoseBRelToA = obbPoseA.GetInverse() * obbPoseB;
 	return aabb_obb(obbMinA, obbMaxA, obbPoseBRelToA.GetOrigin(), obbPoseBRelToA.GetRotation(), obbMinB, obbMaxB);
 }
 
-umath::intersection::Intersect umath::intersection::aabb_obb(const Vector3 &aabbMin, const Vector3 &aabbMax, const Vector3 &obbOrigin, const Quat &obbRot, const Vector3 &obbMin, const Vector3 &obbMax)
+pragma::math::intersection::Intersect pragma::math::intersection::aabb_obb(const Vector3 &aabbMin, const Vector3 &aabbMax, const Vector3 &obbOrigin, const Quat &obbRot, const Vector3 &obbMin, const Vector3 &obbMax)
 {
 	auto planes = geometry::get_obb_planes(obbOrigin, obbRot, obbMin, obbMax);
 	return aabb_in_plane_mesh(aabbMin, aabbMax, planes.begin(), planes.end());
 }
 
-bool umath::intersection::aabb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &n, double d) { return obb_plane(min, max, {}, {}, n, d); }
-bool umath::intersection::sphere_plane(const Vector3 &sphereOrigin, float sphereRadius, const Vector3 &n, double d)
+bool pragma::math::intersection::aabb_plane(const Vector3 &min, const Vector3 &max, const Vector3 &n, double d) { return obb_plane(min, max, {}, {}, n, d); }
+bool pragma::math::intersection::sphere_plane(const Vector3 &sphereOrigin, float sphereRadius, const Vector3 &n, double d)
 {
 	auto pProj = uvec::project_to_plane(sphereOrigin, n, d);
 	auto distSqr = uvec::length_sqr(sphereOrigin - pProj);
-	return (distSqr <= umath::pow2(d)) ? true : false;
+	return (distSqr <= pow2(d)) ? true : false;
 }
 
-umath::intersection::Result umath::intersection::line_aabb(const Vector3 &o, const Vector3 &d, const Vector3 &min, const Vector3 &max, float *tMinRes, float *tMaxRes)
+pragma::math::intersection::Result pragma::math::intersection::line_aabb(const Vector3 &o, const Vector3 &d, const Vector3 &min, const Vector3 &max, float *tMinRes, float *tMaxRes)
 {
 	Vector3 dirInv(1 / d.x, 1 / d.y, 1 / d.z);
 	const int sign[] = {dirInv.x < 0, dirInv.y < 0, dirInv.z < 0};
@@ -167,7 +167,7 @@ umath::intersection::Result umath::intersection::line_aabb(const Vector3 &o, con
 	return Result::Intersect;
 }
 
-umath::intersection::Result umath::intersection::line_plane(const Vector3 &o, const Vector3 &dir, const Vector3 &nPlane, float distPlane, float *t)
+pragma::math::intersection::Result pragma::math::intersection::line_plane(const Vector3 &o, const Vector3 &dir, const Vector3 &nPlane, float distPlane, float *t)
 {
 	float f = glm::dot(nPlane, dir);
 	if(f == 0.f)
@@ -188,11 +188,11 @@ static bool point_in_triangle(const Vector3 &p, const Vector3 &a, const Vector3 
 		v = p - v;
 		uvec::normalize(&v);
 	}
-	auto angles = umath::acos(uvec::dot(tri[0], tri[1])) + umath::acos(uvec::dot(tri[1], tri[2])) + umath::acos(uvec::dot(tri[2], tri[0]));
-	return (umath::abs(angles - 2.f * umath::pi) <= 0.005f) ? true : false;
+	auto angles = pragma::math::acos(uvec::dot(tri[0], tri[1])) + pragma::math::acos(uvec::dot(tri[1], tri[2])) + pragma::math::acos(uvec::dot(tri[2], tri[0]));
+	return (pragma::math::abs(angles - 2.f * pragma::math::pi) <= 0.005f) ? true : false;
 }
 
-bool umath::intersection::line_obb(const Vector3 &rayStart, const Vector3 &rayDir, const Vector3 &min, const Vector3 &max, float *dist, const Vector3 &origin, const Quat &rot)
+bool pragma::math::intersection::line_obb(const Vector3 &rayStart, const Vector3 &rayDir, const Vector3 &min, const Vector3 &max, float *dist, const Vector3 &origin, const Quat &rot)
 {
 	// Source: http://www.opengl-tutorial.org/miscellaneous/clicking-on-objects/picking-with-custom-ray-obb-function/
 	auto tMin = 0.f;
@@ -212,7 +212,7 @@ bool umath::intersection::line_obb(const Vector3 &rayStart, const Vector3 &rayDi
 		auto e = uvec::dot(xaxis, delta);
 		auto f = uvec::dot(rayDir, xaxis);
 
-		if(umath::abs(f) > 0.001f) {
+		if(math::abs(f) > 0.001f) {
 			auto t1 = (e + min.x) / f;
 			auto t2 = (e + max.x) / f;
 
@@ -239,7 +239,7 @@ bool umath::intersection::line_obb(const Vector3 &rayStart, const Vector3 &rayDi
 		auto e = uvec::dot(yaxis, delta);
 		auto f = uvec::dot(rayDir, yaxis);
 
-		if(umath::abs(f) > 0.001f) {
+		if(math::abs(f) > 0.001f) {
 			auto t1 = (e + min.y) / f;
 			auto t2 = (e + max.y) / f;
 
@@ -265,7 +265,7 @@ bool umath::intersection::line_obb(const Vector3 &rayStart, const Vector3 &rayDi
 		auto e = uvec::dot(zaxis, delta);
 		auto f = uvec::dot(rayDir, zaxis);
 
-		if(umath::abs(f) > 0.001f) {
+		if(math::abs(f) > 0.001f) {
 			auto t1 = (e + min.z) / f;
 			auto t2 = (e + max.z) / f;
 
@@ -290,7 +290,7 @@ bool umath::intersection::line_obb(const Vector3 &rayStart, const Vector3 &rayDi
 	return (tMin <= 1.f && tMin >= 0.f) ? true : false;
 }
 
-bool umath::intersection::sphere_cone(const Vector3 &sphereOrigin, float radius, const Vector3 &coneOrigin, const Vector3 &coneDir, float coneAngle, float coneSize)
+bool pragma::math::intersection::sphere_cone(const Vector3 &sphereOrigin, float radius, const Vector3 &coneOrigin, const Vector3 &coneDir, float coneAngle, float coneSize)
 {
 	// Source: https://bartwronski.com/2017/04/13/cull-that-cone/
 	auto V = sphereOrigin - coneOrigin;
@@ -304,13 +304,13 @@ bool umath::intersection::sphere_cone(const Vector3 &sphereOrigin, float radius,
 	return /*testSphere.w > 1 ||*/ !(angleCull || frontCull || backCull);
 }
 
-bool umath::intersection::sphere_cone(const Vector3 &sphereOrigin, float radius, const Vector3 &coneOrigin, const Vector3 &coneDir, float coneAngle)
+bool pragma::math::intersection::sphere_cone(const Vector3 &sphereOrigin, float radius, const Vector3 &coneOrigin, const Vector3 &coneDir, float coneAngle)
 {
 	// Source: http://www.geometrictools.com/GTEngine/Include/Mathematics/GteIntrSphere3Cone3.h
-	auto sinAngle = umath::sin(coneAngle);
+	auto sinAngle = sin(coneAngle);
 	if(sinAngle == 0.f)
 		return false;
-	auto cosAngle = umath::cos(coneAngle);
+	auto cosAngle = cos(coneAngle);
 
 	auto invSin = 1.f / sinAngle;
 	auto cosSqr = cosAngle * cosAngle;
@@ -333,7 +333,7 @@ bool umath::intersection::sphere_cone(const Vector3 &sphereOrigin, float radius,
 }
 
 // Source: http://www.cs.virginia.edu/~gfx/Courses/2003/ImageSynthesis/papers/Acceleration/Fast%20MinimumStorage%20RayTriangle%20Intersection.pdf
-bool umath::intersection::line_triangle(const Vector3 &lineOrigin, const Vector3 &lineDir, const Vector3 &v0, const Vector3 &v1, const Vector3 &v2, double &t, double &u, double &v, bool bCull)
+bool pragma::math::intersection::line_triangle(const Vector3 &lineOrigin, const Vector3 &lineDir, const Vector3 &v0, const Vector3 &v1, const Vector3 &v2, double &t, double &u, double &v, bool bCull)
 {
 	const auto EPSILON = 0.000001;
 	t = 0.0;
@@ -381,7 +381,7 @@ bool umath::intersection::line_triangle(const Vector3 &lineOrigin, const Vector3
 
 static float det(float a, float b, float c, float d) { return a * d - b * c; }
 
-std::optional<Vector2> umath::intersection::line_line(const Vector2 &start0, const Vector2 &end0, const Vector2 &start1, const Vector2 &end1)
+std::optional<Vector2> pragma::math::intersection::line_line(const Vector2 &start0, const Vector2 &end0, const Vector2 &start1, const Vector2 &end1)
 {
 	// http://mathworld.wolfram.com/Line-LineIntersection.html
 	auto detL1 = det(start0.x, start0.y, end0.x, end0.y);
@@ -397,7 +397,7 @@ std::optional<Vector2> umath::intersection::line_line(const Vector2 &start0, con
 	if(denom == 0.0) // Lines don't seem to cross
 		return {};
 
-	if(umath::abs(denom) < 0.01)
+	if(math::abs(denom) < 0.01)
 		return {};
 
 	auto ixOut = xnom / denom;
@@ -407,7 +407,7 @@ std::optional<Vector2> umath::intersection::line_line(const Vector2 &start0, con
 
 ////////////////////////////////////
 
-void umath::geometry::closest_point_on_aabb_to_point(const Vector3 &min, const Vector3 &max, const Vector3 &point, Vector3 *res)
+void pragma::math::geometry::closest_point_on_aabb_to_point(const Vector3 &min, const Vector3 &max, const Vector3 &point, Vector3 *res)
 {
 	for(int i = 0; i < 3; i++) {
 		float v = point[i];
@@ -419,13 +419,13 @@ void umath::geometry::closest_point_on_aabb_to_point(const Vector3 &min, const V
 	}
 }
 
-void umath::geometry::closest_point_on_plane_to_point(const Vector3 &n, float d, const Vector3 &p, Vector3 *res)
+void pragma::math::geometry::closest_point_on_plane_to_point(const Vector3 &n, float d, const Vector3 &p, Vector3 *res)
 {
 	float t = glm::dot(n, p) - d;
 	*res = p - t * n;
 }
 
-void umath::geometry::closest_point_on_triangle_to_point(const Vector3 &a, const Vector3 &b, const Vector3 &c, const Vector3 &p, Vector3 *res)
+void pragma::math::geometry::closest_point_on_triangle_to_point(const Vector3 &a, const Vector3 &b, const Vector3 &c, const Vector3 &p, Vector3 *res)
 {
 	Vector3 ab = b - a;
 	Vector3 ac = c - a;
@@ -474,7 +474,7 @@ void umath::geometry::closest_point_on_triangle_to_point(const Vector3 &a, const
 	*res = a + ab * v + ac * w;
 }
 
-float umath::geometry::closest_points_between_lines(const Vector3 &pA, const Vector3 &qA, const Vector3 &pB, const Vector3 &qB, float *s, float *t, Vector3 *cA, Vector3 *cB)
+float pragma::math::geometry::closest_points_between_lines(const Vector3 &pA, const Vector3 &qA, const Vector3 &pB, const Vector3 &qB, float *s, float *t, Vector3 *cA, Vector3 *cB)
 {
 	Vector3 dA = qA - pA;
 	Vector3 dB = qB - pB;
@@ -524,7 +524,7 @@ float umath::geometry::closest_points_between_lines(const Vector3 &pA, const Vec
 	return glm::dot(*cA - (*cB), *cA - (*cB));
 }
 
-Vector3 umath::geometry::closest_point_on_line_to_point(const Vector3 &start, const Vector3 &end, const Vector3 &p, bool bClampResultToSegment)
+Vector3 pragma::math::geometry::closest_point_on_line_to_point(const Vector3 &start, const Vector3 &end, const Vector3 &p, bool bClampResultToSegment)
 {
 	auto ap = p - start;
 	auto ab = end - start;
@@ -542,7 +542,7 @@ Vector3 umath::geometry::closest_point_on_line_to_point(const Vector3 &start, co
 	return start + ab * dist;
 }
 
-Vector3 umath::geometry::closest_point_on_sphere_to_line(const Vector3 &origin, float radius, const Vector3 &start, const Vector3 &end, bool bClampResultToSegment)
+Vector3 pragma::math::geometry::closest_point_on_sphere_to_line(const Vector3 &origin, float radius, const Vector3 &start, const Vector3 &end, bool bClampResultToSegment)
 {
 	auto pLine = closest_point_on_line_to_point(start, end, origin, bClampResultToSegment);
 	auto dir = pLine - origin;
@@ -557,7 +557,7 @@ Vector3 umath::geometry::closest_point_on_sphere_to_line(const Vector3 &origin, 
 
 ////////////////////////////////////
 
-bool umath::sweep::aabb_with_aabb(Vector3 aa, const Vector3 &ab, const Vector3 &extA, Vector3 ba, const Vector3 &bb, const Vector3 &extB, float *entryTime, float *exitTime, Vector3 *normal)
+bool pragma::math::sweep::aabb_with_aabb(Vector3 aa, const Vector3 &ab, const Vector3 &extA, Vector3 ba, const Vector3 &bb, const Vector3 &extB, float *entryTime, float *exitTime, Vector3 *normal)
 {
 	bounding_volume::AABB a(aa, extA);
 	bounding_volume::AABB b(ba, extB);
@@ -643,7 +643,7 @@ bool umath::sweep::aabb_with_aabb(Vector3 aa, const Vector3 &ab, const Vector3 &
 	return true;
 }
 
-bool umath::sweep::aabb_with_plane(const Vector3 &origin, const Vector3 &dir, const Vector3 &ext, const Vector3 &planeNormal, float planeDistance, float *t)
+bool pragma::math::sweep::aabb_with_plane(const Vector3 &origin, const Vector3 &dir, const Vector3 &ext, const Vector3 &planeNormal, float planeDistance, float *t)
 {
 	float r = ext.x * fabs(planeNormal.x) + ext.y * fabs(planeNormal.y) + ext.z * fabs(planeNormal.z);
 	*t = (r - planeDistance - (glm::dot(planeNormal, origin))) / glm::dot(planeNormal, dir);

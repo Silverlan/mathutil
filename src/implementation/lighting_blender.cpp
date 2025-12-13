@@ -111,9 +111,9 @@ Vector3 ulighting::wavelength_to_color(Wavelength wavelength)
 	return color;
 }
 
-Watt ulighting::cycles::lumen_to_watt_point(Lumen lumen, const Vector3 &color) { return lumen * ((1.f / ulighting::MAX_LIGHT_EFFICIENCY_EFFICACY) / srgb_to_luminance(color)); }
-Watt ulighting::cycles::lumen_to_watt_spot(Lumen lumen, const Vector3 &color, umath::Degree spotSize)
+Watt ulighting::cycles::lumen_to_watt_point(Lumen lumen, const Vector3 &color) { return lumen * ((1.f / MAX_LIGHT_EFFICIENCY_EFFICACY) / srgb_to_luminance(color)); }
+Watt ulighting::cycles::lumen_to_watt_spot(Lumen lumen, const Vector3 &color, pragma::math::Degree spotSize)
 {
-	return lumen * ((1.f / (ulighting::MAX_LIGHT_EFFICIENCY_EFFICACY * 2.f * umath::pi * (1 - umath::cos(umath::deg_to_rad(spotSize) / 2.f))) * 4.f * umath::pi) / srgb_to_luminance(color));
+	return lumen * ((1.f / (MAX_LIGHT_EFFICIENCY_EFFICACY * 2.f * pragma::math::pi * (1 - pragma::math::cos(pragma::math::deg_to_rad(spotSize) / 2.f))) * 4.f * pragma::math::pi) / srgb_to_luminance(color));
 }
-Watt ulighting::cycles::lumen_to_watt_area(Lumen lumen, const Vector3 &color) { return lumen * (1.f / (ulighting::MAX_LIGHT_EFFICIENCY_EFFICACY * 2.f * (1.f - umath::cos(umath::deg_to_rad(155.f) / 2.f)))); }
+Watt ulighting::cycles::lumen_to_watt_area(Lumen lumen, const Vector3 &color) { return lumen * (1.f / (MAX_LIGHT_EFFICIENCY_EFFICACY * 2.f * (1.f - pragma::math::cos(pragma::math::deg_to_rad(155.f) / 2.f)))); }

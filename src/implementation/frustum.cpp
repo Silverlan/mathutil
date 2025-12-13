@@ -7,7 +7,7 @@ module pragma.math;
 
 import :frustum;
 
-void umath::frustum::get_plane_size(float fovRad, float z, float aspectRatio, float &outW, float &outH)
+void pragma::math::frustum::get_plane_size(float fovRad, float z, float aspectRatio, float &outW, float &outH)
 {
 	static auto altMode = false;
 	if(altMode == false) {
@@ -20,9 +20,9 @@ void umath::frustum::get_plane_size(float fovRad, float z, float aspectRatio, fl
 	}
 }
 
-Vector3 umath::frustum::get_plane_center(const Vector3 &pos, const Vector3 &forward, float z) { return pos + forward * z; }
+Vector3 pragma::math::frustum::get_plane_center(const Vector3 &pos, const Vector3 &forward, float z) { return pos + forward * z; }
 
-std::array<Vector3, 4> umath::frustum::get_plane_boundaries(const Vector3 &pos, const Vector3 &forward, const Vector3 &up, float fovRad, float z, float aspectRatio, float *outFarW = nullptr, float *outFarH = nullptr)
+std::array<Vector3, 4> pragma::math::frustum::get_plane_boundaries(const Vector3 &pos, const Vector3 &forward, const Vector3 &up, float fovRad, float z, float aspectRatio, float *outFarW = nullptr, float *outFarH = nullptr)
 {
 	auto right = -uvec::cross(up, forward);
 	uvec::normalize(&right);
@@ -47,7 +47,7 @@ std::array<Vector3, 4> umath::frustum::get_plane_boundaries(const Vector3 &pos, 
 	return bounds;
 }
 
-Vector3 umath::frustum::get_plane_point(const Vector3 &pos, const Vector3 &forward, const Vector3 &right, const Vector3 &up, float fovRad, float z, float aspectRatio, const Vector2 &uv)
+Vector3 pragma::math::frustum::get_plane_point(const Vector3 &pos, const Vector3 &forward, const Vector3 &right, const Vector3 &up, float fovRad, float z, float aspectRatio, const Vector2 &uv)
 {
 	auto center = get_plane_center(pos, forward, z);
 	auto w = 0.f;

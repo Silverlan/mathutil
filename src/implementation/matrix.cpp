@@ -7,7 +7,7 @@ module pragma.math;
 
 import :matrix;
 
-using namespace umath;
+using namespace pragma::math;
 
 Mat4 umat::identity() { return glm::mat4(1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f); }
 Mat4 umat::create(const Quat &q) { return glm::gtx::toMat4(q); }

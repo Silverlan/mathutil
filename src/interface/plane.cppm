@@ -9,7 +9,7 @@ export module pragma.math:plane;
 
 export import :euler_angles;
 
-export namespace umath {
+export namespace pragma::math {
 	class DLLMUTIL Plane {
 	  public:
 		Plane(const Vector3 &a, const Vector3 &b, const Vector3 &c);

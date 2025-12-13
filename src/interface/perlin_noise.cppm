@@ -9,7 +9,7 @@ export module pragma.math:perlin_noise;
 
 export import :types;
 
-export namespace umath {
+export namespace pragma::math {
 	class DLLMUTIL PerlinNoise {
 	  private:
 		std::vector<int> m_permutation;

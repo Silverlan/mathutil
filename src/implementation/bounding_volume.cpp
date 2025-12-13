@@ -15,8 +15,8 @@ Sphere::Sphere() : Sphere(Vector3 {0.f, 0.f, 0.f}, 0.f) {}
 AABB::AABB(const Vector3 &_min, const Vector3 &_max) : min(_min), max(_max) {}
 AABB::AABB() {}
 
-bool AABB::Intersects(const AABB &other) const { return umath::intersection::aabb_aabb(*this, other); }
-AABB AABB::Transform(const umath::ScaledTransform &pose)
+bool AABB::Intersects(const AABB &other) const { return pragma::math::intersection::aabb_aabb(*this, other); }
+AABB AABB::Transform(const pragma::math::ScaledTransform &pose)
 {
 	// See http://www.realtimerendering.com/resources/GraphicsGems/gems/TransBox.c
 	auto srcBounds = *this;

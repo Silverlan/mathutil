@@ -166,28 +166,28 @@ export {
 		// Assumes a wave-length of 555nm
 		constexpr Irradiance lux_to_irradiance(Lux lux) { return lux / LUX_AT_WAVELENGTH_555NM_PER_IRRADIANCE; }
 
-		constexpr Lumen candela_to_lumens(Candela candela, umath::Radian apexAngleCos) { return candela * umath::calc_solid_angle(apexAngleCos); }
+		constexpr Lumen candela_to_lumens(Candela candela, pragma::math::Radian apexAngleCos) { return candela * pragma::math::calc_solid_angle(apexAngleCos); }
 
-		constexpr Candela lumens_to_candela(Lumen lumens, umath::Radian apexAngleCos) { return lumens / umath::calc_solid_angle(apexAngleCos); }
+		constexpr Candela lumens_to_candela(Lumen lumens, pragma::math::Radian apexAngleCos) { return lumens / pragma::math::calc_solid_angle(apexAngleCos); }
 
 		constexpr double srgb_to_luminance(const Vector3 &color) { return 0.2126729 * color.r + 0.7151522 * color.g + 0.072175 * color.b; }
 
-		constexpr float calc_light_falloff(umath::Meter distance, umath::Meter radius)
+		constexpr float calc_light_falloff(pragma::math::Meter distance, pragma::math::Meter radius)
 		{
 			float falloff = 0;
-			float fDistOverRadius = umath::pow4(distance / radius);
-			falloff = umath::pow2(umath::clamp(1.0 - fDistOverRadius, 0.0, 1.0));
-			falloff /= umath::pow2(distance) + 1.0;
+			float fDistOverRadius = pragma::math::pow4(distance / radius);
+			falloff = pragma::math::pow2(pragma::math::clamp(1.0 - fDistOverRadius, 0.0, 1.0));
+			falloff /= pragma::math::pow2(distance) + 1.0;
 			return falloff;
 		}
 
-		constexpr float calc_light_falloff(umath::Meter distance) { return 1.f / umath::pow2(distance); }
+		constexpr float calc_light_falloff(pragma::math::Meter distance) { return 1.f / pragma::math::pow2(distance); }
 
-		DLLMUTIL float calc_cone_falloff(const Vector3 &lightDir, const Vector3 &dirToLight, umath::Degree outerCutoffAngle, umath::Degree innerCutoffAngle);
+		DLLMUTIL float calc_cone_falloff(const Vector3 &lightDir, const Vector3 &dirToLight, pragma::math::Degree outerCutoffAngle, pragma::math::Degree innerCutoffAngle);
 
 		namespace cycles {
 			DLLMUTIL Watt lumen_to_watt_point(Lumen lumen, const Vector3 &color);
-			DLLMUTIL Watt lumen_to_watt_spot(Lumen lumen, const Vector3 &color, umath::Degree spotSize);
+			DLLMUTIL Watt lumen_to_watt_spot(Lumen lumen, const Vector3 &color, pragma::math::Degree spotSize);
 			DLLMUTIL Watt lumen_to_watt_area(Lumen lumen, const Vector3 &color);
 		};
 	};

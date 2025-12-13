@@ -85,7 +85,7 @@ export {
 		// Requires two normalized vectors and returns the rotation between them. The result is NOT normalized.
 		DLLMUTIL Quat get_rotation(const Vector3 &v1, const Vector3 &v2);
 
-		DLLMUTIL umath::Degree get_angle(const Vector3 &v1, const Vector3 &v2);
+		DLLMUTIL pragma::math::Degree get_angle(const Vector3 &v1, const Vector3 &v2);
 
 		DLLMUTIL Float distance(const Vector3 &a, const Vector3 &b);
 
@@ -123,9 +123,9 @@ export {
 		template<typename T>
 		bool is_equal(const T &v0, const T v1, float epsilon = 0.0001f)
 		{
-			if constexpr(umath::is_floating_point_vector_type<T> || std::is_same_v<T, Quat>)
+			if constexpr(pragma::math::is_floating_point_vector_type<T> || std::is_same_v<T, Quat>)
 				return glm::all(glm::gtc::epsilonEqual(v0, v1, epsilon));
-			else if constexpr(umath::is_matrix_type<T>) {
+			else if constexpr(pragma::math::is_matrix_type<T>) {
 				constexpr auto len = T::length();
 				for(auto i = decltype(len) {0u}; i < len; ++i) {
 					if(!glm::all(glm::gtc::epsilonEqual(v0[i], v1[i], epsilon)))
@@ -135,7 +135,7 @@ export {
 			}
 			else if constexpr(std::is_same_v<T, EulerAngles>)
 				return abs(v1.p - v0.p) < epsilon && abs(v1.y - v0.y) < epsilon && abs(v1.r - v0.r) < epsilon;
-			else if constexpr(umath::is_integral_vector_type<T>) {
+			else if constexpr(pragma::math::is_integral_vector_type<T>) {
 				constexpr auto len = T::length();
 				for(auto i = decltype(len) {0u}; i < len; ++i) {
 					if(v0[i] != v1[i])
@@ -169,14 +169,14 @@ export {
 		DLLMUTIL Vector3 calc_face_normal(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2);
 
 		DLLMUTIL void reflect(Vector3 &p, const Vector3 &n, float d);
-		DLLMUTIL void calc_spherical_stereo_transform(Vector3 &p, Vector3 &d, umath::Meter interocularDistance = 0.065f, umath::Meter convergenceDistance = 30.0f * 0.065f);
+		DLLMUTIL void calc_spherical_stereo_transform(Vector3 &p, Vector3 &d, pragma::math::Meter interocularDistance = 0.065f, pragma::math::Meter convergenceDistance = 30.0f * 0.065f);
 
 		DLLMUTIL constexpr Vector3 xyz(const Vector4 &v) { return {v.x, v.y, v.z}; }
 
 		DLLMUTIL constexpr Vector3 vec3(float v) { return {v, v, v}; }
 
 		template<typename T>
-		    requires(umath::is_vector_type<T>)
+		    requires(pragma::math::is_vector_type<T>)
 		std::string to_string(const T &v, char sep = ',')
 		{
 			std::string s;

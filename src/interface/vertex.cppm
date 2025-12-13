@@ -12,7 +12,7 @@ export import :types;
 export {
 #pragma warning(push)
 #pragma warning(disable : 4251)
-	namespace umath {
+	namespace pragma::math {
 		constexpr double VERTEX_EPSILON = 0.001;
 
 		struct DLLMUTIL Vertex {
@@ -38,9 +38,9 @@ export {
 			Vector4i boneIds = {};
 			Vector4 weights = {};
 		};
+
+		DLLMUTIL std::ostream &operator<<(std::ostream &out, const Vertex &v);
+		DLLMUTIL std::ostream &operator<<(std::ostream &out, const VertexWeight &v);
 	};
 #pragma warning(pop)
-
-	DLLMUTIL std::ostream &operator<<(std::ostream &out, const umath::Vertex &v);
-	DLLMUTIL std::ostream &operator<<(std::ostream &out, const umath::VertexWeight &v);
 }

@@ -20,12 +20,12 @@ module pragma.math;
 
 import :camera;
 
-float umath::camera::calc_fov_from_lens(umath::Millimeter sensorSize, umath::Millimeter focalLength, float aspectRatio)
+float pragma::math::camera::calc_fov_from_lens(Millimeter sensorSize, Millimeter focalLength, float aspectRatio)
 {
 	// Source: https://github.com/blender/blender/blob/79f99becafa3e2a2d7e0b6779961a4e2b58b371e/intern/cycles/blender/blender_camera.cpp#L468
 	return 2.f * atanf((0.5f * sensorSize) / focalLength / aspectRatio);
 }
-float umath::camera::calc_aperture_size_from_fstop(float fstop, umath::Millimeter focalLength, bool orthographicCamera)
+float pragma::math::camera::calc_aperture_size_from_fstop(float fstop, Millimeter focalLength, bool orthographicCamera)
 {
 	// Source: https://github.com/blender/blender/blob/79f99becafa3e2a2d7e0b6779961a4e2b58b371e/intern/cycles/blender/blender_camera.cpp#L213
 	fstop = fmax(fstop, 1e-5f);
@@ -37,5 +37,5 @@ float umath::camera::calc_aperture_size_from_fstop(float fstop, umath::Millimete
 		apertureSize = (focalLength * 1e-3f) / (2.0f * fstop);
 	return apertureSize;
 }
-float umath::camera::calc_focal_length_from_fov(umath::Degree hfov, umath::Millimeter sensorSize) { return (sensorSize / 2.0f) / tanf(umath::deg_to_rad(hfov) * 0.5f); }
-float umath::camera::calc_fov_from_focal_length(umath::Millimeter focalLength, umath::Millimeter sensorSize) { return 2.0f * atanf((sensorSize / 2.0f) / focalLength); }
+float pragma::math::camera::calc_focal_length_from_fov(Degree hfov, Millimeter sensorSize) { return (sensorSize / 2.0f) / tanf(deg_to_rad(hfov) * 0.5f); }
+float pragma::math::camera::calc_fov_from_focal_length(Millimeter focalLength, Millimeter sensorSize) { return 2.0f * atanf((sensorSize / 2.0f) / focalLength); }

@@ -47,21 +47,21 @@ static void fix_inverted_pole(EulerAngles &ang)
 EulerAngles::EulerAngles(const Quat &rot) : EulerAngles()
 {
 	// Source: http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
-	auto sqw = umath::pow2(rot.w);
-	auto sqx = umath::pow2(rot.x);
-	auto sqy = umath::pow2(rot.y);
-	auto sqz = umath::pow2(rot.z);
+	auto sqw = pragma::math::pow2(rot.w);
+	auto sqx = pragma::math::pow2(rot.x);
+	auto sqy = pragma::math::pow2(rot.y);
+	auto sqz = pragma::math::pow2(rot.z);
 	auto unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
 	auto t = rot.y * rot.z + (-rot.x) * rot.w;
 	if(t > 0.499999f * unit) {
-		y = umath::rad_to_deg(2.0 * umath::atan2(rot.z, rot.w));
-		p = umath::rad_to_deg(-umath::pi / 2.0);
+		y = pragma::math::rad_to_deg(2.0 * pragma::math::atan2(rot.z, rot.w));
+		p = pragma::math::rad_to_deg(-pragma::math::pi / 2.0);
 		r = 0.f;
 		return;
 	}
 	else if(t < -0.499999f * unit) {
-		y = umath::rad_to_deg(-2.0 * umath::atan2(rot.z, rot.w));
-		p = umath::rad_to_deg(umath::pi / 2.0);
+		y = pragma::math::rad_to_deg(-2.0 * pragma::math::atan2(rot.z, rot.w));
+		p = pragma::math::rad_to_deg(pragma::math::pi / 2.0);
 		r = 0.f;
 		return;
 	}
@@ -75,14 +75,14 @@ EulerAngles::EulerAngles(const Quat &rot) : EulerAngles()
 
 	Vector3 res;
 	fThreeAxisRot(unit, 2.f * (rot.x * rot.z + rot.w * rot.y), rot.w * rot.w - rot.x * rot.x - rot.y * rot.y + rot.z * rot.z, -2.f * (rot.y * rot.z - rot.w * rot.x), 2.f * (rot.x * rot.y + rot.w * rot.z), rot.w * rot.w - rot.x * rot.x + rot.y * rot.y - rot.z * rot.z, res);
-	p = umath::rad_to_deg(res.y);
-	y = umath::rad_to_deg(res.z);
-	r = umath::rad_to_deg(res.x);
+	p = pragma::math::rad_to_deg(res.y);
+	y = pragma::math::rad_to_deg(res.z);
+	r = pragma::math::rad_to_deg(res.x);
 	Normalize();
-	if(umath::abs(r) >= umath::abs(umath::normalize_angle(r + 180.f))) // Assume that roll is less important than pitch or yaw
+	if(pragma::math::abs(r) >= pragma::math::abs(pragma::math::normalize_angle(r + 180.f))) // Assume that roll is less important than pitch or yaw
 		Flip();
 	//if(p < -90.f || p > 90.f)
-	/*if(umath::abs(r) >= 90.f || (umath::abs(p) >= 90.f && umath::abs(y) >= 90.f))
+	/*if(pragma::math::abs(r) >= 90.f || (pragma::math::abs(p) >= 90.f && pragma::math::abs(y) >= 90.f))
 	{
 		y += 180.f;
 		r += 180.f;
@@ -106,19 +106,19 @@ static Quat create_quaternion(const Vector3 &forward)
 EulerAngles::EulerAngles(const Vector3 &forward) : EulerAngles(create_quaternion(forward))
 {
 	r = 0.f;
-	if(umath::abs(p) > 90.f) // Assume that yaw is the most important axis, so make sure yaw has shortest rotational path
+	if(pragma::math::abs(p) > 90.f) // Assume that yaw is the most important axis, so make sure yaw has shortest rotational path
 		Flip();
 
 	// Obsolete (Doesn't work)
-	//this->p = 360.f -static_cast<Float>(umath::rad_to_deg(std::asin(Float(forward.y))));
-	//this->y = static_cast<Float>(umath::rad_to_deg(std::atan2(Float(forward.x),Float(forward.z))));
+	//this->p = 360.f -static_cast<Float>(pragma::math::rad_to_deg(std::asin(Float(forward.y))));
+	//this->y = static_cast<Float>(pragma::math::rad_to_deg(std::atan2(Float(forward.x),Float(forward.z))));
 	//this->r = 0.f;
 	//fix_inverted_pole(*this);
 }
 EulerAngles::EulerAngles(const Vector3 &forward, const Vector3 &up) : EulerAngles(uquat::create_look_rotation(forward, up))
 {
 	r = 0.f;
-	if(umath::abs(p) > 90.f) // Assume that yaw is the most important axis, so make sure yaw has shortest rotational path
+	if(pragma::math::abs(p) > 90.f) // Assume that yaw is the most important axis, so make sure yaw has shortest rotational path
 		Flip();
 
 	// TODO: Check me
@@ -128,21 +128,21 @@ EulerAngles::EulerAngles(const Vector3 &forward, const Vector3 &up) : EulerAngle
 	Float xyDist = sqrtf(forward[0] *forward[0] +forward[2] *forward[2]);
 	if(xyDist > 0.001f)
 	{
-		this->y = static_cast<Float>(umath::rad_to_deg(atan2f(forward[2],forward[0])));
-		this->p = static_cast<Float>(umath::rad_to_deg(atan2f(-forward[1],xyDist)));
+		this->y = static_cast<Float>(pragma::math::rad_to_deg(atan2f(forward[2],forward[0])));
+		this->p = static_cast<Float>(pragma::math::rad_to_deg(atan2f(-forward[1],xyDist)));
 
 		Float up_z = (left[2] *forward[0]) -(left[0] *forward[2]);
-		this->r = static_cast<Float>(umath::rad_to_deg(atan2f(left[1],up_z)));
+		this->r = static_cast<Float>(pragma::math::rad_to_deg(atan2f(left[1],up_z)));
 	}
 	else
 	{
-		this->y = static_cast<Float>(umath::rad_to_deg(atan2f(-left[0],left[2])));
-		this->p = static_cast<Float>(umath::rad_to_deg(atan2f(-forward[1],xyDist)));
+		this->y = static_cast<Float>(pragma::math::rad_to_deg(atan2f(-left[0],left[2])));
+		this->p = static_cast<Float>(pragma::math::rad_to_deg(atan2f(-forward[1],xyDist)));
 		this->r = 0.f;
 	}*/
 	//fix_inverted_pole(*this);
 }
-EulerAngles::EulerAngles(const std::string &str) : EulerAngles() { ustring::string_to_array<Float>(str, &p, ustring::cstring_to_number<float>, 3); }
+EulerAngles::EulerAngles(const std::string &str) : EulerAngles() { pragma::string::string_to_array<Float>(str, &p, pragma::string::cstring_to_number<float>, 3); }
 
 void EulerAngles::Initialize(const Mat4 &mat)
 {
@@ -155,30 +155,30 @@ void EulerAngles::Initialize(const Mat4 &mat)
 	Float xyDist = sqrtf(forward[0] *forward[0] +forward[1] *forward[1]);
 	if(xyDist > 0.001f)
 	{
-		this->y = static_cast<Float>(umath::rad_to_deg(atan2f(forward[1],forward[0])));
-		this->p = static_cast<Float>(umath::rad_to_deg(atan2f(-forward[2],xyDist)));
-		this->r = static_cast<Float>(umath::rad_to_deg(atan2f(left[2],up[2])));
+		this->y = static_cast<Float>(pragma::math::rad_to_deg(atan2f(forward[1],forward[0])));
+		this->p = static_cast<Float>(pragma::math::rad_to_deg(atan2f(-forward[2],xyDist)));
+		this->r = static_cast<Float>(pragma::math::rad_to_deg(atan2f(left[2],up[2])));
 	}
 	else
 	{
-		this->y = static_cast<Float>(umath::rad_to_deg(atan2f(-left[0],left[1])));
-		this->p = static_cast<Float>(umath::rad_to_deg(atan2f(-forward[2],xyDist)));
+		this->y = static_cast<Float>(pragma::math::rad_to_deg(atan2f(-left[0],left[1])));
+		this->p = static_cast<Float>(pragma::math::rad_to_deg(atan2f(-forward[2],xyDist)));
 		this->r = 0.f;
 	}*/
 }
 
 void EulerAngles::Normalize(Float base)
 {
-	p = static_cast<float>(umath::normalize_angle(static_cast<double>(p), base));
-	y = static_cast<float>(umath::normalize_angle(static_cast<double>(y), base));
-	r = static_cast<float>(umath::normalize_angle(static_cast<double>(r), base));
+	p = static_cast<float>(pragma::math::normalize_angle(static_cast<double>(p), base));
+	y = static_cast<float>(pragma::math::normalize_angle(static_cast<double>(y), base));
+	r = static_cast<float>(pragma::math::normalize_angle(static_cast<double>(r), base));
 }
 
 void EulerAngles::Normalize()
 {
-	p = static_cast<float>(umath::normalize_angle(static_cast<double>(p)));
-	y = static_cast<float>(umath::normalize_angle(static_cast<double>(y)));
-	r = static_cast<float>(umath::normalize_angle(static_cast<double>(r)));
+	p = static_cast<float>(pragma::math::normalize_angle(static_cast<double>(p)));
+	y = static_cast<float>(pragma::math::normalize_angle(static_cast<double>(y)));
+	r = static_cast<float>(pragma::math::normalize_angle(static_cast<double>(r)));
 }
 
 void EulerAngles::Flip()
@@ -266,9 +266,9 @@ void EulerAngles::GetOrientation(Vector3 *forward, Vector3 *right, Vector3 *up) 
 Mat4 EulerAngles::ToMatrix() const
 {
 	Mat4 mat(1.0f);
-	mat = glm::gtc::rotate(mat, static_cast<float>(umath::deg_to_rad(y)), uvec::UP);
-	mat = glm::gtc::rotate(mat, static_cast<float>(umath::deg_to_rad(p)), uvec::FORWARD);
-	mat = glm::gtc::rotate(mat, static_cast<float>(umath::deg_to_rad(r)), uvec::RIGHT);
+	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(y)), uvec::UP);
+	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(p)), uvec::FORWARD);
+	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(r)), uvec::RIGHT);
 	return mat;
 }
 
@@ -282,12 +282,12 @@ void EulerAngles::Set(const EulerAngles &ang)
 EulerAngles EulerAngles::Copy() const { return EulerAngles(p, y, r); }
 void EulerAngles::Approach(EulerAngles &ang, Float amount)
 {
-	p = static_cast<float>(umath::approach_angle(static_cast<double>(p), static_cast<double>(ang.p), static_cast<double>(amount)));
-	y = static_cast<float>(umath::approach_angle(static_cast<double>(y), static_cast<double>(ang.y), static_cast<double>(amount)));
-	r = static_cast<float>(umath::approach_angle(static_cast<double>(r), static_cast<double>(ang.r), static_cast<double>(amount)));
+	p = static_cast<float>(pragma::math::approach_angle(static_cast<double>(p), static_cast<double>(ang.p), static_cast<double>(amount)));
+	y = static_cast<float>(pragma::math::approach_angle(static_cast<double>(y), static_cast<double>(ang.y), static_cast<double>(amount)));
+	r = static_cast<float>(pragma::math::approach_angle(static_cast<double>(r), static_cast<double>(ang.r), static_cast<double>(amount)));
 }
 EulerAngles EulerAngles::Approach(EulerAngles &a, EulerAngles &b, Float amount)
 {
-	return EulerAngles(static_cast<float>(umath::approach_angle(static_cast<double>(a.p), static_cast<double>(b.p), static_cast<double>(amount))), static_cast<float>(umath::approach_angle(static_cast<double>(a.y), static_cast<double>(b.y), static_cast<double>(amount))),
-	  static_cast<float>(umath::approach_angle(static_cast<double>(a.r), static_cast<double>(b.r), static_cast<double>(amount))));
+	return EulerAngles(static_cast<float>(pragma::math::approach_angle(static_cast<double>(a.p), static_cast<double>(b.p), static_cast<double>(amount))), static_cast<float>(pragma::math::approach_angle(static_cast<double>(a.y), static_cast<double>(b.y), static_cast<double>(amount))),
+	  static_cast<float>(pragma::math::approach_angle(static_cast<double>(a.r), static_cast<double>(b.r), static_cast<double>(amount))));
 }

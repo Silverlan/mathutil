@@ -35,8 +35,8 @@ export namespace uvec::ik {
 		void SetJointIndex(uint32_t jointIndex) { m_jointIndex = jointIndex; }
 		uint32_t GetJointIndex() const { return m_jointIndex; }
 
-		umath::ScaledTransform &GetPose() { return m_pose; }
-		const umath::ScaledTransform &GetPose() const { return const_cast<IkJoint *>(this)->GetPose(); }
+		pragma::math::ScaledTransform &GetPose() { return m_pose; }
+		const pragma::math::ScaledTransform &GetPose() const { return const_cast<IkJoint *>(this)->GetPose(); }
 
 		bool HasConstraints() const { return !m_constraints.empty(); }
 		IkConstraint &AddConstraint(std::unique_ptr<IkConstraint> constraint);
@@ -49,7 +49,7 @@ export namespace uvec::ik {
 		IkSolver *m_ikSolver = nullptr;
 		uint32_t m_jointIndex = 0;
 		std::vector<std::unique_ptr<IkConstraint>> m_constraints;
-		umath::ScaledTransform m_pose {};
+		pragma::math::ScaledTransform m_pose {};
 	};
 
 	class DLLMUTIL IkSolver {
@@ -58,16 +58,16 @@ export namespace uvec::ik {
 		IkSolver(const IkSolver &) = delete;
 		IkSolver &operator=(const IkSolver &) = delete;
 		virtual ~IkSolver() = default;
-		umath::ScaledTransform GetGlobalTransform(unsigned int index) const;
-		umath::ScaledTransform &GetJointPose(uint32_t idx) { return mIKChain[idx].GetPose(); }
+		pragma::math::ScaledTransform GetGlobalTransform(unsigned int index) const;
+		pragma::math::ScaledTransform &GetJointPose(uint32_t idx) { return mIKChain[idx].GetPose(); }
 		void ApplyConstraints();
 		void ApplyConstraints(uint32_t iConstraint);
 		unsigned int Size() { return mIKChain.size(); }
 		virtual void Resize(unsigned int newSize);
-		virtual bool Solve(const umath::ScaledTransform &target) = 0;
+		virtual bool Solve(const pragma::math::ScaledTransform &target) = 0;
 
-		umath::ScaledTransform GetLocalTransform(unsigned int index);
-		void SetLocalTransform(unsigned int index, const umath::ScaledTransform &t);
+		pragma::math::ScaledTransform GetLocalTransform(unsigned int index);
+		void SetLocalTransform(unsigned int index, const pragma::math::ScaledTransform &t);
 
 		IkJoint &GetJoint(uint32_t i) { return mIKChain[i]; }
 		const IkJoint &GetJoint(uint32_t i) const { return const_cast<IkSolver *>(this)->GetJoint(i); }
@@ -84,7 +84,7 @@ export namespace uvec::ik {
 
 		float GetThreshold();
 		void SetThreshold(float value);
-		virtual bool Solve(const umath::ScaledTransform &target) override;
+		virtual bool Solve(const pragma::math::ScaledTransform &target) override;
 	  protected:
 		unsigned int mNumSteps;
 		float mThreshold;
@@ -102,7 +102,7 @@ export namespace uvec::ik {
 		float GetThreshold();
 		void SetThreshold(float value);
 
-		virtual bool Solve(const umath::ScaledTransform &target) override;
+		virtual bool Solve(const pragma::math::ScaledTransform &target) override;
 	  protected:
 		unsigned int mNumSteps;
 		float mThreshold;

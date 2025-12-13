@@ -8,7 +8,7 @@ module pragma.math;
 import :geometry;
 
 // Source: http://stackoverflow.com/a/1568551/2482983
-double umath::geometry::calc_volume_of_triangle(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2)
+double pragma::math::geometry::calc_volume_of_triangle(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2)
 {
 	std::array<double, 3> v0d = {v0.x, v0.y, v0.z};
 	std::array<double, 3> v1d = {v1.x, v1.y, v1.z};
@@ -21,7 +21,7 @@ double umath::geometry::calc_volume_of_triangle(const Vector3 &v0, const Vector3
 	auto v123 = v0d.at(0) * v1d.at(1) * v2d.at(2);
 	return (1.0 / 6.0) * (-v321 + v231 + v312 - v132 - v213 + v123);
 }
-double umath::geometry::calc_volume_of_polyhedron(const std::function<bool(const Vector3 **, const Vector3 **, const Vector3 **)> &fGetNextTriangle, Vector3 *centerOfMass)
+double pragma::math::geometry::calc_volume_of_polyhedron(const std::function<bool(const Vector3 **, const Vector3 **, const Vector3 **)> &fGetNextTriangle, Vector3 *centerOfMass)
 {
 	Vector3 c {};
 
@@ -43,7 +43,7 @@ double umath::geometry::calc_volume_of_polyhedron(const std::function<bool(const
 		*centerOfMass = Vector3(r.at(0) / totalVolume, r.at(1) / totalVolume, r.at(2) / totalVolume);
 	return totalVolume;
 }
-double umath::geometry::calc_volume_of_polyhedron(const std::vector<Vector3> &verts, const std::vector<uint16_t> &triangles, Vector3 *centerOfMass)
+double pragma::math::geometry::calc_volume_of_polyhedron(const std::vector<Vector3> &verts, const std::vector<uint16_t> &triangles, Vector3 *centerOfMass)
 {
 	auto i = decltype(triangles.size()) {0};
 	auto numIndices = (triangles.size() / 3) * 3;
@@ -59,7 +59,7 @@ double umath::geometry::calc_volume_of_polyhedron(const std::vector<Vector3> &ve
 	  },
 	  centerOfMass);
 }
-Vector3 umath::geometry::calc_center_of_mass(const std::vector<Vector3> &verts, const std::vector<uint16_t> &triangles, double *volume)
+Vector3 pragma::math::geometry::calc_center_of_mass(const std::vector<Vector3> &verts, const std::vector<uint16_t> &triangles, double *volume)
 {
 	Vector3 r {};
 	auto vol = calc_volume_of_polyhedron(verts, triangles, &r);
@@ -118,7 +118,7 @@ static Vector3 calc_cone_surface_normal(Vector3 coneCenter, const Vector3 &coneD
 	return r;
 }
 
-void umath::geometry::generate_truncated_cone_mesh(const Vector3 &origin, float startRadius, const Vector3 &dir, float dist, float endRadius, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles, std::vector<Vector3> *normals, uint32_t segmentCount, bool bAddCaps)
+void pragma::math::geometry::generate_truncated_cone_mesh(const Vector3 &origin, float startRadius, const Vector3 &dir, float dist, float endRadius, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles, std::vector<Vector3> *normals, uint32_t segmentCount, bool bAddCaps)
 {
 	auto rot = uquat::create_look_rotation(dir, uvec::get_perpendicular(dir));
 
@@ -139,13 +139,13 @@ void umath::geometry::generate_truncated_cone_mesh(const Vector3 &origin, float 
 	if(normals != nullptr)
 		normals->reserve(verts.capacity());
 
-	auto rad = umath::deg_to_rad(0.f);
+	auto rad = deg_to_rad(0.f);
 	auto stepSize = 360.f / static_cast<float>(segmentCount);
 
 	auto origin0 = origin;
 	auto origin1 = origin0 + dir * dist;
 
-	Vector3 vStart = {umath::sin(rad), umath::cos(rad), 0.0};
+	Vector3 vStart = {sin(rad), cos(rad), 0.0};
 	auto vPrev0 = vStart;
 	//uvec::rotate(&vPrev0,rot);
 	vPrev0 = origin0 + vPrev0 * static_cast<float>(startRadius);
@@ -185,8 +185,8 @@ void umath::geometry::generate_truncated_cone_mesh(const Vector3 &origin, float 
 
 	auto i = stepSize;
 	while(segmentCount > 0) {
-		rad = umath::deg_to_rad(i);
-		Vector3 vBase {umath::sin(rad), umath::cos(rad), 0.f};
+		rad = math::deg_to_rad(i);
+		Vector3 vBase {sin(rad), cos(rad), 0.f};
 		uvec::rotate(&vBase, rot);
 
 		decltype(verts.size()) idxV0 = 0;
@@ -252,7 +252,7 @@ void umath::geometry::generate_truncated_cone_mesh(const Vector3 &origin, float 
 		--segmentCount;
 	}
 }
-void umath::geometry::generate_truncated_elliptic_cone_mesh(const Vector3 &origin, float startRadiusX, float startRadiusY, const Vector3 &dir, float dist, float endRadiusX, float endRadiusY, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles, std::vector<Vector3> *normals,
+void pragma::math::geometry::generate_truncated_elliptic_cone_mesh(const Vector3 &origin, float startRadiusX, float startRadiusY, const Vector3 &dir, float dist, float endRadiusX, float endRadiusY, std::vector<Vector3> &verts, std::vector<uint16_t> *triangles, std::vector<Vector3> *normals,
   uint32_t segmentCount, bool bAddCaps)
 {
 	generate_truncated_cone_mesh(origin, startRadiusX, dir, dist, endRadiusX, verts, triangles, normals, segmentCount, bAddCaps);
@@ -260,12 +260,12 @@ void umath::geometry::generate_truncated_elliptic_cone_mesh(const Vector3 &origi
 	auto aspectRatioStart = (startRadiusX == 0.f || startRadiusY == 0.f) ? aspectRatioEnd : (startRadiusY / startRadiusX);
 	for(auto &v : verts) {
 		auto yFactor = (dist > 0.f) ? (v.z / dist) : 0.f;
-		auto aspectRatio = umath::lerp(aspectRatioStart, aspectRatioEnd, yFactor);
+		auto aspectRatio = math::lerp(aspectRatioStart, aspectRatioEnd, yFactor);
 		v.x *= aspectRatio;
 	}
 }
 
-bool umath::geometry::calc_barycentric_coordinates(const Vector3 &p0, const Vector3 &p1, const Vector3 &p2, const Vector3 &hitPoint, float &b1, float &b2)
+bool pragma::math::geometry::calc_barycentric_coordinates(const Vector3 &p0, const Vector3 &p1, const Vector3 &p2, const Vector3 &hitPoint, float &b1, float &b2)
 {
 	//const auto EPSILON = 0.001f;
 	const auto u = p1 - p0;
@@ -293,7 +293,7 @@ bool umath::geometry::calc_barycentric_coordinates(const Vector3 &p0, const Vect
 	return true; // ((r <= 1.f) && (t <= 1.f) && (r + t <= 1.f));
 }
 
-bool umath::geometry::calc_barycentric_coordinates(const Vector3 &p0, const Vector2 &uv0, const Vector3 &p1, const Vector2 &uv1, const Vector3 &p2, const Vector2 &uv2, const Vector3 &hitPoint, float &u, float &v)
+bool pragma::math::geometry::calc_barycentric_coordinates(const Vector3 &p0, const Vector2 &uv0, const Vector3 &p1, const Vector2 &uv1, const Vector3 &p2, const Vector2 &uv2, const Vector3 &hitPoint, float &u, float &v)
 {
 	float b1, b2;
 	if(calc_barycentric_coordinates(p0, p1, p2, hitPoint, b1, b2) == false)
@@ -304,26 +304,26 @@ bool umath::geometry::calc_barycentric_coordinates(const Vector3 &p0, const Vect
 	return true;
 }
 
-bool umath::geometry::calc_barycentric_coordinates(const Vector2 uv0, const Vector2 &uv1, const Vector2 &uv2, const Vector2 &uv, float &a1, float &a2, float &a3)
+bool pragma::math::geometry::calc_barycentric_coordinates(const Vector2 uv0, const Vector2 &uv1, const Vector2 &uv2, const Vector2 &uv, float &a1, float &a2, float &a3)
 {
 	// See http://answers.unity.com/answers/372156/view.html
 
-	auto a = umath::geometry::calc_triangle_area(uv0, uv1, uv2, true);
+	auto a = geometry::calc_triangle_area(uv0, uv1, uv2, true);
 	if(a == 0)
 		return false;
-	a1 = umath::geometry::calc_triangle_area(uv1, uv2, uv, true) / a;
+	a1 = geometry::calc_triangle_area(uv1, uv2, uv, true) / a;
 	if(a1 < 0)
 		return false;
-	a2 = umath::geometry::calc_triangle_area(uv2, uv0, uv, true) / a;
+	a2 = geometry::calc_triangle_area(uv2, uv0, uv, true) / a;
 	if(a2 < 0)
 		return false;
-	a3 = umath::geometry::calc_triangle_area(uv0, uv1, uv, true) / a;
+	a3 = geometry::calc_triangle_area(uv0, uv1, uv, true) / a;
 	if(a3 < 0)
 		return false;
 	return true;
 }
 
-Quat umath::geometry::calc_rotation_between_planes(const Vector3 &n0, const Vector3 &n1)
+Quat pragma::math::geometry::calc_rotation_between_planes(const Vector3 &n0, const Vector3 &n1)
 {
 	auto m = n0 + n1;
 	uvec::normalize(&m);
@@ -334,43 +334,43 @@ Quat umath::geometry::calc_rotation_between_planes(const Vector3 &n0, const Vect
 	return q;
 }
 
-umath::geometry::PlaneSide umath::geometry::get_side_of_point_to_plane(const Vector3 &n, double d, const Vector3 &p)
+pragma::math::geometry::PlaneSide pragma::math::geometry::get_side_of_point_to_plane(const Vector3 &n, double d, const Vector3 &p)
 {
 	auto planePos = n * static_cast<float>(d);
 	auto dot = uvec::dot(p - planePos, n);
-	if(umath::abs(dot) < 0.01f)
+	if(math::abs(dot) < 0.01f)
 		return PlaneSide::OnPlane;
 	return dot > 0.f ? PlaneSide::Front : PlaneSide::Back;
 }
 
-void umath::geometry::local_plane_to_world_space(Vector3 &inOutN, double &inOutD, const Vector3 &pos, const Quat &rot)
+void pragma::math::geometry::local_plane_to_world_space(Vector3 &inOutN, double &inOutD, const Vector3 &pos, const Quat &rot)
 {
 	uvec::rotate(&inOutN, rot);
 	inOutD = uvec::dot(inOutN, inOutN * static_cast<float>(inOutD) - pos);
 }
 
-umath::geometry::WindingOrder umath::geometry::get_triangle_winding_order(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2, const Vector3 &n)
+pragma::math::geometry::WindingOrder pragma::math::geometry::get_triangle_winding_order(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2, const Vector3 &n)
 {
 	auto w = uvec::dot(n, uvec::cross(v1 - v0, v2 - v0));
 	return (w > 0.f) ? WindingOrder::Clockwise : WindingOrder::CounterClockwise;
 }
-umath::geometry::WindingOrder umath::geometry::get_triangle_winding_order(const Vector2 &v0, const Vector2 &v1, const Vector2 &v2) { return get_triangle_winding_order(Vector3 {v0.x, 0.f, v0.y}, Vector3 {v1.x, 0.f, v1.y}, Vector3 {v2.x, 0.f, v2.y}, uvec::UP); }
-float umath::geometry::calc_triangle_area(const Vector3 &p0, const Vector3 &p1, const Vector3 &p2) { return uvec::length(uvec::cross(p0 - p1, p0 - p2)); }
-float umath::geometry::calc_triangle_area(const Vector2 &p0, const Vector2 &p1, const Vector2 &p2, bool keepSign)
+pragma::math::geometry::WindingOrder pragma::math::geometry::get_triangle_winding_order(const Vector2 &v0, const Vector2 &v1, const Vector2 &v2) { return get_triangle_winding_order(Vector3 {v0.x, 0.f, v0.y}, Vector3 {v1.x, 0.f, v1.y}, Vector3 {v2.x, 0.f, v2.y}, uvec::UP); }
+float pragma::math::geometry::calc_triangle_area(const Vector3 &p0, const Vector3 &p1, const Vector3 &p2) { return uvec::length(uvec::cross(p0 - p1, p0 - p2)); }
+float pragma::math::geometry::calc_triangle_area(const Vector2 &p0, const Vector2 &p1, const Vector2 &p2, bool keepSign)
 {
 	auto dArea = ((p1.x - p0.x) * (p2.y - p0.y) - (p2.x - p0.x) * (p1.y - p0.y)) / 2.0;
 	if(keepSign == false)
-		dArea = umath::abs(dArea);
+		dArea = math::abs(dArea);
 	return dArea;
 }
 
 static const auto EPSILON = 0.1f;
-static inline bool nearly_equal(float v0, float v1) { return umath::abs(v0 - v1) < EPSILON; }
+static inline bool nearly_equal(float v0, float v1) { return pragma::math::abs(v0 - v1) < EPSILON; }
 static inline bool lt(float v0, float v1) { return v0 + EPSILON < v1; }
 static inline bool gt(float v0, float v1) { return v0 - EPSILON > v1; }
 
 // Source: https://stackoverflow.com/a/8524921/2482983
-umath::geometry::LineSide umath::geometry::get_side_of_point_to_line(const Vector2 &a, const Vector2 &b, const Vector2 &c)
+pragma::math::geometry::LineSide pragma::math::geometry::get_side_of_point_to_line(const Vector2 &a, const Vector2 &b, const Vector2 &c)
 {
 	if(nearly_equal(b.x - a.x, 0)) // vertical line
 	{
@@ -403,12 +403,12 @@ umath::geometry::LineSide umath::geometry::get_side_of_point_to_line(const Vecto
 
 static bool is_line_on_outline(const std::vector<Vector2> &verts, const Vector2 &v0, const Vector2 &v1)
 {
-	auto side = umath::geometry::LineSide::OnLine;
+	auto side = pragma::math::geometry::LineSide::OnLine;
 	for(auto &v : verts) {
-		auto vertSide = umath::geometry::get_side_of_point_to_line(v0, v1, v);
-		if(vertSide == umath::geometry::LineSide::OnLine)
+		auto vertSide = pragma::math::geometry::get_side_of_point_to_line(v0, v1, v);
+		if(vertSide == pragma::math::geometry::LineSide::OnLine)
 			continue;
-		if(side == umath::geometry::LineSide::OnLine)
+		if(side == pragma::math::geometry::LineSide::OnLine)
 			side = vertSide;
 		if(vertSide != side)
 			return false;
@@ -416,7 +416,7 @@ static bool is_line_on_outline(const std::vector<Vector2> &verts, const Vector2 
 	return true;
 }
 
-std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const std::vector<Vector2> &verts)
+std::optional<std::vector<uint32_t>> pragma::math::geometry::get_outline_vertices(const std::vector<Vector2> &verts)
 {
 	std::vector<bool> vertexStates(verts.size(), true);
 	std::vector<size_t> vertexIndices {};
@@ -449,7 +449,7 @@ std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const
 			auto idx1 = vertexIndices.at(j);
 			auto &v1 = verts.at(idx1);
 			if(is_line_on_outline(verts, v0, v1)) {
-				auto windingOrder = umath::geometry::get_triangle_winding_order(v0, v1, center);
+				auto windingOrder = geometry::get_triangle_winding_order(v0, v1, center);
 				uint32_t iSrc, iDst;
 				switch(windingOrder) {
 				case WindingOrder::Clockwise:
@@ -495,39 +495,39 @@ std::optional<std::vector<uint32_t>> umath::geometry::get_outline_vertices(const
 	return outlineList;
 }
 
-void umath::geometry::get_aabb_planes(const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes)
+void pragma::math::geometry::get_aabb_planes(const Vector3 &min, const Vector3 &max, std::array<Plane, 6> &outPlanes)
 {
 	uint8_t idx = 0;
-	outPlanes[idx++] = umath::Plane {uvec::UP, max.y};
-	outPlanes[idx++] = umath::Plane {-uvec::UP, min.y};
-	outPlanes[idx++] = umath::Plane {uvec::FORWARD, max.z};
-	outPlanes[idx++] = umath::Plane {-uvec::FORWARD, min.z};
-	outPlanes[idx++] = umath::Plane {-uvec::RIGHT, max.x};
-	outPlanes[idx++] = umath::Plane {uvec::RIGHT, min.x};
+	outPlanes[idx++] = Plane {uvec::UP, max.y};
+	outPlanes[idx++] = Plane {-uvec::UP, min.y};
+	outPlanes[idx++] = Plane {uvec::FORWARD, max.z};
+	outPlanes[idx++] = Plane {-uvec::FORWARD, min.z};
+	outPlanes[idx++] = Plane {-uvec::RIGHT, max.x};
+	outPlanes[idx++] = Plane {uvec::RIGHT, min.x};
 }
-std::array<umath::Plane, 6> umath::geometry::get_aabb_planes(const Vector3 &min, const Vector3 &max)
+std::array<pragma::math::Plane, 6> pragma::math::geometry::get_aabb_planes(const Vector3 &min, const Vector3 &max)
 {
-	std::array<umath::Plane, 6> planes;
+	std::array<Plane, 6> planes;
 	get_aabb_planes(min, max, planes);
 	return planes;
 }
-void umath::geometry::get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max, std::array<umath::Plane, 6> &outPlanes)
+void pragma::math::geometry::get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max, std::array<Plane, 6> &outPlanes)
 {
 	uint8_t idx = 0;
-	outPlanes[idx++] = umath::Plane {uquat::up(rot), origin + uquat::up(rot) * max.y};
-	outPlanes[idx++] = umath::Plane {-uquat::up(rot), origin + uquat::up(rot) * min.y};
-	outPlanes[idx++] = umath::Plane {uquat::forward(rot), origin + uquat::forward(rot) * max.z};
-	outPlanes[idx++] = umath::Plane {-uquat::forward(rot), origin + uquat::forward(rot) * min.z};
-	outPlanes[idx++] = umath::Plane {-uquat::right(rot), origin - uquat::right(rot) * max.x};
-	outPlanes[idx++] = umath::Plane {uquat::right(rot), origin - uquat::right(rot) * min.x};
+	outPlanes[idx++] = Plane {uquat::up(rot), origin + uquat::up(rot) * max.y};
+	outPlanes[idx++] = Plane {-uquat::up(rot), origin + uquat::up(rot) * min.y};
+	outPlanes[idx++] = Plane {uquat::forward(rot), origin + uquat::forward(rot) * max.z};
+	outPlanes[idx++] = Plane {-uquat::forward(rot), origin + uquat::forward(rot) * min.z};
+	outPlanes[idx++] = Plane {-uquat::right(rot), origin - uquat::right(rot) * max.x};
+	outPlanes[idx++] = Plane {uquat::right(rot), origin - uquat::right(rot) * min.x};
 }
-std::array<umath::Plane, 6> umath::geometry::get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max)
+std::array<pragma::math::Plane, 6> pragma::math::geometry::get_obb_planes(const Vector3 &origin, const Quat &rot, const Vector3 &min, const Vector3 &max)
 {
-	std::array<umath::Plane, 6> planes;
+	std::array<Plane, 6> planes;
 	get_obb_planes(origin, rot, min, max, planes);
 	return planes;
 }
-std::pair<Vector3, Vector3> umath::geometry::calc_aabb_around_obb(const umath::ScaledTransform &pose, const Vector3 &obbPosition, const Vector3 &obbHalfExtents)
+std::pair<Vector3, Vector3> pragma::math::geometry::calc_aabb_around_obb(const ScaledTransform &pose, const Vector3 &obbPosition, const Vector3 &obbHalfExtents)
 {
 	auto rotationMatrix = glm::mat3_cast(pose.GetRotation());
 	auto worldX = rotationMatrix * Vector3(1.0f, 0.0f, 0.0f);
@@ -547,12 +547,12 @@ std::pair<Vector3, Vector3> umath::geometry::calc_aabb_around_obb(const umath::S
 	auto aabbMax = origin + xAxisExtents + yAxisExtents + zAxisExtents;
 	return {aabbMin, aabbMax};
 }
-void umath::geometry::calc_aabb_extents(const Vector3 &min, const Vector3 &max, Vector3 &outPos, Vector3 &outHalfExtents)
+void pragma::math::geometry::calc_aabb_extents(const Vector3 &min, const Vector3 &max, Vector3 &outPos, Vector3 &outHalfExtents)
 {
 	outPos = (max + min) / 2.f;
 	outHalfExtents = (max - min) / 2.f;
 }
-std::pair<Vector3, Vector3> umath::geometry::calc_aabb_around_obb_bounds(const umath::ScaledTransform &pose, const Vector3 &min, const Vector3 &max)
+std::pair<Vector3, Vector3> pragma::math::geometry::calc_aabb_around_obb_bounds(const ScaledTransform &pose, const Vector3 &min, const Vector3 &max)
 {
 	Vector3 pos, halfExtents;
 	calc_aabb_extents(min, max, pos, halfExtents);

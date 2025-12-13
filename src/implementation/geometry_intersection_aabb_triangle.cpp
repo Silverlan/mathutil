@@ -9,23 +9,23 @@ import :geometry;
 
 static bool triBoxOverlap(glm::vec3 boxcenter, glm::vec3 boxhalfsize, glm::vec3 tv0, glm::vec3 tv1, glm::vec3 tv2);
 
-bool umath::intersection::aabb_triangle(const Vector3 &pmin, const Vector3 &pmax, const Vector3 &pa, const Vector3 &pb, const Vector3 &pc)
+bool pragma::math::intersection::aabb_triangle(const Vector3 &pmin, const Vector3 &pmax, const Vector3 &pa, const Vector3 &pb, const Vector3 &pc)
 {
 	auto center = (pmin + pmax) * 0.5f;
 	auto extents = (pmax - pmin) * 0.5f;
 	return triBoxOverlap(center, extents, pa, pb, pc);
 }
 
-bool umath::intersection::obb_triangle(const Vector3 &min, const Vector3 &max, const ScaledTransform &transform, const Vector3 &a, const Vector3 &b, const Vector3 &c)
+bool pragma::math::intersection::obb_triangle(const Vector3 &min, const Vector3 &max, const ScaledTransform &transform, const Vector3 &a, const Vector3 &b, const Vector3 &c)
 {
 
 	auto tInv = transform.GetInverse();
 	return aabb_triangle(min, max, tInv * a, tInv * b, tInv * c);
 }
 
-bool umath::intersection::obb_triangle(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &a, const Vector3 &b, const Vector3 &c)
+bool pragma::math::intersection::obb_triangle(const Vector3 &min, const Vector3 &max, const Vector3 &origin, const Quat &rot, const Vector3 &a, const Vector3 &b, const Vector3 &c)
 {
-	umath::Transform t {origin, rot};
+	Transform t {origin, rot};
 	t = t.GetInverse();
 	return aabb_triangle(min, max, t * a, t * b, t * c);
 }

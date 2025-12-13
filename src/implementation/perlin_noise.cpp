@@ -7,7 +7,7 @@ module pragma.math;
 
 import :perlin_noise;
 
-using namespace umath;
+using namespace pragma::math;
 
 PerlinNoise::PerlinNoise()
 {

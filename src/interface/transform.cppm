@@ -13,7 +13,7 @@ export import :types;
 import :vector;
 
 export {
-	namespace umath {
+	namespace pragma::math {
 		enum class CoordinateSpace : uint32_t {
 			Local = 0,
 			World,
@@ -124,15 +124,15 @@ export {
 
 		void transform(const Vector3 &parentPos, const Quat &parentRot, const Vector3 *optParentScale, Vector3 &pos, Quat &rot, Vector3 *optScale);
 	};
-	DLLMUTIL Vector3 operator*(const Vector3 &v, const umath::Transform &t);
-	DLLMUTIL Vector3 &operator*=(Vector3 &v, const umath::Transform &t);
-	DLLMUTIL Quat operator*(const Quat &v, const umath::Transform &t);
-	DLLMUTIL Quat &operator*=(Quat &v, const umath::Transform &t);
-	DLLMUTIL umath::Transform operator*(float weight, const umath::Transform &t);
+	DLLMUTIL Vector3 operator*(const Vector3 &v, const pragma::math::Transform &t);
+	DLLMUTIL Vector3 &operator*=(Vector3 &v, const pragma::math::Transform &t);
+	DLLMUTIL Quat operator*(const Quat &v, const pragma::math::Transform &t);
+	DLLMUTIL Quat &operator*=(Quat &v, const pragma::math::Transform &t);
+	DLLMUTIL pragma::math::Transform operator*(float weight, const pragma::math::Transform &t);
 
-	DLLMUTIL Vector3 operator*(const Vector3 &v, const umath::ScaledTransform &t);
-	DLLMUTIL Vector3 &operator*=(Vector3 &v, const umath::ScaledTransform &t);
-	DLLMUTIL Quat operator*(const Quat &v, const umath::ScaledTransform &t);
-	DLLMUTIL Quat &operator*=(Quat &v, const umath::ScaledTransform &t);
-	DLLMUTIL umath::ScaledTransform operator*(float weight, const umath::ScaledTransform &t);
+	DLLMUTIL Vector3 operator*(const Vector3 &v, const pragma::math::ScaledTransform &t);
+	DLLMUTIL Vector3 &operator*=(Vector3 &v, const pragma::math::ScaledTransform &t);
+	DLLMUTIL Quat operator*(const Quat &v, const pragma::math::ScaledTransform &t);
+	DLLMUTIL Quat &operator*=(Quat &v, const pragma::math::ScaledTransform &t);
+	DLLMUTIL pragma::math::ScaledTransform operator*(float weight, const pragma::math::ScaledTransform &t);
 }

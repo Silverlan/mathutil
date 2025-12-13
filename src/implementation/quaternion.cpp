@@ -8,7 +8,7 @@ module pragma.math;
 import :quaternion;
 import pragma.string;
 
-using namespace umath;
+using namespace pragma::math;
 
 Quat uquat::calc_average(const std::vector<Quat> &rotations)
 {
@@ -43,17 +43,17 @@ Quat uquat::clamp_rotation(const Quat &pq, const EulerAngles &minBounds, const E
 	q.z /= q.w;
 	q.w = 1.0;
 
-	auto angleX = static_cast<float>(2.f * umath::rad_to_deg(atan(q.x)));
-	angleX = umath::clamp(angleX, minBounds.p, maxBounds.p);
-	q.x = umath::tan(0.5 * umath::deg_to_rad(angleX));
+	auto angleX = static_cast<float>(2.f * pragma::math::rad_to_deg(atan(q.x)));
+	angleX = pragma::math::clamp(angleX, minBounds.p, maxBounds.p);
+	q.x = pragma::math::tan(0.5 * pragma::math::deg_to_rad(angleX));
 
-	auto angleY = static_cast<float>(2.f * umath::rad_to_deg(atan(q.y)));
-	angleY = umath::clamp(angleY, minBounds.y, maxBounds.y);
-	q.y = umath::tan(0.5 * umath::deg_to_rad(angleY));
+	auto angleY = static_cast<float>(2.f * pragma::math::rad_to_deg(atan(q.y)));
+	angleY = pragma::math::clamp(angleY, minBounds.y, maxBounds.y);
+	q.y = pragma::math::tan(0.5 * pragma::math::deg_to_rad(angleY));
 
-	auto angleZ = static_cast<float>(2.f * umath::rad_to_deg(atan(q.z)));
-	angleZ = umath::clamp(angleZ, minBounds.r, maxBounds.r);
-	q.z = umath::tan(0.5 * umath::deg_to_rad(angleZ));
+	auto angleZ = static_cast<float>(2.f * pragma::math::rad_to_deg(atan(q.z)));
+	angleZ = pragma::math::clamp(angleZ, minBounds.r, maxBounds.r);
+	q.z = pragma::math::tan(0.5 * pragma::math::deg_to_rad(angleZ));
 	normalize(q);
 	return q;
 }
@@ -63,7 +63,7 @@ Quat uquat::create(const Vector3 &forward, const Vector3 &right, const Vector3 &
 Quat uquat::create(const Mat3 &rot)
 {
 	// http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/
-	auto w = umath::sqrt(1.f + rot[0][0] + rot[1][1] + rot[2][2]) / 2.f;
+	auto w = pragma::math::sqrt(1.f + rot[0][0] + rot[1][1] + rot[2][2]) / 2.f;
 	auto w4 = (4.f * w);
 	auto x = (rot[2][1] - rot[1][2]) / w4;
 	auto y = (rot[0][2] - rot[2][0]) / w4;
@@ -78,9 +78,9 @@ Quat uquat::create(const Vector3 &v, Float ang)
 	ang *= 0.5f;
 	Vector3 vn = uvec::get_normal(v);
 
-	sAng = umath::sin(ang);
+	sAng = pragma::math::sin(ang);
 	return Quat(
-		umath::cos(ang),
+		pragma::math::cos(ang),
 		vn.x *sAng,
 		vn.y *sAng,
 		vn.z *sAng
@@ -89,12 +89,12 @@ Quat uquat::create(const Vector3 &v, Float ang)
 
 Quat uquat::create(const EulerAngles &ang)
 {
-	return glm::quat_cast(glm::gtx::eulerAngleYXZ(umath::deg_to_rad(ang.y), umath::deg_to_rad(ang.p), umath::deg_to_rad(ang.r)));
+	return glm::quat_cast(glm::gtx::eulerAngleYXZ(deg_to_rad(ang.y), deg_to_rad(ang.p), deg_to_rad(ang.r)));
 
 	// Obsolete
-	/*Float pitch = static_cast<Float>(umath::deg_to_rad(ang.p));
-	Float yaw = static_cast<Float>(umath::deg_to_rad(ang.y));
-	Float roll = static_cast<Float>(umath::deg_to_rad(ang.r));
+	/*Float pitch = static_cast<Float>(pragma::math::deg_to_rad(ang.p));
+	Float yaw = static_cast<Float>(pragma::math::deg_to_rad(ang.y));
+	Float roll = static_cast<Float>(pragma::math::deg_to_rad(ang.r));
 	Float c1 = cosf(yaw /2.f);
 	Float c2 = cosf(roll /2.f);
 	Float c3 = cosf(pitch /2.f);
@@ -152,7 +152,7 @@ Quat uquat::create(const Mat4 &m)
 Quat uquat::create(const std::string &s)
 {
 	Quat r {};
-	ustring::string_to_array<Float>(s, &r.x, ustring::cstring_to_number<float>, 4);
+	pragma::string::string_to_array<Float>(s, &r.x, pragma::string::cstring_to_number<float>, 4);
 	return Quat {r.x, r.y, r.z, r.w};
 }
 
@@ -180,7 +180,7 @@ void uquat::rotate(Quat &q, const EulerAngles &ang)
 	q = glm::gtx::rotate(q, ang.p, uvec::FORWARD);
 	q = glm::gtx::rotate(q, ang.y, uvec::UP);
 }
-Float uquat::length(const Quat &q) { return umath::sqrt(pow(q.w, 2) + pow(q.x, 2) + pow(q.y, 2) + pow(q.z, 2)); }
+Float uquat::length(const Quat &q) { return pragma::math::sqrt(pow(q.w, 2) + pow(q.x, 2) + pow(q.y, 2) + pow(q.z, 2)); }
 void uquat::normalize(Quat &q)
 {
 	Float magnitude = length(q);
@@ -238,7 +238,7 @@ Quat uquat::create_look_rotation(const Vector3 &forward, const Vector3 &up)
 	double num8 = (m00 + m11) + m22;
 	Quat quaternion {};
 	if(num8 > 0.0) {
-		auto num = umath::sqrt(num8 + 1.0);
+		auto num = pragma::math::sqrt(num8 + 1.0);
 		quaternion.w = static_cast<float>(num * 0.5);
 		num = 0.5 / num;
 		quaternion.x = static_cast<float>((m12 - m21) * num);
@@ -247,7 +247,7 @@ Quat uquat::create_look_rotation(const Vector3 &forward, const Vector3 &up)
 		return quaternion;
 	}
 	if((m00 >= m11) && (m00 >= m22)) {
-		auto num7 = umath::sqrt(((1.0 + m00) - m11) - m22);
+		auto num7 = pragma::math::sqrt(((1.0 + m00) - m11) - m22);
 		auto num4 = 0.5 / num7;
 		quaternion.x = static_cast<float>(0.5 * num7);
 		quaternion.y = static_cast<float>((m01 + m10) * num4);
@@ -256,7 +256,7 @@ Quat uquat::create_look_rotation(const Vector3 &forward, const Vector3 &up)
 		return quaternion;
 	}
 	if(m11 > m22) {
-		auto num6 = umath::sqrt(((1.0 + m11) - m00) - m22);
+		auto num6 = pragma::math::sqrt(((1.0 + m11) - m00) - m22);
 		auto num3 = 0.5 / num6;
 		quaternion.x = static_cast<float>((m10 + m01) * num3);
 		quaternion.y = static_cast<float>(0.5 * num6);
@@ -264,7 +264,7 @@ Quat uquat::create_look_rotation(const Vector3 &forward, const Vector3 &up)
 		quaternion.w = static_cast<float>((m20 - m02) * num3);
 		return quaternion;
 	}
-	auto num5 = umath::sqrt(((1.0 + m22) - m00) - m11);
+	auto num5 = pragma::math::sqrt(((1.0 + m22) - m00) - m11);
 	auto num2 = 0.5 / num5;
 	quaternion.x = static_cast<float>((m20 + m02) * num2);
 	quaternion.y = static_cast<float>((m21 + m12) * num2);
@@ -273,28 +273,28 @@ Quat uquat::create_look_rotation(const Vector3 &forward, const Vector3 &up)
 	return quaternion;
 }
 
-float uquat::get_angle(const Quat &rot) { return 2.f * umath::acos(rot.w); }
+float uquat::get_angle(const Quat &rot) { return 2.f * pragma::math::acos(rot.w); }
 
 void uquat::to_axis_angle(const Quat &rot, Vector3 &axis, float &angle)
 {
 	auto w2 = rot.w * rot.w;
-	if(umath::abs(1.f - w2) < 0.0001) {
+	if(pragma::math::abs(1.f - w2) < 0.0001) {
 		// It's a identity quaternion
 		axis = uvec::FORWARD;
 		angle = 0.f;
 		return;
 	}
 	angle = get_angle(rot);
-	axis.x = rot.x / umath::sqrt(1 - w2);
-	axis.y = rot.y / umath::sqrt(1 - w2);
-	axis.z = rot.z / umath::sqrt(1 - w2);
+	axis.x = rot.x / pragma::math::sqrt(1 - w2);
+	axis.y = rot.y / pragma::math::sqrt(1 - w2);
+	axis.z = rot.z / pragma::math::sqrt(1 - w2);
 }
 
 Radian uquat::distance(const Quat &q0, const Quat &q1)
 {
 	// Source: https://stackoverflow.com/a/23263233/2482983
 	auto qd = uquat::get_inverse(q0) * q1;
-	auto angle = 2.f * umath::atan2(uvec::length(Vector3 {qd.x, qd.y, qd.z}), qd.w);
+	auto angle = 2.f * pragma::math::atan2(uvec::length(Vector3 {qd.x, qd.y, qd.z}), qd.w);
 	return angle;
 }
 
@@ -322,7 +322,7 @@ Quat uquat::get_rotation_to_axis(const Vector3 &sourceAxis, const Vector3 &targe
 {
 	// Source: https://gamedev.stackexchange.com/q/61672
 	auto a = uvec::cross(sourceAxis, targetAxis);
-	Quat rot {umath::sqrt(uvec::length_sqr(sourceAxis) * uvec::length_sqr(targetAxis)) + uvec::dot(sourceAxis, targetAxis), a.x, a.y, a.z};
+	Quat rot {pragma::math::sqrt(uvec::length_sqr(sourceAxis) * uvec::length_sqr(targetAxis)) + uvec::dot(sourceAxis, targetAxis), a.x, a.y, a.z};
 	rot = glm::normalize(rot);
 	return rot;
 }

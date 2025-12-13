@@ -7,7 +7,7 @@ module pragma.math;
 
 import :plane;
 
-using namespace umath;
+using namespace pragma::math;
 
 Plane::Plane(const Vector3 &a, const Vector3 &b, const Vector3 &c)
 {

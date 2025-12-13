@@ -48,7 +48,7 @@ export {
 		Color GetContrastColor() const;
 	};
 
-	namespace util {
+	namespace pragma::math {
 		DLLMUTIL void rgb_to_hsv(const Vector3 &rgb, double &hDeg, double &s, double &v);
 		DLLMUTIL Vector3 hsv_to_rgb(double hDeg, double s, double v);
 		DLLMUTIL void lerp_hsv(double &h0, double &s0, double &v0, double h1, double s1, double v1, double factor);

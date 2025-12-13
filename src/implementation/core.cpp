@@ -11,13 +11,13 @@ import :core;
 
 static std::random_device random_device;
 static std::mt19937 random_generator(random_device());
-std::mt19937 &umath::get_default_random_generator() { return random_generator; }
+std::mt19937 &pragma::math::get_default_random_generator() { return random_generator; }
 
 /* epsilon surrounding for near zero values */
 const auto EQN_EPS = 1e-9;
-bool umath::is_zero(double x) { return ((x > -EQN_EPS && x < EQN_EPS)) ? true : false; }
+bool pragma::math::is_zero(double x) { return ((x > -EQN_EPS && x < EQN_EPS)) ? true : false; }
 
-Int32 umath::random(Int32 min, Int32 max)
+Int32 pragma::math::random(Int32 min, Int32 max)
 {
 	if(max < min)
 		return random(max, min);
@@ -25,7 +25,7 @@ Int32 umath::random(Int32 min, Int32 max)
 	return dis(random_generator);
 }
 
-Float umath::random(Float min, Float max)
+Float pragma::math::random(Float min, Float max)
 {
 	if(max < min)
 		return random(max, min);
@@ -33,10 +33,10 @@ Float umath::random(Float min, Float max)
 	return dis(random_generator);
 }
 
-Double umath::deg_to_rad(Double deg) { return (deg / 180.0) * Double(pi); }
-Double umath::rad_to_deg(Double rad) { return (rad * 180.0) / Double(pi); }
+Double pragma::math::deg_to_rad(Double deg) { return (deg / 180.0) * Double(pi); }
+Double pragma::math::rad_to_deg(Double rad) { return (rad * 180.0) / Double(pi); }
 
-Double umath::normalize_angle(Double ang, Double base)
+Double pragma::math::normalize_angle(Double ang, Double base)
 {
 	Double max = base + 360;
 	while(ang > max)
@@ -46,7 +46,7 @@ Double umath::normalize_angle(Double ang, Double base)
 	return ang;
 }
 
-Double umath::normalize_angle(Double ang)
+Double pragma::math::normalize_angle(Double ang)
 {
 	while(ang > 180)
 		ang -= 360;
@@ -55,11 +55,11 @@ Double umath::normalize_angle(Double ang)
 	return ang;
 }
 
-Double umath::sin(Double x) { return ::sin(x); }
-Double umath::cos(Double x) { return ::cos(x); }
-Double umath::cot(Double x) { return cos(x) / sin(x); }
-Double umath::tan(Double x) { return ::tan(x); }
-Double umath::asin(Double x)
+Double pragma::math::sin(Double x) { return ::sin(x); }
+Double pragma::math::cos(Double x) { return ::cos(x); }
+Double pragma::math::cot(Double x) { return cos(x) / sin(x); }
+Double pragma::math::tan(Double x) { return ::tan(x); }
+Double pragma::math::asin(Double x)
 {
 	if(x > 1.0f)
 		x = 1.0f;
@@ -67,7 +67,7 @@ Double umath::asin(Double x)
 		x = -1.0f;
 	return ::asin(x);
 }
-Double umath::acos(Double x)
+Double pragma::math::acos(Double x)
 {
 	if(x > 1.0f)
 		x = 1.0f;
@@ -75,20 +75,20 @@ Double umath::acos(Double x)
 		x = -1.0f;
 	return ::acos(x);
 }
-Double umath::atan2(Double y, Double x)
+Double pragma::math::atan2(Double y, Double x)
 {
 	if(y == 0.0f && x == 0.0f)
 		return 0.0f;
 	return ::atan2(y, x);
 }
-Double umath::lerp(Double start, Double end, Double percent) { return (start + percent * (end - start)); }
-Double umath::lerp(Double v1, Double v2, Double i1, Double i2, Double x) { return v1 + (v2 - v1) * (x - i1) / (i2 - i1); }
-Double umath::lerp_angle(Double angA, Double angB, Double amount)
+Double pragma::math::lerp(Double start, Double end, Double percent) { return (start + percent * (end - start)); }
+Double pragma::math::lerp(Double v1, Double v2, Double i1, Double i2, Double x) { return v1 + (v2 - v1) * (x - i1) / (i2 - i1); }
+Double pragma::math::lerp_angle(Double angA, Double angB, Double amount)
 {
 	amount = get_angle_difference(angA, angB) * amount;
 	return approach_angle(angA, angB, amount);
 }
-Double umath::clamp_angle(Double ang, Double min, Double max)
+Double pragma::math::clamp_angle(Double ang, Double min, Double max)
 {
 	auto nMin = normalize_angle(min - ang);
 	auto nMax = normalize_angle(max - ang);
@@ -99,14 +99,14 @@ Double umath::clamp_angle(Double ang, Double min, Double max)
 		return min;
 	return max;
 }
-bool umath::is_angle_in_range(Double ang, Double min, Double max)
+bool pragma::math::is_angle_in_range(Double ang, Double min, Double max)
 {
 	auto nMin = normalize_angle(min - ang);
 	auto nMax = normalize_angle(max - ang);
 	return (nMin <= 0.f && nMax >= 0.f) ? true : false;
 }
-Double umath::get_angle_difference(Double angA, Double angB) { return SMODF((angB - angA) + 180.f, 360.f) - 180.f; }
-Double umath::approach_angle(Double angA, Double angB, Double amount)
+Double pragma::math::get_angle_difference(Double angA, Double angB) { return SMODF((angB - angA) + 180.f, 360.f) - 180.f; }
+Double pragma::math::approach_angle(Double angA, Double angB, Double amount)
 {
 	Double diff = get_angle_difference(angA, angB);
 	if(diff > amount)
@@ -116,17 +116,17 @@ Double umath::approach_angle(Double angA, Double angB, Double amount)
 	return angA + diff;
 }
 
-Int32 umath::ceil(Float f) { return static_cast<Int32>(::ceilf(f)); }
-Int32 umath::ceil(Double d) { return static_cast<Int32>(::ceil(d)); }
-Int64 umath::ceil(LDouble d) { return static_cast<Int64>(::ceill(d)); }
-Int32 umath::floor(Float f) { return static_cast<Int32>(::floorf(f)); }
-Int32 umath::floor(Double d) { return static_cast<Int32>(::floor(d)); }
-Int64 umath::floor(LDouble d) { return static_cast<Int64>(::floorl(d)); }
-Int32 umath::round(Float f) { return static_cast<Int32>(::roundf(f)); }
-Int32 umath::round(Double d) { return static_cast<Int32>(::round(d)); }
-Int64 umath::round(LDouble d) { return static_cast<Int64>(::roundl(d)); }
+Int32 pragma::math::ceil(Float f) { return static_cast<Int32>(::ceilf(f)); }
+Int32 pragma::math::ceil(Double d) { return static_cast<Int32>(::ceil(d)); }
+Int64 pragma::math::ceil(LDouble d) { return static_cast<Int64>(::ceill(d)); }
+Int32 pragma::math::floor(Float f) { return static_cast<Int32>(::floorf(f)); }
+Int32 pragma::math::floor(Double d) { return static_cast<Int32>(::floor(d)); }
+Int64 pragma::math::floor(LDouble d) { return static_cast<Int64>(::floorl(d)); }
+Int32 pragma::math::round(Float f) { return static_cast<Int32>(::roundf(f)); }
+Int32 pragma::math::round(Double d) { return static_cast<Int32>(::round(d)); }
+Int64 pragma::math::round(LDouble d) { return static_cast<Int64>(::roundl(d)); }
 
-UInt64 umath::next_power_of_2(UInt64 v)
+UInt64 pragma::math::next_power_of_2(UInt64 v)
 {
 	UInt64 powerOf2 = 1;
 	if(v > 0) {
@@ -138,7 +138,7 @@ UInt64 umath::next_power_of_2(UInt64 v)
 	return powerOf2;
 }
 
-UInt64 umath::previous_power_of_2(UInt64 v)
+UInt64 pragma::math::previous_power_of_2(UInt64 v)
 {
 	UInt64 powerOf2 = 1;
 	if(v > 1) {
@@ -152,7 +152,7 @@ UInt64 umath::previous_power_of_2(UInt64 v)
 	return powerOf2;
 }
 
-std::vector<UInt64> umath::get_power_of_2_values(UInt64 v)
+std::vector<UInt64> pragma::math::get_power_of_2_values(UInt64 v)
 {
 	std::vector<UInt64> values;
 	auto next = next_power_of_2(v) / 2;
@@ -166,7 +166,7 @@ std::vector<UInt64> umath::get_power_of_2_values(UInt64 v)
 	return values;
 }
 
-UInt32 umath::get_number_of_decimals(Float f)
+UInt32 pragma::math::get_number_of_decimals(Float f)
 {
 	f -= floor(f);
 	auto str = std::to_string(f);
@@ -183,10 +183,10 @@ UInt32 umath::get_number_of_decimals(Float f)
 	return static_cast<uint32_t>(str.length() - p - 1);
 }
 
-Int8 umath::sign(Int32 i) { return (i >= 0) ? 1 : -1; }
-Int8 umath::sign(Float f) { return (f >= 0) ? 1 : -1; }
+Int8 pragma::math::sign(Int32 i) { return (i >= 0) ? 1 : -1; }
+Int8 pragma::math::sign(Float f) { return (f >= 0) ? 1 : -1; }
 
-Int32 umath::snap_to_grid(Float f, UInt32 gridSize)
+Int32 pragma::math::snap_to_grid(Float f, UInt32 gridSize)
 {
 	if(gridSize == 0)
 		return 0;
@@ -200,11 +200,11 @@ Int32 umath::snap_to_grid(Float f, UInt32 gridSize)
 	return r * s;
 }
 
-float umath::snap_to_gridf(float f, float gridSize)
+float pragma::math::snap_to_gridf(float f, float gridSize)
 {
 	if(gridSize == 0)
 		return 0;
-	auto s = umath::sign(f);
+	auto s = math::sign(f);
 	auto r = f * s;
 	auto d = fmodf(r, gridSize);
 	if(d < (static_cast<float>(gridSize) * 0.5f))
@@ -214,14 +214,14 @@ float umath::snap_to_gridf(float f, float gridSize)
 	return r * s;
 }
 
-UInt8 umath::get_highest_bit(UInt8 n)
+UInt8 pragma::math::get_highest_bit(UInt8 n)
 {
 	n |= (n >> 1);
 	n |= (n >> 2);
 	n |= (n >> 4);
 	return n - (n >> 1);
 }
-UInt16 umath::get_highest_bit(UInt16 n)
+UInt16 pragma::math::get_highest_bit(UInt16 n)
 {
 	n |= (n >> 1);
 	n |= (n >> 2);
@@ -229,7 +229,7 @@ UInt16 umath::get_highest_bit(UInt16 n)
 	n |= (n >> 8);
 	return n - (n >> 1);
 }
-UInt32 umath::get_highest_bit(UInt32 n)
+UInt32 pragma::math::get_highest_bit(UInt32 n)
 {
 	n |= (n >> 1);
 	n |= (n >> 2);
@@ -238,7 +238,7 @@ UInt32 umath::get_highest_bit(UInt32 n)
 	n |= (n >> 16);
 	return n - (n >> 1);
 }
-UInt64 umath::get_highest_bit(UInt64 n)
+UInt64 pragma::math::get_highest_bit(UInt64 n)
 {
 	n |= (n >> 1);
 	n |= (n >> 2);
@@ -259,7 +259,7 @@ UInt64 umath::get_highest_bit(UInt64 n)
  *
  */
 // Source: https://stackoverflow.com/a/61701395/2482983
-UInt32 umath::get_least_significant_set_bit_index(UInt32 n)
+UInt32 pragma::math::get_least_significant_set_bit_index(UInt32 n)
 {
 	const uint32_t a = 0x05f66a47; /* magic number, found by brute force */
 	static const unsigned decode[32] = {0, 1, 2, 26, 23, 3, 15, 27, 24, 21, 19, 4, 12, 16, 28, 6, 31, 25, 22, 14, 20, 18, 11, 5, 30, 13, 17, 10, 29, 9, 8, 7};
@@ -267,31 +267,31 @@ UInt32 umath::get_least_significant_set_bit_index(UInt32 n)
 	return decode[n >> 27];
 }
 
-float umath::sqrt(float v) { return sqrtf(v); }
-double umath::sqrt(double v) { return ::sqrt(v); }
-long double umath::sqrt(long double v) { return sqrtl(v); }
+float pragma::math::sqrt(float v) { return sqrtf(v); }
+double pragma::math::sqrt(double v) { return ::sqrt(v); }
+long double pragma::math::sqrt(long double v) { return sqrtl(v); }
 
-uint16_t umath::float32_to_float16(float f) { return Float16Compressor::compress(f); }
-float umath::float16_to_float32(uint16_t v) { return Float16Compressor::decompress(v); }
+uint16_t pragma::math::float32_to_float16(float f) { return Float16Compressor::compress(f); }
+float pragma::math::float16_to_float32(uint16_t v) { return Float16Compressor::decompress(v); }
 
-int16_t umath::float32_to_float16_glm(float f) { return glm::toFloat16(f); }
-float umath::float16_to_float32_glm(int16_t v) { return glm::toFloat32(v); }
+int16_t pragma::math::float32_to_float16_glm(float f) { return glm::toFloat16(f); }
+float pragma::math::float16_to_float32_glm(int16_t v) { return glm::toFloat32(v); }
 
-umath::Radian umath::calc_horizontal_fov(float focalLengthImMM, float width, float height) { return 2.f * atan2(width / 2.f, focalLengthImMM); }
-umath::Radian umath::calc_vertical_fov(float focalLengthImMM, float width, float height) { return 2.f * atan2(height / 2.f, focalLengthImMM); }
-umath::Radian umath::calc_diagonal_fov(float focalLengthImMM, float width, float height) { return 2.f * atan2(sqrt(pow2(width) + pow2(height)) / 2.f, focalLengthImMM); }
-umath::Radian umath::horizontal_fov_to_vertical_fov(Radian hFov, float width, float height) { return 2.f * atanf(tanf(hFov / 2.f) * (height / width)); }
-umath::Radian umath::vertical_fov_to_horizontal_fov(Radian vFov, float width, float height) { return 2.f * atanf(tanf(vFov / 2.f) * (width / height)); }
-umath::Radian umath::diagonal_fov_to_vertical_fov(Degree diagonalFov, float aspectRatio)
+pragma::math::Radian pragma::math::calc_horizontal_fov(float focalLengthImMM, float width, float height) { return 2.f * atan2(width / 2.f, focalLengthImMM); }
+pragma::math::Radian pragma::math::calc_vertical_fov(float focalLengthImMM, float width, float height) { return 2.f * atan2(height / 2.f, focalLengthImMM); }
+pragma::math::Radian pragma::math::calc_diagonal_fov(float focalLengthImMM, float width, float height) { return 2.f * atan2(sqrt(pow2(width) + pow2(height)) / 2.f, focalLengthImMM); }
+pragma::math::Radian pragma::math::horizontal_fov_to_vertical_fov(Radian hFov, float width, float height) { return 2.f * atanf(tanf(hFov / 2.f) * (height / width)); }
+pragma::math::Radian pragma::math::vertical_fov_to_horizontal_fov(Radian vFov, float width, float height) { return 2.f * atanf(tanf(vFov / 2.f) * (width / height)); }
+pragma::math::Radian pragma::math::diagonal_fov_to_vertical_fov(Degree diagonalFov, float aspectRatio)
 {
 	auto diagonalRatio = sqrt(1.f + pow2(aspectRatio));
-	return (atan(tan(diagonalFov * (umath::deg_to_rad(1.f) / 2.f)) / diagonalRatio)) * umath::rad_to_deg(1.f) * 2.f;
+	return (atan(tan(diagonalFov * (deg_to_rad(1.f) / 2.f)) / diagonalRatio)) * rad_to_deg(1.f) * 2.f;
 }
-float umath::calc_dielectric_specular_reflection(float ior)
+float pragma::math::calc_dielectric_specular_reflection(float ior)
 {
-	return umath::pow2(((ior - 1.0) / (ior + 1.0))) / 0.08; // Source: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html
+	return pow2(((ior - 1.0) / (ior + 1.0))) / 0.08; // Source: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html
 }
-float umath::fade_in_out(float fadeInStart, float fadeInEnd, float fadeOutStart, float fadeOutEnd, float curTime)
+float pragma::math::fade_in_out(float fadeInStart, float fadeInEnd, float fadeOutStart, float fadeOutEnd, float curTime)
 {
 	if(fadeInStart > curTime)
 		return 0.0;

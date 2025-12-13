@@ -4,7 +4,7 @@
 #pragma once
 
 #define REGISTER_ENUM_FLAGS(ENUM_TYPE) \
-    namespace umath::scoped_enum::bitwise { \
+    namespace pragma::math::scoped_enum::bitwise { \
         template<> \
         struct enable_bitwise_operators<ENUM_TYPE> : std::true_type {}; \
     } \

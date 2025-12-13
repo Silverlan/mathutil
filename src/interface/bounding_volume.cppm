@@ -15,7 +15,7 @@ export import :vector;
 
 export {
 #pragma warning(disable : 4251)
-	namespace umath {
+	namespace pragma::math {
 		class ScaledTransform;
 	};
 	namespace bounding_volume {
@@ -35,7 +35,7 @@ export {
 			Vector3 GetCenter() const { return (min + max) / 2.f; }
 			Vector3 GetExtents() const { return (max - min) / 2.f; }
 			bool Intersects(const AABB &other) const;
-			AABB Transform(const umath::ScaledTransform &pose);
+			AABB Transform(const pragma::math::ScaledTransform &pose);
 			static void GetRotatedBounds(const Vector3 &min, const Vector3 &max, Mat4 rot, Vector3 *rmin, Vector3 *rmax)
 			{
 				rot = glm::inverse(rot);

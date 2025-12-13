@@ -9,7 +9,7 @@ export module pragma.math:frustum;
 
 export import :types;
 
-export namespace umath {
+export namespace pragma::math {
 	namespace frustum {
 		DLLMUTIL Vector3 get_plane_center(const Vector3 &pos, const Vector3 &forward, float z);
 		DLLMUTIL void get_plane_size(float fovRad, float z, float aspectRatio, float &outW, float &outH);
