@@ -14,3 +14,9 @@
             static constexpr bool is_flags = true; \
         }; \
     }
+
+#define REGISTER_ENUM_ARITHMETIC_OPERATORS(ENUM_TYPE) \
+	namespace pragma::math::scoped_enum::arithmetic { \
+		template<> \
+		struct enable_arithmetic_operators<platform::CursorMode> : std::true_type {}; \
+	}
