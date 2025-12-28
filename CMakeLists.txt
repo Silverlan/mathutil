@@ -20,6 +20,8 @@ else()
 	set(DEPENDENCY_GLM_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/third_party_libs/glm_cxxmodule/third_party_libs/glm/" CACHE PATH "Path to glm include directory." FORCE)
 endif()
 
+pr_include_windows_clang_export_definitions_workaround(${PROJ_NAME})
+
 if(IMPORT_GLM_AS_MODULE)
 	pr_add_dependency(${PROJ_NAME} glm_module TARGET PUBLIC)
 endif()
