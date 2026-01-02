@@ -27,11 +27,11 @@ void IkHingeConstraint::Apply(int i)
 	auto rot = uvec::get_rotation(currentHinge, desiredHinge);
 
 	auto localTransform = m_joint.GetIkSolver().GetLocalTransform(i);
-	auto angle = uvec::get_angle(uquat::forward(localTransform.GetRotation()), FORWARD);
+	auto angle = uvec::get_angle(uquat::forward(localTransform.GetRotation()), PRM_FORWARD);
 
 	auto localRot = rot * localTransform.GetRotation();
 	if(m_limits.has_value()) {
-		auto tmpRot = uquat::create_look_rotation(uvec::get_normal(uvec::cross(m_axis, RIGHT)), m_axis);
+		auto tmpRot = uquat::create_look_rotation(uvec::get_normal(uvec::cross(m_axis, PRM_RIGHT)), m_axis);
 		localRot = uquat::get_inverse(tmpRot) * localRot;
 		localRot = uquat::clamp_rotation(localRot, EulerAngles {0.f, m_limits->x, 0.f}, EulerAngles {0.f, m_limits->y, 0.f});
 		localRot = tmpRot * localRot;

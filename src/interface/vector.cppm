@@ -102,14 +102,52 @@ export {
 		DLLMUTIL float calc_screenspace_distance_to_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, float nearZ, float farZ);
 		DLLMUTIL float depth_to_distance(double depth, float nearZ, float farZ);
 
+#ifdef WINDOWS_CLANG_COMPILER_FIX
+		DLLMUTIL const Vector3 &GET_FORWARD()
+		{
+			static Vector3 v {0, 0, 1};
+			return v;
+		}
+		DLLMUTIL const Vector3 &GET_UP()
+		{
+			static Vector3 v {0, 1, 0};
+			return v;
+		}
+		DLLMUTIL const Vector3 &GET_RIGHT()
+		{
+			static Vector3 v {-1, 0, 0};
+			return v;
+		}
+		DLLMUTIL const Vector3 &GET_ORIGIN()
+		{
+			static Vector3 v {0.f, 0.f, 0.f};
+			return v;
+		}
+		DLLMUTIL const Vector3 &GET_IDENTITY_SCALE()
+		{
+			static Vector3 v {1.f, 1.f, 1.f};
+			return v;
+		}
+		DLLMUTIL const Vector3 &GET_MIN()
+		{
+			static Vector3 v {std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest()};
+			return v;
+		}
+		DLLMUTIL const Vector3 &GET_MAX()
+		{
+			static Vector3 v {std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max()};
+			return v;
+		}
+#else
 		// TODO: Make these constexpr (currently fails due to msvc compiler bug)
-		DLLMUTIL const auto FORWARD = Vector3 {0, 0, 1};
-		DLLMUTIL const auto UP = Vector3 {0, 1, 0};
-		DLLMUTIL const auto RIGHT = Vector3 {-1, 0, 0};
-		DLLMUTIL const auto ORIGIN = Vector3 {0.f, 0.f, 0.f};
+		DLLMUTIL const auto PRM_FORWARD = Vector3 {0, 0, 1};
+		DLLMUTIL const auto PRM_UP = Vector3 {0, 1, 0};
+		DLLMUTIL const auto PRM_RIGHT = Vector3 {-1, 0, 0};
+		DLLMUTIL const auto PRM_ORIGIN = Vector3 {0.f, 0.f, 0.f};
 		DLLMUTIL const auto IDENTITY_SCALE = Vector3 {1.f, 1.f, 1.f};
-		DLLMUTIL const auto MIN = Vector3 {std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest()};
-		DLLMUTIL const auto MAX = Vector3 {std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max()};
+		DLLMUTIL const auto PRM_MIN = Vector3 {std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest(), std::numeric_limits<decltype(Vector3::x)>::lowest()};
+		DLLMUTIL const auto PRM_MAX = Vector3 {std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max(), std::numeric_limits<decltype(Vector3::x)>::max()};
+#endif
 
 		DLLMUTIL Vector3 get_perpendicular(const Vector3 &v);
 

@@ -8,7 +8,15 @@ export import :types;
 export {
 	class EulerAngles;
 	namespace uquat {
-		CONSTEXPR_DLL_COMPAT auto UNIT = Quat {};
+#ifdef WINDOWS_CLANG_COMPILER_FIX
+		DLLMUTIL const Quat &GET_UNIT()
+		{
+			static Quat v {};
+			return v;
+		}
+#else
+		CONSTEXPR_DLL_COMPAT auto PRM_UNIT = Quat {};
+#endif
 		DLLMUTIL Quat create(const Vector3 &v, Float ang);
 		DLLMUTIL Quat create(const EulerAngles &ang);
 		DLLMUTIL Quat create(const Vector3 &forward, const Vector3 &right, const Vector3 &up);

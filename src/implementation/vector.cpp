@@ -481,7 +481,7 @@ Vector3 uvec::calc_point_on_triangle(const Vector3 &v0, const Vector3 &v1, const
 Vector3 uvec::calc_face_normal(const Vector3 &v0, const Vector3 &v1, const Vector3 &v2)
 {
 	if(uvec::distance_sqr(v1 - v0, v2 - v0) < 0.001)
-		return FORWARD;
+		return PRM_FORWARD;
 	auto n = uvec::cross(v1 - v0, v2 - v0);
 	uvec::normalize(&n);
 	return n;

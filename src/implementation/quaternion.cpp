@@ -176,9 +176,9 @@ void uquat::get_orientation(const Quat &q, Vector3 *forward, Vector3 *right, Vec
 Float uquat::dot_product(const Quat &q1, const Quat &q2) { return glm::dot(q1, q2); }
 void uquat::rotate(Quat &q, const EulerAngles &ang)
 {
-	q = glm::gtx::rotate(q, ang.r, uvec::RIGHT);
-	q = glm::gtx::rotate(q, ang.p, uvec::FORWARD);
-	q = glm::gtx::rotate(q, ang.y, uvec::UP);
+	q = glm::gtx::rotate(q, ang.r, uvec::PRM_RIGHT);
+	q = glm::gtx::rotate(q, ang.p, uvec::PRM_FORWARD);
+	q = glm::gtx::rotate(q, ang.y, uvec::PRM_UP);
 }
 Float uquat::length(const Quat &q) { return pragma::math::sqrt(pow(q.w, 2) + pow(q.x, 2) + pow(q.y, 2) + pow(q.z, 2)); }
 void uquat::normalize(Quat &q)
@@ -203,17 +203,17 @@ Quat uquat::get_normal(const Quat &q)
 }
 void uquat::rotate_x(Quat &q, Float ang)
 {
-	auto r = create(uvec::FORWARD, ang);
+	auto r = create(uvec::PRM_FORWARD, ang);
 	q *= r;
 }
 void uquat::rotate_y(Quat &q, Float ang)
 {
-	auto r = create(uvec::UP, ang);
+	auto r = create(uvec::PRM_UP, ang);
 	q = r * q;
 }
 void uquat::rotate_z(Quat &q, Float ang)
 {
-	auto r = create(uvec::RIGHT, ang);
+	auto r = create(uvec::PRM_RIGHT, ang);
 	q *= r;
 }
 void uquat::rotate(Quat &q, const Vector3 &axis, Float ang) { q *= create(axis, ang); }
@@ -280,7 +280,7 @@ void uquat::to_axis_angle(const Quat &rot, Vector3 &axis, float &angle)
 	auto w2 = rot.w * rot.w;
 	if(pragma::math::abs(1.f - w2) < 0.0001) {
 		// It's a identity quaternion
-		axis = uvec::FORWARD;
+		axis = uvec::PRM_FORWARD;
 		angle = 0.f;
 		return;
 	}

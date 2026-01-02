@@ -15,6 +15,24 @@ set(PROJ_NAME mathutil)
 pr_add_library(${PROJ_NAME} ${LIB_TYPE})
 pr_add_export_macro(${PROJ_NAME} DLLMUTIL)
 
+if (WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	# WINDOWS_CLANG_COMPILER_FIX
+	# Using PRM_ prefix temporarily to avoid naming conflicts with the macros
+	target_compile_definitions(${PROJ_NAME} PUBLIC
+		"PRM_UNIT=GET_UNIT()"
+
+		"PRM_BIAS=GET_BIAS()"
+
+		"PRM_FORWARD=GET_FORWARD()"
+		"PRM_UP=GET_UP()"
+		"PRM_RIGHT=GET_RIGHT()"
+		"PRM_ORIGIN=GET_ORIGIN()"
+		"IDENTITY_SCALE=GET_IDENTITY_SCALE()"
+		"PRM_MIN=GET_MIN()"
+		"PRM_MAX=GET_MAX()"
+	)
+endif()
+
 set(IMPORT_GLM_AS_MODULE TRUE)
 if(IMPORT_GLM_AS_MODULE)
 	add_subdirectory("third_party_libs/glm_cxxmodule")

@@ -354,7 +354,7 @@ pragma::math::geometry::WindingOrder pragma::math::geometry::get_triangle_windin
 	auto w = uvec::dot(n, uvec::cross(v1 - v0, v2 - v0));
 	return (w > 0.f) ? WindingOrder::Clockwise : WindingOrder::CounterClockwise;
 }
-pragma::math::geometry::WindingOrder pragma::math::geometry::get_triangle_winding_order(const Vector2 &v0, const Vector2 &v1, const Vector2 &v2) { return get_triangle_winding_order(Vector3 {v0.x, 0.f, v0.y}, Vector3 {v1.x, 0.f, v1.y}, Vector3 {v2.x, 0.f, v2.y}, uvec::UP); }
+pragma::math::geometry::WindingOrder pragma::math::geometry::get_triangle_winding_order(const Vector2 &v0, const Vector2 &v1, const Vector2 &v2) { return get_triangle_winding_order(Vector3 {v0.x, 0.f, v0.y}, Vector3 {v1.x, 0.f, v1.y}, Vector3 {v2.x, 0.f, v2.y}, uvec::PRM_UP); }
 float pragma::math::geometry::calc_triangle_area(const Vector3 &p0, const Vector3 &p1, const Vector3 &p2) { return uvec::length(uvec::cross(p0 - p1, p0 - p2)); }
 float pragma::math::geometry::calc_triangle_area(const Vector2 &p0, const Vector2 &p1, const Vector2 &p2, bool keepSign)
 {
@@ -498,12 +498,12 @@ std::optional<std::vector<uint32_t>> pragma::math::geometry::get_outline_vertice
 void pragma::math::geometry::get_aabb_planes(const Vector3 &min, const Vector3 &max, std::array<Plane, 6> &outPlanes)
 {
 	uint8_t idx = 0;
-	outPlanes[idx++] = Plane {uvec::UP, max.y};
-	outPlanes[idx++] = Plane {-uvec::UP, min.y};
-	outPlanes[idx++] = Plane {uvec::FORWARD, max.z};
-	outPlanes[idx++] = Plane {-uvec::FORWARD, min.z};
-	outPlanes[idx++] = Plane {-uvec::RIGHT, max.x};
-	outPlanes[idx++] = Plane {uvec::RIGHT, min.x};
+	outPlanes[idx++] = Plane {uvec::PRM_UP, max.y};
+	outPlanes[idx++] = Plane {-uvec::PRM_UP, min.y};
+	outPlanes[idx++] = Plane {uvec::PRM_FORWARD, max.z};
+	outPlanes[idx++] = Plane {-uvec::PRM_FORWARD, min.z};
+	outPlanes[idx++] = Plane {-uvec::PRM_RIGHT, max.x};
+	outPlanes[idx++] = Plane {uvec::PRM_RIGHT, min.x};
 }
 std::array<pragma::math::Plane, 6> pragma::math::geometry::get_aabb_planes(const Vector3 &min, const Vector3 &max)
 {

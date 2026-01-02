@@ -266,9 +266,9 @@ void EulerAngles::GetOrientation(Vector3 *forward, Vector3 *right, Vector3 *up) 
 Mat4 EulerAngles::ToMatrix() const
 {
 	Mat4 mat(1.0f);
-	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(y)), uvec::UP);
-	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(p)), uvec::FORWARD);
-	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(r)), uvec::RIGHT);
+	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(y)), uvec::PRM_UP);
+	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(p)), uvec::PRM_FORWARD);
+	mat = glm::gtc::rotate(mat, static_cast<float>(pragma::math::deg_to_rad(r)), uvec::PRM_RIGHT);
 	return mat;
 }
 

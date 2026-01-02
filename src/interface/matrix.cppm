@@ -6,7 +6,15 @@ export module pragma.math:matrix;
 export import :types;
 
 export namespace umat {
-	CONSTEXPR_DLL_COMPAT auto BIAS = Mat4 {0.5f, 0.f, 0.f, 0.f, 0.f, 0.5f, 0.f, 0.f, 0.f, 0.f, 0.5f, 0.f, 0.5f, 0.5f, 0.5f, 1.f};
+#ifdef WINDOWS_CLANG_COMPILER_FIX
+	DLLMUTIL const Mat4 &GET_BIAS()
+	{
+		static Mat4 v {0.5f, 0.f, 0.f, 0.f, 0.f, 0.5f, 0.f, 0.f, 0.f, 0.f, 0.5f, 0.f, 0.5f, 0.5f, 0.5f, 1.f};
+		return v;
+	}
+#else
+	CONSTEXPR_DLL_COMPAT auto PRM_BIAS = Mat4 {0.5f, 0.f, 0.f, 0.f, 0.f, 0.5f, 0.f, 0.f, 0.f, 0.f, 0.5f, 0.f, 0.5f, 0.5f, 0.5f, 1.f};
+#endif
 	DLLMUTIL Mat4 create(const Quat &q);
 	DLLMUTIL Mat4 create_from_axis_angle(const Vector3 &v, Float ang);
 	DLLMUTIL Mat4 create_from_axes(const Vector3 &forward, const Vector3 &right, const Vector3 &up);
