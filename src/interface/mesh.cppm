@@ -1,12 +1,6 @@
 // SPDX-FileCopyrightText: (c) 2019 Silverlan <opensource@pragma-engine.com>
 // SPDX-License-Identifier: MIT
 
-module;
-
-#ifdef ENABLE_MESH_FUNCTIONS
-#include "definitions.hpp"
-#endif
-
 export module pragma.math:mesh;
 
 #ifdef ENABLE_MESH_FUNCTIONS
