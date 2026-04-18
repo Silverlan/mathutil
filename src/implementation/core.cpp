@@ -169,7 +169,7 @@ std::vector<UInt64> pragma::math::get_power_of_2_values(UInt64 v)
 UInt32 pragma::math::get_number_of_decimals(Float f)
 {
 	f -= floor(f);
-	auto str = std::to_string(f);
+	auto str = to_string(f);
 	auto p = str.find_first_of('.');
 	if(p == size_t(-1))
 		return 0;

@@ -45,7 +45,7 @@ export namespace umat {
 			for(auto j = decltype(lenc) {0u}; j < lenc; ++j) {
 				if(i > 0 || j > 0)
 					s += sep;
-				s += std::to_string(m[i][j]);
+				s += pragma::math::to_string(m[i][j]);
 			}
 		}
 		return s;

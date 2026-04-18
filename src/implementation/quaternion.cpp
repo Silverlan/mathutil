@@ -298,7 +298,7 @@ Radian uquat::distance(const Quat &q0, const Quat &q1)
 	return angle;
 }
 
-std::string uquat::to_string(const Quat &q, char sep) { return std::to_string(q.w) + sep + std::to_string(q.x) + sep + std::to_string(q.y) + sep + std::to_string(q.z); }
+std::string uquat::to_string(const Quat &q, char sep) { return pragma::math::to_string(q.w) + sep + pragma::math::to_string(q.x) + sep + pragma::math::to_string(q.y) + sep + pragma::math::to_string(q.z); }
 
 void uquat::mirror_on_axis(Quat &q, uint8_t axis)
 {

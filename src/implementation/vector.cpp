@@ -269,11 +269,11 @@ Float uvec::length_sqr(const Vector3 &vec) { return pragma::math::pow2(vec.x) + 
 std::string uvec::to_string(Vector3 *vec)
 {
 	std::string r = "(";
-	r += std::to_string(vec->x);
+	r += pragma::math::to_string(vec->x);
 	r += ",";
-	r += std::to_string(vec->y);
+	r += pragma::math::to_string(vec->y);
 	r += ",";
-	r += std::to_string(vec->z);
+	r += pragma::math::to_string(vec->z);
 	r += ")";
 	return r;
 }

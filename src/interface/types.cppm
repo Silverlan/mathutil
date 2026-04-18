@@ -171,4 +171,17 @@ export {
 	{
 		return static_cast<UInt>(value);
 	}
+
+	namespace pragma::math {
+		template<typename T>
+		    requires(std::is_arithmetic_v<T>)
+		std::string to_string(T value)
+		{
+			char buf[64];
+			auto [ptr, ec] = std::to_chars(buf, buf + sizeof(buf), value);
+			if(ec != std::errc {})
+				throw std::runtime_error("to_string conversion failed"); // Unreachable?
+			return std::string(buf, ptr);
+		}
+	}
 }

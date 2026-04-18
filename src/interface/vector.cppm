@@ -218,7 +218,7 @@ export {
 			for(auto i = decltype(len) {0u}; i < len; ++i) {
 				if(i > 0)
 					s += sep;
-				s += std::to_string(v[i]);
+				s += pragma::math::to_string(v[i]);
 			}
 			return s;
 		}
