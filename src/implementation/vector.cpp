@@ -398,33 +398,88 @@ Vector3 uvec::calc_world_direction_from_2d_coordinates(const Vector3 &forward, c
 	normalize(&dir);
 	return dir;
 }
-Vector2 uvec::calc_screenspace_uv_from_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, float nearZ, float farZ, float &outDist)
+
+uvec::ScreenspaceInfo uvec::calc_screenspace_info_from_worldspace_position(const Vector3 &worldPos, const Mat4 &viewProjection, float screenWidth, float screenHeight)
+{
+	ScreenspaceInfo result;
+
+	// Clip Space
+	auto clipSpace = viewProjection * Vector4(worldPos, 1.0f);
+
+	auto isBehind = (clipSpace.w <= 0.0f) ? true : false;
+	if(isBehind) {
+		clipSpace.x = -clipSpace.x;
+		clipSpace.y = -clipSpace.y;
+	}
+
+	// Perspective Divide
+	auto w = (clipSpace.w == 0.0f) ? 0.00001f : clipSpace.w;
+	Vector2 ndc {clipSpace.x / w, clipSpace.y / w};
+
+	// Screen Space
+	Vector2 centerRelativePos {ndc.x * (screenWidth * 0.5f), ndc.y * (screenHeight * 0.5f)};
+
+	result.onScreen = (isBehind || std::abs(ndc.x) > 1.0f || std::abs(ndc.y) > 1.0f) ? false : true;
+	result.angle = std::atan2(centerRelativePos.y, centerRelativePos.x);
+
+	if(!result.onScreen) {
+		// Clamp to screen bounds
+		auto maxX = (screenWidth * 0.5f);
+		auto maxY = (screenHeight * 0.5f);
+
+		if(centerRelativePos.x != 0.0f || centerRelativePos.y != 0.0f) {
+			auto xRatio = std::abs(maxX / centerRelativePos.x);
+			auto yRatio = std::abs(maxY / centerRelativePos.y);
+
+			auto scale = std::min(xRatio, yRatio);
+			centerRelativePos.x = centerRelativePos.x * scale;
+			centerRelativePos.y = centerRelativePos.y * scale;
+		}
+	}
+
+	result.x = (screenWidth * 0.5f) + centerRelativePos.x;
+	result.y = (screenHeight * 0.5f) + centerRelativePos.y;
+	return result;
+}
+
+Vector2 uvec::calc_screenspace_uv_from_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, float nearZ, float farZ, float &outDist, bool &outInBounds)
 {
 	Vector4 tmp {point.x, point.y, point.z, 1.f};
 	tmp = viewProjection * tmp;
 
+	// Behind the camera
+	if(tmp.w <= 0.f) {
+		outInBounds = false;
+		outDist = 0.f;
+		return {0.f, 0.f};
+	}
+
 	Vector3 tmp3 {tmp.x, tmp.y, tmp.z};
 	tmp3 /= tmp.w;
+
+	outInBounds = (tmp3.x >= -1.f && tmp3.x <= 1.f && tmp3.y >= -1.f && tmp3.y <= 1.f && tmp3.z >= 0.f && tmp3.z <= 1.f);
 
 	outDist = depth_to_distance(tmp3.z, nearZ, farZ);
 	return {(tmp3.x + 1.0) * 0.5, 1.0 - ((1.0 - tmp3.y) * 0.5)};
 }
-Vector2 uvec::calc_screenspace_uv_from_worldspace_position(const Vector3 &point, const Mat4 &viewProjection)
+Vector2 uvec::calc_screenspace_uv_from_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, bool &outInBounds)
 {
 	float dist;
 	// We don't care about the distance here, so we'll just use arbitrary values for the nearZ/farZ
-	return calc_screenspace_uv_from_worldspace_position(point, viewProjection, 0.f, 0.f, dist);
+	return calc_screenspace_uv_from_worldspace_position(point, viewProjection, 0.f, 0.f, dist, outInBounds);
 }
 float uvec::calc_screenspace_distance_to_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, float nearZ, float farZ)
 {
 	float dist;
-	calc_screenspace_uv_from_worldspace_position(point, viewProjection, nearZ, farZ, dist);
+	bool inBounds;
+	calc_screenspace_uv_from_worldspace_position(point, viewProjection, nearZ, farZ, dist, inBounds);
 	return dist;
 }
 float uvec::depth_to_distance(double depth, float nearZ, float farZ) { return nearZ * farZ / (farZ + nearZ - depth * (farZ - nearZ)); }
 Vector2 uvec::calc_screenspace_direction_from_worldspace_direction(const Vector3 &n, const Mat4 &viewProjection)
 {
-	auto v = calc_screenspace_uv_from_worldspace_position(n, viewProjection) - calc_screenspace_uv_from_worldspace_position({}, viewProjection);
+	bool inBounds;
+	auto v = calc_screenspace_uv_from_worldspace_position(n, viewProjection, inBounds) - calc_screenspace_uv_from_worldspace_position({}, viewProjection, inBounds);
 	v = glm::normalize(v);
 	return v;
 }

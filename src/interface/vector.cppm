@@ -96,9 +96,18 @@ export {
 		DLLMUTIL void snap_to_grid(Vector3 &v, UInt32 gridSize = 1);
 
 		DLLMUTIL Vector3 calc_world_direction_from_2d_coordinates(const Vector3 &forward, const Vector3 &right, const Vector3 &up, Float fovRad, Float nearZ, Float farZ, Float aspectRatio, Float width, Float height, const Vector2 &uv);
-		DLLMUTIL Vector2 calc_screenspace_uv_from_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, float nearZ, float farZ, float &outDist);
-		DLLMUTIL Vector2 calc_screenspace_uv_from_worldspace_position(const Vector3 &point, const Mat4 &viewProjection);
+		DLLMUTIL Vector2 calc_screenspace_uv_from_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, float nearZ, float farZ, float &outDist, bool &outInBounds);
+		DLLMUTIL Vector2 calc_screenspace_uv_from_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, bool &outInBounds);
 		DLLMUTIL Vector2 calc_screenspace_direction_from_worldspace_direction(const Vector3 &n, const Mat4 &viewProjection);
+
+		struct DLLMUTIL ScreenspaceInfo {
+			float x;
+			float y;
+			float angle;
+			bool onScreen;
+		};
+		DLLMUTIL ScreenspaceInfo calc_screenspace_info_from_worldspace_position(const Vector3 &worldPos, const Mat4 &viewProjection, float screenWidth, float screenHeight);
+
 		DLLMUTIL float calc_screenspace_distance_to_worldspace_position(const Vector3 &point, const Mat4 &viewProjection, float nearZ, float farZ);
 		DLLMUTIL float depth_to_distance(double depth, float nearZ, float farZ);
 
