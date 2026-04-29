@@ -431,16 +431,24 @@ export {
 	template<typename T>
 	constexpr void pragma::math::add_flag(T &baseFlags, T flag)
 	{
-		// Messy msvc c++20 compiler bug fix
-		reinterpret_cast<std::underlying_type_t<T> &>(baseFlags) |= static_cast<std::underlying_type_t<T>>(flag);
-		// baseFlags |= flag;
+		if constexpr(std::is_scoped_enum_v<T>) {
+			// Messy msvc c++20 compiler bug fix
+			reinterpret_cast<std::underlying_type_t<T> &>(baseFlags) |= static_cast<std::underlying_type_t<T>>(flag);
+			// baseFlags |= flag;
+		}
+		else
+			baseFlags |= flag;
 	}
 	template<typename T>
 	constexpr void pragma::math::remove_flag(T &baseFlags, T flag)
 	{
-		// Messy msvc c++20 compiler bug fix
-		reinterpret_cast<std::underlying_type_t<T> &>(baseFlags) &= ~static_cast<std::underlying_type_t<T>>(flag);
-		//baseFlags &= ~flag;
+		if constexpr(std::is_scoped_enum_v<T>) {
+			// Messy msvc c++20 compiler bug fix
+			reinterpret_cast<std::underlying_type_t<T> &>(baseFlags) &= ~static_cast<std::underlying_type_t<T>>(flag);
+			//baseFlags &= ~flag;
+		}
+		else
+			baseFlags &= ~flag;
 	}
 
 	template<typename T>
