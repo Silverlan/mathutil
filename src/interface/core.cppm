@@ -454,9 +454,13 @@ export {
 	template<typename T>
 	constexpr bool pragma::math::is_flag_set(T baseFlags, T flag)
 	{
-		// Messy msvc c++20 compiler bug fix
-		return (static_cast<std::underlying_type_t<T>>(baseFlags) & static_cast<std::underlying_type_t<T>>(flag)) != static_cast<std::underlying_type_t<T>>(0);
-		//return static_cast<std::underlying_type_t<T>>(baseFlags &flag) != static_cast<std::underlying_type_t<T>>(0);
+		if constexpr(std::is_scoped_enum_v<T>) {
+			// Messy msvc c++20 compiler bug fix
+			return (static_cast<std::underlying_type_t<T>>(baseFlags) & static_cast<std::underlying_type_t<T>>(flag)) != static_cast<std::underlying_type_t<T>>(0);
+			//return static_cast<std::underlying_type_t<T>>(baseFlags &flag) != static_cast<std::underlying_type_t<T>>(0);
+		}
+		else
+			return (baseFlags & flag) != 0;
 	}
 
 	template<typename T>
