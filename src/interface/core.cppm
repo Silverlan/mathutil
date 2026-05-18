@@ -248,6 +248,8 @@ export {
 	T pragma::math::get_aligned_offset(T baseOffset, T alignment)
 	{
 		static_assert(std::is_integral<T>::value, "Only integral types are allowed!");
+		if(alignment == 0)
+			return baseOffset;
 		auto r = baseOffset % alignment;
 		if(r == 0)
 			return baseOffset;
