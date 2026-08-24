@@ -30,8 +30,8 @@ AABB AABB::Transform(const pragma::math::ScaledTransform &pose)
 	AABB newBounds {translation, translation};
 	for(uint8_t i = 0; i < 3; ++i) {
 		for(uint8_t j = 0; j < 3; ++j) {
-			auto a = rotMat[i][j] * srcBounds.min[j];
-			auto b = rotMat[i][j] * srcBounds.max[j];
+			auto a = rotMat[j][i] * srcBounds.min[j];
+			auto b = rotMat[j][i] * srcBounds.max[j];
 			if(a < b) {
 				newBounds.min[i] += a;
 				newBounds.max[i] += b;
